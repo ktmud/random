@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一根针的百年难题 · 看懂挂谷猜想</title>
+<meta name="description" content="从 1917 年『一根针如何调头』的小谜题,到 2026 年的菲尔兹奖:用可交互的动画,通俗地讲清挂谷猜想(Kakeya Conjecture)。">
+<meta property="og:title" content="一根针的百年难题 · 看懂挂谷猜想">
+<meta property="og:description" content="可视化解释挂谷猜想:面积可以任意小,维度却必须拉满。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪡</text></svg>">
+<style>
+  :root{
+    --paper:#faf6ee;
+    --card:#fffdf9;
+    --line:#e6dfd0;
+    --ink:#2a2418;
+    --muted:#6f6553;
+    --accent:#bc3f1e;      /* 针 · 朱红 */
+    --accent-soft:#f3ddd4;
+    --blue:#33589b;        /* 区域 · 靛蓝 */
+    --blue-soft:#dfe6f2;
+    --gold:#a8801f;        /* 荣誉 · 金 */
+    --gold-soft:#f5ecd7;
+    --serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC","STSong","SimSun",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);color:var(--ink);font-family:var(--sans);
+    font-size:17px;line-height:1.9;letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased;
+  }
+  #progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0;z-index:99}
+  .wrap{max-width:720px;margin:0 auto;padding:0 20px}
+  .wide{max-width:880px;margin:0 auto;padding:0 20px}
+
+  /* ---------- hero ---------- */
+  header{padding:52px 0 40px;text-align:center;position:relative;overflow:hidden}
+  .hero-canvas{width:min(340px,80vw);height:min(300px,70vw);margin:0 auto;display:block}
+  .kicker{font-size:14px;letter-spacing:.35em;color:var(--muted);margin:26px 0 14px}
+  h1{font-family:var(--serif);font-size:clamp(34px,7vw,54px);font-weight:700;line-height:1.35}
+  .subtitle{font-size:clamp(16px,3vw,20px);color:var(--muted);margin-top:14px}
+  .subtitle b{color:var(--accent);font-weight:600}
+  .hero-note{margin-top:30px;font-size:14px;color:var(--muted)}
+  .hero-note .down{display:block;font-size:20px;margin-top:6px;animation:bob 2s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+  @media (prefers-reduced-motion: reduce){.hero-note .down{animation:none}}
+
+  /* ---------- chapters ---------- */
+  section{padding:56px 0 8px}
+  .chapnum{font-family:var(--serif);font-size:15px;letter-spacing:.4em;color:var(--accent);margin-bottom:10px}
+  h2{font-family:var(--serif);font-size:clamp(26px,5vw,36px);font-weight:700;margin-bottom:26px;line-height:1.4}
+  h3{font-family:var(--serif);font-size:21px;margin:38px 0 14px}
+  p{margin:16px 0;color:#3a3426}
+  p b,li b{color:var(--ink)}
+  .lead{font-size:clamp(18px,3.4vw,21px);line-height:2;color:var(--ink)}
+  em.hl{font-style:normal;background:linear-gradient(transparent 62%,var(--accent-soft) 62%);padding:0 2px}
+
+  /* ---------- demo cards ---------- */
+  .demo{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    box-shadow:0 2px 14px rgba(90,75,45,.06);
+    padding:18px;margin:30px auto;
+  }
+  .demo-title{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+  .demo-title .tag{font-size:12px;color:#fff;background:var(--accent);border-radius:99px;padding:2px 10px;letter-spacing:.1em;flex:none}
+  .demo-title .name{font-weight:600}
+  .demo-sub{font-size:13.5px;color:var(--muted);margin-bottom:12px;line-height:1.7}
+  canvas.viz{width:100%;display:block;touch-action:pan-y}
+  .controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:14px;color:var(--muted)}
+  .controls label{display:flex;align-items:center;gap:8px;flex:1 1 220px;min-width:200px}
+  input[type=range]{flex:1;accent-color:var(--accent);min-width:90px}
+  .btn{
+    font:inherit;font-size:14px;border:1px solid var(--line);background:#fff;color:var(--ink);
+    border-radius:99px;padding:5px 16px;cursor:pointer;flex:none;
+  }
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .tabs .btn{font-size:13.5px}
+  .readout{
+    font-variant-numeric:tabular-nums;background:var(--paper);border:1px solid var(--line);
+    border-radius:10px;padding:3px 12px;color:var(--ink);font-size:14px;flex:none;
+  }
+  .readout b{color:var(--accent)}
+  .fineprint{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.7}
+
+  /* area bars (第一章) */
+  .bars{display:grid;gap:9px;margin-top:14px}
+  .bar-row{display:grid;grid-template-columns:7.5em 1fr 4.5em;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
+  .bar-row .track{background:var(--paper);border-radius:6px;height:18px;overflow:hidden}
+  .bar-row .fill{height:100%;background:var(--blue);border-radius:0 4px 4px 0;opacity:.45;transition:opacity .3s}
+  .bar-row.active{color:var(--ink);font-weight:600}
+  .bar-row.active .fill{background:var(--accent);opacity:1}
+  .bar-row .val{text-align:right;font-variant-numeric:tabular-nums}
+  .bar-row.tease .fill{background:repeating-linear-gradient(90deg,var(--gold),var(--gold) 6px,transparent 6px,transparent 11px);opacity:.8}
+
+  /* takeaway 卡 */
+  .takeaway{
+    border-left:4px solid var(--accent);background:var(--card);border-radius:0 14px 14px 0;
+    padding:18px 22px;margin:30px 0;font-size:16.5px;line-height:1.95;
+    box-shadow:0 2px 10px rgba(90,75,45,.05);
+  }
+  .takeaway .tk{font-size:12.5px;letter-spacing:.3em;color:var(--accent);display:block;margin-bottom:6px}
+
+  /* 盒子计数 */
+  .boxgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media (max-width:640px){.boxgrid{grid-template-columns:1fr}}
+  .boxcell{text-align:center}
+  .boxcell .cap{font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.6}
+  .boxcell .dim{font-size:15px;font-variant-numeric:tabular-nums;margin-top:2px}
+  .boxcell .dim b{color:var(--blue)}
+
+  /* 时间线 */
+  .timeline{margin:36px 0;border-left:2px solid var(--line);padding-left:26px}
+  .tl-item{position:relative;margin-bottom:26px}
+  .tl-item::before{
+    content:"";position:absolute;left:-33px;top:8px;width:12px;height:12px;border-radius:50%;
+    background:var(--paper);border:3px solid var(--blue);
+  }
+  .tl-item.major::before{background:var(--accent);border-color:var(--accent)}
+  .tl-item.gold::before{background:var(--gold);border-color:var(--gold)}
+  .tl-year{font-family:var(--serif);font-weight:700;font-size:18px}
+  .tl-item p{margin:4px 0 0;font-size:15px;line-height:1.8;color:#4a4436}
+
+  /* 菲尔兹奖高亮 */
+  .fields{
+    background:linear-gradient(135deg,var(--gold-soft),#fdf8ea);
+    border:1px solid #e8d9ae;border-radius:16px;padding:26px 26px;margin:32px 0;
+  }
+  .fields .medal{font-size:34px}
+  .fields h3{margin:8px 0 10px;font-size:22px}
+  .fields p{font-size:15.5px;margin:8px 0}
+
+  /* 第五章卡片 */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0}
+  @media (max-width:640px){.cards{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+  .card .ic{font-size:24px}
+  .card h4{font-family:var(--serif);font-size:17.5px;margin:8px 0 6px}
+  .card p{font-size:14.5px;line-height:1.85;margin:0;color:#4a4436}
+
+  .epigraph{
+    text-align:center;font-family:var(--serif);font-size:clamp(19px,3.6vw,24px);
+    line-height:2;margin:60px 0 20px;color:var(--ink);
+  }
+  .epigraph small{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:10px;letter-spacing:.2em}
+
+  footer{border-top:1px solid var(--line);margin-top:64px;padding:36px 0 60px;font-size:14px;color:var(--muted)}
+  footer h4{font-family:var(--serif);color:var(--ink);margin-bottom:12px;font-size:16px}
+  footer ul{list-style:none}
+  footer li{margin:7px 0;line-height:1.7}
+  footer a{color:var(--blue);text-decoration:none;border-bottom:1px dashed #b6c3da}
+  footer a:hover{color:var(--accent);border-color:var(--accent)}
+  .disclaim{margin-top:22px;font-size:12.5px;line-height:1.8}
+  hr.sep{border:none;border-top:1px solid var(--line);margin:52px auto;max-width:720px}
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+
+<header>
+  <div class="wrap">
+    <canvas id="hero" class="hero-canvas" aria-label="三尖摆线内旋转的针(动画)"></canvas>
+    <div class="kicker">1917 — 2026</div>
+    <h1>一根针的百年难题</h1>
+    <p class="subtitle">看懂<b>挂谷猜想</b>(Kakeya Conjecture)——<br>一个从「掉头要多大地方」开始的故事</p>
+    <p class="hero-note">往下滑,亲手转一转这根针<span class="down">↓</span></p>
+  </div>
+</header>
+
+<main>
+<!-- ================= 第一章 ================= -->
+<section id="ch1">
+  <div class="wrap">
+    <div class="chapnum">第 一 章</div>
+    <h2>转针问题:掉头最少要多大地方?</h2>
+    <p class="lead">1917 年,日本数学家<b>挂谷宗一</b>提出了一个看似儿戏的问题:</p>
+    <p class="lead">平面上有一根长度为 1 的针——一条<em class="hl">粗细为零</em>的线段。要让它<em class="hl">原地调头</em>(转过 180°),它扫过的「场地」面积,最小可以是多少?</p>
+    <p>最老实的做法:让针绕中心转一圈,场地是个圆。聪明一点,可以借助各种巧妙的形状,让场地一步步变小。点击下面的形状,看针是怎么转的:</p>
+  </div>
+  <div class="wide">
+    <div class="demo">
+      <div class="demo-title"><span class="tag">动手玩</span><span class="name">四块场地,同一根针</span></div>
+      <div class="demo-sub">针(红色)在每块场地内连续转动 180°。四个图形按同一比例绘制——面积差距一目了然。</div>
+      <div class="tabs" id="shapeTabs" role="tablist"></div>
+      <canvas id="shapes" class="viz" data-aspect="0.62" aria-label="针在所选形状内旋转的动画"></canvas>
+      <div class="controls">
+        <button class="btn" id="shapesPlay" aria-pressed="true">⏸ 暂停</button>
+        <span class="readout">已转过 <b id="shapesAngle">0°</b></span>
+        <span class="readout" id="shapesArea">面积 ≈ 0.785</span>
+      </div>
+      <div class="bars" id="areaBars" aria-label="各形状面积对比"></div>
+      <div class="fineprint">面积以针长为单位(针长 = 1)。等边三角形是<b>凸形</b>里的最优解(帕尔,1921);三尖摆线一度被认为就是最终答案。</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p>从圆的 <b>0.785</b>,到三尖摆线的 <b>0.393</b>——面积砍掉了一半。二十世纪初的数学家大多以为,故事到这里就该结束了:总该有一个「最小面积」吧?</p>
+    <div class="takeaway"><span class="tk">悬 念</span>还能更小吗?最小的场地究竟是多大?</div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ================= 第二章 ================= -->
+<section id="ch2">
+  <div class="wrap">
+    <div class="chapnum">第 二 章</div>
+    <h2>惊人的答案:面积可以任意小</h2>
+    <p class="lead">1928 年,俄裔数学家<b>贝西科维奇</b>(A. S. Besicovitch)给出了一个颠覆直觉的回答:</p>
+    <p class="lead"><em class="hl">这个问题没有最小值。</em>只要你愿意,调头的场地可以比一粒尘埃小,比一个原子小——任意小。</p>
+    <p>他的魔法分两步。<b>第一步:切碎再叠起来。</b>把一个三角形沿底边切成许多细条,每根细条都还「装得下」一批方向的针;然后把细条平移、互相叠放。<em class="hl">平移不改变方向</em>——能容纳的针的方向一个不少,占用的面积却越来越小。这套构造被称为「佩龙树」(Perron tree):</p>
+  </div>
+  <div class="wide">
+    <div class="demo">
+      <div class="demo-title"><span class="tag">动手玩</span><span class="name">佩龙树:切碎、平移、叠放</span></div>
+      <div class="demo-sub">拖动「切分次数」,看面积如何被「折叠」掉;再拖动「针的方向」,验证任何方向的针都还躺在图形里。</div>
+      <canvas id="perron" class="viz" data-aspect="0.56" aria-label="佩龙树构造动画"></canvas>
+      <div class="controls">
+        <label>切分次数
+          <input type="range" id="perronK" min="0" max="7" step="1" value="0" aria-label="切分次数">
+          <span class="readout"><b id="perronN">1</b> 块</span>
+        </label>
+        <label>针的方向
+          <input type="range" id="perronDir" min="-26" max="26" step="0.5" value="0" aria-label="针的方向(度)">
+          <span class="readout"><b id="perronDirV">0°</b></span>
+        </label>
+        <span class="readout">面积 = 初始的 <b id="perronArea">100%</b></span>
+      </div>
+      <div class="bars" id="perronBars" aria-label="面积随切分次数的变化"></div>
+      <div class="fineprint">面积由页面实时逐像素测量,不是预设数字。这里演示的是简化版构造:每一层都把右半部分向左平移固定比例。真正的佩龙树在每一层用更精细的重叠方案,可以证明:<b>切分足够多次后,面积能小于任何给定的正数</b>。它缩小得很慢——这份「顽固」恰恰是挂谷问题深刻的伏笔。</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p><b>第二步:平移几乎是免费的。</b>碎片之间隔着距离,针怎么从一片挪到另一片?贝西科维奇借用了匈牙利数学家帕尔的妙招:针沿<em class="hl">自己的方向</em>滑动时,扫过的面积是零(线段滑过自己所在的直线,没有宽度)。于是「横着挪」可以这样偷懒——</p>
+  </div>
+  <div class="wide">
+    <div class="demo">
+      <div class="demo-title"><span class="tag">动手玩</span><span class="name">帕尔的戏法:斜一点,绕远路</span></div>
+      <div class="demo-sub">要把针挪到上面那条虚线上。直接横移要扫过一整个平行四边形;但「先偏转一个小角度 → 顺着滑过去 → 再摆正 → 滑回来」,只需扫过两个小扇形(红色)。</div>
+      <canvas id="pal" class="viz" data-aspect="0.42" aria-label="帕尔平移技巧动画"></canvas>
+      <div class="controls">
+        <button class="btn" id="palPlay" aria-pressed="true">⏸ 暂停</button>
+        <label>偏转角度
+          <input type="range" id="palDelta" min="0.5" max="10" step="0.5" value="4" aria-label="偏转角度(度)">
+          <span class="readout"><b id="palDeltaV">4°</b></span>
+        </label>
+        <span class="readout">扫过 <b id="palArea">0.070</b> ,是直接横移的 <b id="palRatio">1/5</b></span>
+      </div>
+      <div class="fineprint">偏转角越小越省面积,代价是绕行的路越长(画面会自动缩放——注意针变得多小)。绕路不花面积,只花「地方」;而挂谷问题只关心面积。</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p>把两步合起来:用佩龙树把「装下所有方向」的面积压到任意小,再用帕尔的戏法把碎片之间的挪动费用也压到任意小——<b>转针的总面积就能任意小</b>。挂谷的问题就此有了答案,却是一个没有终点的答案。</p>
+    <div class="takeaway"><span class="tk">结 论 一</span>
+      连续调头:面积可以<b>任意小</b>,但不能恰好为零。<br>
+      若只要求「每个方向都躺着一根完整的针」、不要求转动过程:存在<b>面积恰好为零</b>的集合——数学家称之为<b>贝西科维奇集合</b>(也叫挂谷集合)。
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ================= 第三章 ================= -->
+<section id="ch3">
+  <div class="wrap">
+    <div class="chapnum">第 三 章</div>
+    <h2>面积为零,却「瘦」不下去</h2>
+    <p class="lead">面积为零,听上去像是「什么都不剩」。但数学家有更精细的尺子:<b>维度</b>。</p>
+    <p>量法很朴素:用越来越小的方格去覆盖一个图形,数一数需要多少格。<b>把方格边长缩小一半</b>:盖一条曲线,格子数大约翻 <b>2 倍</b>——它是 1 维的;盖一块实心区域,格子数翻 <b>4 倍</b>——它是 2 维的。翻倍的速度介于两者之间,就是介于 1 和 2 之间的「分数维」。</p>
+  </div>
+  <div class="wide">
+    <div class="demo">
+      <div class="demo-title"><span class="tag">动手玩</span><span class="name">数格子,量维度</span></div>
+      <div class="demo-sub">拖动滑块细化网格,数一数每个图形占了多少格(高亮显示)。注意右侧的贝西科维奇式集合:面积一直在流失,格子数的增长速度却和实心方块几乎一样快。</div>
+      <div class="boxgrid" id="boxGrid"></div>
+      <div class="controls">
+        <label>网格精细度
+          <input type="range" id="boxM" min="0" max="3" step="1" value="1" aria-label="网格精细度">
+          <span class="readout"><b id="boxMV">16 × 16</b></span>
+        </label>
+      </div>
+      <div class="fineprint">「维度 ≈」由相邻两档格子数的倍率折算(翻 2 倍 ≈ 1 维,翻 4 倍 ≈ 2 维)。真正的维度定义在无限细分的极限下;右图取的是第二章佩龙树的有限步构造,故估值略低于 2。</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p>这正是整件事最微妙的地方:贝西科维奇集合的面积是零,可它依然「密不透风」——无论网格多细,它占据格子的速度都追着实心区域跑。它是一个<em class="hl">零面积、却满维度</em>的幽灵。</p>
+    <p>于是,现代版的猜想登场了:</p>
+    <div class="takeaway"><span class="tk">挂 谷 猜 想</span>
+      在 n 维空间里,凡是<b>每个方向都包含一根单位长线段</b>的集合,维度必须等于 <b>n</b>——一格都不能少。<br>
+      <span style="font-size:14px;color:var(--muted)">(这里的「维度」指豪斯多夫维数——数格子思想的精细化版本,允许用大小不一的小块去覆盖。)</span>
+    </div>
+    <p><b>平面(2 维)的情形,1971 年由戴维斯(Roy Davies)证明。</b>而从 3 维开始,这个问题挡住了此后半个世纪里最强的一批数学家——它看似是几何小品,实则连着现代分析学的地基(第五章见)。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ================= 第四章 ================= -->
+<section id="ch4">
+  <div class="wrap">
+    <div class="chapnum">第 四 章</div>
+    <h2>三维空间的胜利</h2>
+    <p class="lead">在三维空间里,「每个方向一根针」长这样——</p>
+  </div>
+  <div class="wide">
+    <div class="demo">
+      <div class="demo-title"><span class="tag">动手玩</span><span class="name">三维的针丛</span></div>
+      <div class="demo-sub">每根线段代表一个方向的针(红色那根正在遍历各个方向)。拖动可旋转视角。三维挂谷猜想:这样的集合,维度必须是整整 3。</div>
+      <canvas id="cloud" class="viz" data-aspect="0.62" aria-label="三维针丛(可拖动旋转)"></canvas>
+      <div class="controls">
+        <button class="btn" id="cloudPlay" aria-pressed="true">⏸ 暂停</button>
+        <span class="readout" style="border:none;background:none">💡 用手指或鼠标拖动画面</span>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p>三维为什么难?因为细针可以在空间里互相「错身而过」:压缩这里,别处就鼓起来;各种压缩方案彼此纠缠,谁也不知道极限在哪。数学家们围攻了几十年,每前进 0.1 维都要发明全新的工具:</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-year">1917</div><p>挂谷宗一提出转针问题。</p></div>
+      <div class="tl-item"><div class="tl-year">1928</div><p>贝西科维奇:面积可以任意小;存在零面积的挂谷集合。</p></div>
+      <div class="tl-item"><div class="tl-year">1971</div><p>戴维斯证明平面挂谷猜想:2 维情形成立。</p></div>
+      <div class="tl-item"><div class="tl-year">1995</div><p>沃尔夫(T. Wolff):三维挂谷集合维度至少 2.5。此后二十余年,人类被卡在 2.5 附近。</p></div>
+      <div class="tl-item"><div class="tl-year">1999</div><p>卡茨、瓦巴、陶哲轩:把下界(按「数格子」意义下的维度)推进到 2.5000000001——每一位小数都是一场战役。</p></div>
+      <div class="tl-item"><div class="tl-year">2014</div><p>卡茨与陶哲轩提出「黏性」挂谷猜想,画出一张通往全面解决的路线图。</p></div>
+      <div class="tl-item"><div class="tl-year">2022</div><p>王虹与 Zahl 联手证明「黏性」挂谷猜想——路线图上决定性的一步。</p></div>
+      <div class="tl-item major"><div class="tl-year">2025 年 2 月</div><p><b>王虹</b>(时任纽约大学库朗研究所教授)与 <b>Joshua Zahl</b>(英属哥伦比亚大学)发布 127 页论文:三维挂谷猜想<b>成立</b>。陶哲轩当天撰长文解读,称之为几何测度论的「惊人进展」(spectacular progress);《量子杂志》的标题是——<b>「百年一遇的证明」</b>。</p></div>
+      <div class="tl-item gold"><div class="tl-year">2026 年 7 月</div><p>王虹在费城国际数学家大会上获<b>菲尔兹奖</b>。</p></div>
+    </div>
+    <div class="fields">
+      <div class="medal">🏅</div>
+      <h3>2026 年 7 月 23 日 · 费城</h3>
+      <p><b>王虹</b>(1991 年生于广西桂林,北京大学数学系毕业,现为法国高等科学研究所终身教授)因「对调和分析与几何测度论的贡献,尤其是证明三维挂谷猜想」获得<b>菲尔兹奖</b>——数学界的最高荣誉,90 年历史上<b>第三位女性得主</b>。</p>
+      <p>一根 1917 年的针,在 2026 年别上了金质奖章。</p>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ================= 第五章 ================= -->
+<section id="ch5">
+  <div class="wrap">
+    <div class="chapnum">第 五 章</div>
+    <h2>为什么一根针如此重要?</h2>
+    <p class="lead">挂谷猜想从来不只是智力游戏。「针」的数学化身是<b>方向</b>——而「所有方向上的直线如何交叠」,恰好是现代分析学多个重大问题共同的地基。</p>
+    <div class="cards">
+      <div class="card"><div class="ic">🌊</div><h4>波的聚焦</h4><p>声波、光波、水波都能分解成沿各个方向行进的平面波(傅里叶分析)。不同方向的波能不能「合谋」,把能量集中到一个极小的区域?这个问题的几何骨架正是挂谷集合。限制性猜想、波动方程的局部光滑性猜想……一整座「猜想之塔」都建立在挂谷猜想这块基石之上。</p></div>
+      <div class="card"><div class="ic">🩻</div><h4>沿直线看世界</h4><p>CT 扫描用无数条直线穿过人体,再从「每条线上的读数」重建断层图像。这类「沿直线取样」的数学(X 射线变换、拉东变换)与挂谷问题同根同源:直线的交叠方式,决定了信息能不能被完整还原。</p></div>
+      <div class="card"><div class="ic">🎲</div><h4>意外的分支</h4><p>2008 年,德维尔(Zeev Dvir)用短短两页纸解决了「有限域版」挂谷问题,震动学界。这套多项式方法随即进入理论计算机科学,被用于构造「随机性提取器」——从劣质随机源中提纯真随机数的工具。</p></div>
+      <div class="card"><div class="ic">🧗</div><h4>未完待续</h4><p>王虹与 Zahl 的证明解决了 3 维,而 4 维及以上的挂谷猜想至今悬而未决。新证明带来的「粒度分解」等工具,正被寄望于攻向更高维度——这根针的故事,还在继续。</p></div>
+    </div>
+    <p class="epigraph">「好的数学问题就像一根针:<br>本身很小,却能刺穿一整个世纪。」<small>—— 谨以此页,致每一位转动过这根针的人</small></p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>王虹 & Joshua Zahl 的原始论文:<a href="https://arxiv.org/abs/2502.17655" target="_blank" rel="noopener">Volume estimates for unions of convex sets, and the Kakeya set conjecture in three dimensions (arXiv:2502.17655)</a></li>
+      <li>陶哲轩的解读博文:<a href="https://terrytao.wordpress.com/2025/02/25/the-three-dimensional-kakeya-conjecture-after-wang-and-zahl/" target="_blank" rel="noopener">The three-dimensional Kakeya conjecture, after Wang and Zahl</a></li>
+      <li>《量子杂志》报道:<a href="https://www.quantamagazine.org/once-in-a-century-proof-settles-maths-kakeya-conjecture-20250314/" target="_blank" rel="noopener">“Once in a Century” Proof Settles Math’s Kakeya Conjecture</a></li>
+      <li>菲尔兹奖报道:<a href="https://www.quantamagazine.org/hong-wang-wins-2026-fields-medal-the-third-woman-ever-20260723/" target="_blank" rel="noopener">Hong Wang Wins 2026 Fields Medal (Quanta)</a> · <a href="https://www.ihes.fr/en/hong-wang2026-fields-medal/" target="_blank" rel="noopener">IHES 公告</a></li>
+    </ul>
+    <p class="disclaim">本页所有动画为示意性简化,但均建立在真实的数学构造之上:三尖摆线中针的运动采用精确的切线弦参数化;佩龙树的面积为实时逐像素测量;等边三角形的高恰为针长,是帕尔定理的临界情形。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+/* ============================================================
+   工具
+============================================================ */
+const $ = (id) => document.getElementById(id);
+const TAU = Math.PI * 2;
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// 高分屏适配:canvas 逻辑坐标 = CSS 像素
+function fitCanvas(cv) {
+  const dpr = window.devicePixelRatio || 1;
+  const w = cv.clientWidth;
+  const h = Math.round(w * parseFloat(cv.dataset.aspect || "0.6"));
+  cv.style.height = h + "px";
+  if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) {
+    cv.width = Math.round(w * dpr);
+    cv.height = Math.round(h * dpr);
+  }
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx, w, h };
+}
+
+// 动画调度:仅在视口内运行;RM(减少动态)时默认暂停
+const animators = [];
+function makeAnim(cv, render, { autoplay = true } = {}) {
+  const a = {
+    cv, render, raf: 0, t: 0, last: 0, visible: false,
+    userPaused: RM ? true : !autoplay,
+    step(now) {
+      a.raf = 0;
+      if (a.last) a.t += Math.min(now - a.last, 100);
+      a.last = now;
+      render(a.t);
+      if (a.visible && !a.userPaused) a.raf = requestAnimationFrame(a.step);
+    },
+    kick() {
+      if (!a.raf && a.visible && !a.userPaused) { a.last = 0; a.raf = requestAnimationFrame(a.step); }
+    },
+    drawOnce() { render(a.t); }
+  };
+  a.step = a.step.bind(a);
+  const io = new IntersectionObserver(([e]) => {
+    a.visible = e.isIntersecting;
+    if (a.visible) { a.kick(); if (a.userPaused) a.drawOnce(); }
+  }, { rootMargin: "60px" });
+  io.observe(cv);
+  animators.push(a);
+  return a;
+}
+function bindPlayBtn(btn, anim) {
+  const sync = () => {
+    btn.textContent = anim.userPaused ? "▶ 播放" : "⏸ 暂停";
+    btn.setAttribute("aria-pressed", String(!anim.userPaused));
+  };
+  btn.addEventListener("click", () => { anim.userPaused = !anim.userPaused; sync(); anim.kick(); });
+  sync();
+}
+
+addEventListener("resize", () => animators.forEach(a => { if (a.visible) a.drawOnce(); }));
+
+// 滚动进度条
+addEventListener("scroll", () => {
+  const h = document.documentElement;
+  const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+  $("progress").style.width = (p * 100).toFixed(2) + "%";
+}, { passive: true });
+
+const C = {
+  ink: "#2a2418", muted: "#6f6553", line: "#e6dfd0",
+  accent: "#bc3f1e", accentSoft: "rgba(188,63,30,.16)",
+  blue: "#33589b", blueFill: "rgba(51,88,155,.15)", blueSoft: "rgba(51,88,155,.35)",
+  gold: "#a8801f", paper: "#faf6ee"
+};
+
+function needleStroke(ctx, x1, y1, x2, y2, w = 3.2, color = C.accent) {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = w;
+  ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  ctx.fillStyle = color;
+  for (const [x, y] of [[x1, y1], [x2, y2]]) {
+    ctx.beginPath(); ctx.arc(x, y, w * 0.85, 0, TAU); ctx.fill();
+  }
+}
+
+/* ============================================================
+   三尖摆线(deltoid)的针运动 —— 精确参数化
+   P(t) = (2r cos t + r cos 2t, 2r sin t − r sin 2t), 针长 = 4r
+   针的两端 = P(−t/2), P(π−t/2);切点 = P(t)
+============================================================ */
+function deltoidPoint(r, t) {
+  return [2 * r * Math.cos(t) + r * Math.cos(2 * t),
+          2 * r * Math.sin(t) - r * Math.sin(2 * t)];
+}
+function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueFill, needleW = 3.2, showTangent = true } = {}) {
+  const r = 0.25; // 针长 4r = 1
+  const X = (p) => cx + p[0] * unit, Y = (p) => cy - p[1] * unit;
+  ctx.beginPath();
+  for (let i = 0; i <= 240; i++) {
+    const p = deltoidPoint(r, (i / 240) * TAU);
+    i ? ctx.lineTo(X(p), Y(p)) : ctx.moveTo(X(p), Y(p));
+  }
+  ctx.closePath();
+  ctx.fillStyle = fill; ctx.fill();
+  ctx.strokeStyle = curveColor; ctx.lineWidth = 1.6; ctx.stroke();
+  const A = deltoidPoint(r, -t / 2), B = deltoidPoint(r, Math.PI - t / 2);
+  if (showTangent) {
+    const T = deltoidPoint(r, t);
+    ctx.fillStyle = C.gold;
+    ctx.beginPath(); ctx.arc(X(T), Y(T), needleW * 0.9, 0, TAU); ctx.fill();
+  }
+  needleStroke(ctx, X(A), Y(A), X(B), Y(B), needleW);
+}
+
+/* ============================================================
+   HERO:三尖摆线动画
+============================================================ */
+{
+  const cv = $("hero");
+  cv.dataset.aspect = "0.88";
+  const anim = makeAnim(cv, (t) => {
+    const { ctx, w, h } = fitCanvas(cv);
+    ctx.clearRect(0, 0, w, h);
+    drawDeltoid(ctx, w / 2, h / 2 - h * 0.02, Math.min(w, h) * 0.62, (t / 9000) * TAU, { needleW: 3.6 });
+  }, { autoplay: true });
+  if (RM) { anim.t = 2600; }
+}
+
+/* ============================================================
+   第一章:四块场地
+============================================================ */
+{
+  const cv = $("shapes");
+  const shapes = [
+    { name: "圆", area: Math.PI / 4, desc: "绕中心原地转" },
+    { name: "勒洛三角形", area: (Math.PI - Math.sqrt(3)) / 2, desc: "定宽曲线" },
+    { name: "等边三角形", area: 1 / Math.sqrt(3), desc: "凸形最优 · 帕尔 1921" },
+    { name: "三尖摆线", area: Math.PI / 8, desc: "曾被当作最终答案" },
+  ];
+  let cur = 0;
+  const PERIOD = 8000; // 一次 180° 调头的毫秒数
+
+  // —— 各形状:给定进度 τ∈[0,1) 返回针的两端(单位坐标)与已转角度(弧度)——
+  const dir = (a) => [Math.cos(a), Math.sin(a)];
+  const add = (p, q, s = 1) => [p[0] + q[0] * s, p[1] + q[1] * s];
+
+  function circleNeedle(tau) {
+    const th = tau * Math.PI;
+    return { A: [-0.5 * Math.cos(th), -0.5 * Math.sin(th)], B: [0.5 * Math.cos(th), 0.5 * Math.sin(th)], rot: th };
+  }
+  // 勒洛三角形(宽 1):以三个顶点为轴心各转 60°
+  const RLX = (() => {
+    const h = Math.sqrt(3) / 2, cy = h / 3;
+    return { V: [[-0.5, -cy], [0.5, -cy], [0, h - cy]] };
+  })();
+  function reuleauxNeedle(tau) {
+    const th = tau * Math.PI;
+    const seq = [
+      { p: RLX.V[0], a0: 0 },                    // θ∈[0,60°): 轴心 V0,射线角 = θ
+      { p: RLX.V[2], a0: Math.PI },              // θ∈[60°,120°): 轴心 V2,射线角 = θ+180°
+      { p: RLX.V[1], a0: 0 },                    // θ∈[120°,180°): 轴心 V1,射线角 = θ
+    ];
+    const k = Math.min(2, Math.floor(th / (Math.PI / 3)));
+    const s = seq[k];
+    const ray = th + s.a0;
+    return { A: s.p, B: add(s.p, dir(ray)), rot: th };
+  }
+  // 等边三角形(高 1,边 s=2/√3):顶点旋转 + 沿边滑动
+  const TRI = (() => {
+    const s = 2 / Math.sqrt(3);
+    const A = [-s / 2, -1 / 3], B = [s / 2, -1 / 3], Cv = [0, 2 / 3]; // 质心置原点
+    return { s, A, B, Cv, slide: s - 1 };
+  })();
+  function triangleNeedle(tau) {
+    const { A, B, Cv, slide } = TRI;
+    const d60 = dir(Math.PI / 3), d300 = dir(-Math.PI / 3);
+    // 时间分配:三段旋转各 .28,三段滑动各 .0533
+    const seg = [
+      { len: .28, f: (u) => { const ray = u * Math.PI / 3; return { A: A, B: add(A, dir(ray)), rot: ray }; } },
+      { len: .0533, f: (u) => { const o = add(A, d60, u * slide); return { A: o, B: add(o, d60), rot: Math.PI / 3 }; } },
+      { len: .28, f: (u) => { const ray = Math.PI * (240 + 60 * u) / 180; return { A: Cv, B: add(Cv, dir(ray)), rot: Math.PI / 3 + u * Math.PI / 3 }; } },
+      { len: .0533, f: (u) => { const o = add(Cv, d300, u * slide); return { A: o, B: add(o, d300), rot: Math.PI * 2 / 3 }; } },
+      { len: .28, f: (u) => { const ray = Math.PI * (120 + 60 * u) / 180; return { A: B, B: add(B, dir(ray)), rot: Math.PI * 2 / 3 + u * Math.PI / 3 }; } },
+      { len: .0534, f: (u) => { const o = add(add(B, [-1, 0]), [-u * slide, 0]); return { A: o, B: add(o, [1, 0]), rot: Math.PI }; } },
+    ];
+    let acc = 0;
+    for (const sg of seg) {
+      if (tau < acc + sg.len || sg === seg[seg.length - 1]) {
+        const u = Math.min(1, Math.max(0, (tau - acc) / sg.len));
+        return sg.f(u);
+      }
+      acc += sg.len;
+    }
+  }
+
+  function drawShapeRegion(ctx, cx, cy, unit) {
+    ctx.fillStyle = C.blueFill;
+    ctx.strokeStyle = C.blue;
+    ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    if (cur === 0) {
+      ctx.arc(cx, cy, 0.5 * unit, 0, TAU);
+    } else if (cur === 1) {
+      const V = RLX.V.map(p => [cx + p[0] * unit, cy - p[1] * unit]);
+      // 三段圆弧,半径 = 1(针长)。屏幕 y 向下,数学角 θ 映射为画布角 −θ,逆时针(true)遍历
+      ctx.arc(V[0][0], V[0][1], unit, 0, -Math.PI / 3, true);                    // 心 V0:V1(0°) → V2(60°)
+      ctx.arc(V[1][0], V[1][1], unit, -Math.PI * 2 / 3, -Math.PI, true);         // 心 V1:V2(120°) → V0(180°)
+      ctx.arc(V[2][0], V[2][1], unit, -Math.PI * 4 / 3, -Math.PI * 5 / 3, true); // 心 V2:V0(240°) → V1(300°)
+      ctx.closePath();
+    } else if (cur === 2) {
+      const { A, B, Cv } = TRI;
+      const P = [A, B, Cv].map(p => [cx + p[0] * unit, cy - p[1] * unit]);
+      ctx.moveTo(P[0][0], P[0][1]); ctx.lineTo(P[1][0], P[1][1]); ctx.lineTo(P[2][0], P[2][1]);
+      ctx.closePath();
+    }
+    if (cur !== 3) { ctx.fill(); ctx.stroke(); }
+  }
+
+  const anim = makeAnim(cv, (t) => {
+    const { ctx, w, h } = fitCanvas(cv);
+    ctx.clearRect(0, 0, w, h);
+    const unit = Math.min(w / 1.75, h / 1.62);
+    const cx = w / 2, cy = h / 2 + (cur === 2 ? h * 0.02 : 0);
+    const tau = (t % PERIOD) / PERIOD;
+    let rot;
+    if (cur === 3) {
+      drawDeltoid(ctx, cx, cy, unit, tau * TAU);
+      rot = tau * Math.PI;
+    } else {
+      drawShapeRegion(ctx, cx, cy, unit);
+      const n = cur === 0 ? circleNeedle(tau) : cur === 1 ? reuleauxNeedle(tau) : triangleNeedle(tau);
+      needleStroke(ctx, cx + n.A[0] * unit, cy - n.A[1] * unit, cx + n.B[0] * unit, cy - n.B[1] * unit);
+      rot = n.rot;
+    }
+    $("shapesAngle").textContent = Math.round(rot * 180 / Math.PI) + "°";
+  });
+  bindPlayBtn($("shapesPlay"), anim);
+
+  // 形状选项卡 + 面积条
+  const tabs = $("shapeTabs"), barsEl = $("areaBars");
+  function renderTabs() {
+    tabs.innerHTML = "";
+    shapes.forEach((s, i) => {
+      const b = document.createElement("button");
+      b.className = "btn"; b.textContent = s.name;
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-pressed", String(i === cur));
+      b.onclick = () => { cur = i; anim.t = 0; renderTabs(); renderBars(); anim.drawOnce(); anim.kick(); };
+      tabs.appendChild(b);
+    });
+    $("shapesArea").textContent = "面积 ≈ " + shapes[cur].area.toFixed(3);
+  }
+  function renderBars() {
+    barsEl.innerHTML = "";
+    const max = shapes[0].area;
+    shapes.forEach((s, i) => {
+      const row = document.createElement("div");
+      row.className = "bar-row" + (i === cur ? " active" : "");
+      row.innerHTML = `<span>${s.name}</span><div class="track"><div class="fill" style="width:${(s.area / max * 100).toFixed(1)}%"></div></div><span class="val">${s.area.toFixed(3)}</span>`;
+      barsEl.appendChild(row);
+    });
+    const row = document.createElement("div");
+    row.className = "bar-row tease";
+    row.innerHTML = `<span>贝西科维奇?</span><div class="track"><div class="fill" style="width:14%"></div></div><span class="val">→ 0 ?</span>`;
+    barsEl.appendChild(row);
+  }
+  renderTabs(); renderBars();
+}
+
+/* ============================================================
+   第二章 A:佩龙树
+   基础三角形 (0,0)(1,0)(0.5,1) 切成 N=2^k 份(共顶点)。
+   第 s 层把每组右半部分左移 (1−α)·2^(s−1)/N,α=0.42(数值实验最优)
+============================================================ */
+{
+  const cv = $("perron");
+  const ALPHA = 0.42;
+  const kInput = $("perronK"), dirInput = $("perronDir");
+  let k = 0, animU = 1, animating = false, prevT = 0;
+
+  function shiftOf(i, k) {
+    const N = 1 << k;
+    let sh = 0;
+    for (let s = 1; s <= k; s++) if ((i >> (s - 1)) & 1) sh += (1 - ALPHA) * (1 << (s - 1)) / N;
+    return sh;
+  }
+  function triangles(k, u) { // u∈[0,1] 平移动画进度
+    const N = 1 << k, out = [];
+    for (let i = 0; i < N; i++) {
+      const sh = shiftOf(i, k) * u;
+      out.push([[i / N - sh, 0], [(i + 1) / N - sh, 0], [0.5 - sh, 1]]);
+    }
+    return out;
+  }
+
+  // 逐像素实测面积(相对 k=0)
+  const areaCache = [];
+  function measureArea(k) {
+    if (areaCache[k] !== undefined) return areaCache[k];
+    const W = 1400, H = 900, off = document.createElement("canvas");
+    off.width = W; off.height = H;
+    const c = off.getContext("2d", { willReadFrequently: true });
+    const tris = triangles(k, 1);
+    let x0 = 1e9, x1 = -1e9;
+    for (const T of tris) for (const p of T) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); }
+    const sc = Math.min(W / (x1 - x0), H);
+    c.fillStyle = "#000";
+    for (const T of tris) {
+      c.beginPath();
+      T.forEach((p, j) => { const x = (p[0] - x0) * sc, y = H - p[1] * sc; j ? c.lineTo(x, y) : c.moveTo(x, y); });
+      c.closePath(); c.fill();
+    }
+    const data = c.getImageData(0, 0, W, H).data;
+    let n = 0;
+    for (let i = 3; i < data.length; i += 4) if (data[i] > 127) n++;
+    areaCache[k] = n / (sc * sc); // 单位:初始三角形高=1 的坐标系
+    return areaCache[k];
+  }
+
+  const anim = makeAnim(cv, (t) => {
+    const { ctx, w, h } = fitCanvas(cv);
+    ctx.clearRect(0, 0, w, h);
+    const dt = Math.min(t - prevT, 100); prevT = t;
+    if (animating) {
+      animU = Math.min(1, animU + dt / 750);
+      if (animU >= 1) { animating = false; anim.userPaused = true; }
+    }
+    const eased = 1 - Math.pow(1 - animU, 3);
+    const pad = 22, unit = Math.min((w - pad * 2) / 1.34, (h - pad * 2 - 14));
+    const ox = pad + unit * 0.24, oy = h - pad;
+    const X = (x) => ox + x * unit, Y = (y) => oy - y * unit;
+
+    // 地平线 + 原三角形轮廓(虚线)
+    ctx.strokeStyle = C.line; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, oy + .5); ctx.lineTo(w, oy + .5); ctx.stroke();
+    ctx.setLineDash([5, 5]);
+    ctx.strokeStyle = "#c9bfa9";
+    ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(1), Y(0)); ctx.lineTo(X(0.5), Y(1)); ctx.closePath(); ctx.stroke();
+    ctx.setLineDash([]);
+
+    const tris = triangles(k, eased);
+    ctx.fillStyle = "rgba(51,88,155,.30)";
+    const strokeToo = k <= 3;
+    for (const T of tris) {
+      ctx.beginPath();
+      T.forEach((p, j) => { j ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1])); });
+      ctx.closePath(); ctx.fill();
+      if (strokeToo) { ctx.strokeStyle = "rgba(255,255,255,.75)"; ctx.lineWidth = 1; ctx.stroke(); }
+    }
+
+    // 方向针:φ ∈ [−26.5°, 26.5°],落在覆盖该方向的细条里
+    const phi = parseFloat(dirInput.value) * Math.PI / 180;
+    const N = 1 << k;
+    const xb = 0.5 + Math.tan(phi);
+    const i = Math.min(N - 1, Math.max(0, Math.floor(xb * N)));
+    const sh = shiftOf(i, k) * eased;
+    const apex = [0.5 - sh, 1];
+    const dvec = [Math.sin(phi), -Math.cos(phi)];
+    // 高亮所在细条
+    const T = tris[i];
+    ctx.fillStyle = "rgba(188,63,30,.20)";
+    ctx.beginPath();
+    T.forEach((p, j) => { j ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1])); });
+    ctx.closePath(); ctx.fill();
+    needleStroke(ctx, X(apex[0]), Y(apex[1]), X(apex[0] + dvec[0]), Y(apex[1] + dvec[1]), 2.6);
+  }, { autoplay: false });
+  anim.userPaused = true; // 平时静止,交互时短暂播放
+
+  function refresh(playAnim) {
+    k = parseInt(kInput.value, 10);
+    $("perronN").textContent = String(1 << k);
+    const rel = measureArea(k) / measureArea(0);
+    $("perronArea").textContent = (rel * 100).toFixed(0) + "%";
+    renderPerronBars(rel);
+    if (playAnim && !RM) {
+      animU = 0; animating = true; anim.userPaused = false; anim.kick();
+    } else {
+      animU = 1; animating = false; anim.drawOnce();
+    }
+    if (!anim.visible) anim.drawOnce();
+  }
+  function renderPerronBars(_) {
+    const el = $("perronBars");
+    el.innerHTML = "";
+    for (let j = 0; j <= 7; j++) {
+      const rel = measureArea(j) / measureArea(0);
+      const row = document.createElement("div");
+      row.className = "bar-row" + (j === k ? " active" : "");
+      row.innerHTML = `<span>切 ${j} 次 · ${1 << j} 块</span><div class="track"><div class="fill" style="width:${(rel * 100).toFixed(1)}%"></div></div><span class="val">${(rel * 100).toFixed(0)}%</span>`;
+      el.appendChild(row);
+    }
+  }
+  kInput.addEventListener("input", () => refresh(true));
+  dirInput.addEventListener("input", () => {
+    $("perronDirV").textContent = (+dirInput.value).toFixed(1).replace(/\.0$/, "") + "°";
+    anim.drawOnce();
+  });
+  refresh(false);
+}
+
+/* ============================================================
+   第二章 B:帕尔的平移戏法
+============================================================ */
+{
+  const cv = $("pal");
+  const D = 0.35; // 目标平行线距离(针长单位)
+  const deltaInput = $("palDelta");
+  const PERIOD = 7000;
+
+  function params() {
+    const delta = parseFloat(deltaInput.value) * Math.PI / 180;
+    const L = D / Math.sin(delta); // 沿针方向滑行距离
+    return { delta, L };
+  }
+  function updateReadout() {
+    const { delta } = params();
+    const swept = delta; // 两个扇形:2 × δ/2 × 1²
+    $("palDeltaV").textContent = deltaInput.value + "°";
+    $("palArea").textContent = swept.toFixed(3);
+    $("palRatio").textContent = "1/" + Math.max(1, Math.round(D / swept));
+  }
+
+  const anim = makeAnim(cv, (t) => {
+    const { ctx, w, h } = fitCanvas(cv);
+    ctx.clearRect(0, 0, w, h);
+    const { delta, L } = params();
+    const worldW = L * Math.cos(delta) + 1.15;
+    const worldH = D + Math.sin(delta) + 0.14;
+    const unit = Math.min((w - 30) / worldW, (h - 30) / worldH);
+    const ox = 15, oy = Math.round(h / 2 + worldH * unit / 2) - 6;
+    const X = (x) => ox + x * unit, Y = (y) => oy - y * unit;
+    const tau = (t % PERIOD) / PERIOD;
+
+    // 起点线与目标线
+    ctx.strokeStyle = C.line; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, Y(0)); ctx.lineTo(w, Y(0)); ctx.stroke();
+    ctx.setLineDash([6, 5]);
+    ctx.strokeStyle = "#b7a97f";
+    ctx.beginPath(); ctx.moveTo(0, Y(D)); ctx.lineTo(w, Y(D)); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = C.muted; ctx.font = "12px " + getComputedStyle(document.body).fontFamily;
+    ctx.fillText("目标位置", X(0) + 4, Y(D) - 6);
+
+    // 阶段:0-.18 旋转δ | .18-.5 滑出 | .5-.68 旋回 | .68-.95 滑回 | .95-1 停
+    let a1 = 0, a2 = 0, slide = 0, back = 0;
+    if (tau < .18) a1 = tau / .18;
+    else if (tau < .5) { a1 = 1; slide = (tau - .18) / .32; }
+    else if (tau < .68) { a1 = 1; slide = 1; a2 = (tau - .5) / .18; }
+    else if (tau < .95) { a1 = 1; slide = 1; a2 = 1; back = (tau - .68) / .27; }
+    else { a1 = 1; slide = 1; a2 = 1; back = 1; }
+
+    // 扫过的扇形(红):起点端 + 远端
+    ctx.fillStyle = C.accentSoft;
+    ctx.beginPath(); ctx.moveTo(X(0), Y(0));
+    ctx.arc(X(0), Y(0), unit, 0, -delta * a1, true); ctx.closePath(); ctx.fill();
+    if (a2 > 0) {
+      const F = [L * Math.cos(delta), D];
+      ctx.beginPath(); ctx.moveTo(X(F[0]), Y(F[1]));
+      ctx.arc(X(F[0]), Y(F[1]), unit, -delta, -delta * (1 - a2), false); ctx.closePath(); ctx.fill();
+    }
+
+    // 幽灵:起始位置
+    ctx.strokeStyle = "#cfc6b2"; ctx.lineWidth = 2; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(1), Y(0)); ctx.stroke();
+
+    // 当前针位置
+    let p0, ang;
+    if (back === 0) {
+      const along = slide * L;
+      ang = delta * a1 - delta * a2;
+      // 支点:滑动前是原点端;旋回阶段支点在远端
+      if (a2 === 0) p0 = [along * Math.cos(delta), along * Math.sin(delta)];
+      else p0 = [L * Math.cos(delta), D];
+      if (a2 === 0) {
+        needleStroke(ctx, X(p0[0]), Y(p0[1]), X(p0[0] + Math.cos(ang)), Y(p0[1] + Math.sin(ang)));
+      } else {
+        const a = delta * (1 - a2);
+        needleStroke(ctx, X(p0[0]), Y(p0[1]), X(p0[0] + Math.cos(a)), Y(p0[1] + Math.sin(a)));
+      }
+    } else {
+      const x0 = L * Math.cos(delta) * (1 - back);
+      needleStroke(ctx, X(x0), Y(D), X(x0 + 1), Y(D));
+    }
+  });
+  bindPlayBtn($("palPlay"), anim);
+  deltaInput.addEventListener("input", () => { updateReadout(); anim.drawOnce(); });
+  updateReadout();
+}
+
+/* ============================================================
+   第三章:数格子量维度
+============================================================ */
+{
+  const grid = $("boxGrid");
+  const Ms = [8, 16, 32, 64];
+  const panels = [
+    { name: "一条线段", note: "1 维", kind: "line" },
+    { name: "实心方块", note: "2 维", kind: "square" },
+    { name: "贝西科维奇式集合", note: "面积→0,维度→?", kind: "kakeya" },
+  ];
+  // 佩龙树 k=6 的多边形,归一化到 [0,1]²
+  const ALPHA = 0.42, K6 = 6;
+  const kTris = (() => {
+    const N = 1 << K6, out = [];
+    let x0 = 1e9, x1 = -1e9;
+    for (let i = 0; i < N; i++) {
+      let sh = 0;
+      for (let s = 1; s <= K6; s++) if ((i >> (s - 1)) & 1) sh += (1 - ALPHA) * (1 << (s - 1)) / N;
+      const T = [[i / N - sh, 0], [(i + 1) / N - sh, 0], [0.5 - sh, 1]];
+      out.push(T);
+      for (const p of T) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); }
+    }
+    const sc = 0.9 / Math.max(x1 - x0, 1);
+    return out.map(T => T.map(p => [0.05 + (p[0] - x0) * sc, 0.05 + p[1] * 0.9]));
+  })();
+
+  function paintShape(c, kind, S) { // S = 像素尺寸
+    c.clearRect(0, 0, S, S);
+    if (kind === "line") {
+      c.strokeStyle = "#000"; c.lineWidth = Math.max(1, S / 260);
+      c.beginPath(); c.moveTo(S * .08, S * .88); c.lineTo(S * .92, S * .12); c.stroke();
+    } else if (kind === "square") {
+      c.fillStyle = "#000"; c.fillRect(S * .16, S * .16, S * .68, S * .68);
+    } else {
+      c.fillStyle = "#000";
+      for (const T of kTris) {
+        c.beginPath();
+        T.forEach((p, j) => { const x = p[0] * S, y = S - p[1] * S; j ? c.lineTo(x, y) : c.moveTo(x, y); });
+        c.closePath(); c.fill();
+      }
+    }
+  }
+  const occCache = {};
+  function occupancy(kind, m) {
+    const key = kind + m;
+    if (occCache[key]) return occCache[key];
+    const off = document.createElement("canvas");
+    off.width = m; off.height = m;
+    const c = off.getContext("2d", { willReadFrequently: true });
+    paintShape(c, kind, m);
+    const d = c.getImageData(0, 0, m, m).data;
+    const cells = [];
+    for (let i = 0; i < m * m; i++) if (d[i * 4 + 3] > 8) cells.push(i);
+    occCache[key] = cells;
+    return cells;
+  }
+
+  const cells = panels.map((p) => {
+    const div = document.createElement("div");
+    div.className = "boxcell";
+    div.innerHTML = `<canvas class="viz" data-aspect="1" aria-label="${p.name}的数格子演示"></canvas>
+      <div class="cap"><b>${p.name}</b>(${p.note})<br><span class="cnt"></span></div>
+      <div class="dim"></div>`;
+    grid.appendChild(div);
+    return { ...p, cv: div.querySelector("canvas"), cnt: div.querySelector(".cnt"), dim: div.querySelector(".dim") };
+  });
+
+  function draw() {
+    const mi = parseInt($("boxM").value, 10), m = Ms[mi];
+    $("boxMV").textContent = m + " × " + m;
+    for (const p of cells) {
+      const { ctx, w } = fitCanvas(p.cv);
+      const S = w;
+      ctx.clearRect(0, 0, S, S);
+      // 占用格
+      const occ = occupancy(p.kind, m), cell = S / m;
+      ctx.fillStyle = "rgba(168,128,31,.28)";
+      for (const i of occ) ctx.fillRect((i % m) * cell, Math.floor(i / m) * cell, cell, cell);
+      // 网格
+      ctx.strokeStyle = "rgba(0,0,0,.08)"; ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let i = 0; i <= m; i++) {
+        ctx.moveTo(i * cell + .5, 0); ctx.lineTo(i * cell + .5, S);
+        ctx.moveTo(0, i * cell + .5); ctx.lineTo(S, i * cell + .5);
+      }
+      ctx.stroke();
+      // 图形本体
+      ctx.save();
+      if (p.kind === "line") {
+        ctx.strokeStyle = C.blue; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(S * .08, S * .88); ctx.lineTo(S * .92, S * .12); ctx.stroke();
+      } else if (p.kind === "square") {
+        ctx.fillStyle = "rgba(51,88,155,.5)"; ctx.fillRect(S * .16, S * .16, S * .68, S * .68);
+      } else {
+        ctx.fillStyle = "rgba(51,88,155,.45)";
+        for (const T of kTris) {
+          ctx.beginPath();
+          T.forEach((q, j) => { const x = q[0] * S, y = S - q[1] * S; j ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+          ctx.closePath(); ctx.fill();
+        }
+      }
+      ctx.restore();
+      const n = occ.length;
+      p.cnt.textContent = `占 ${n} 格`;
+      const prev = occupancy(p.kind, m / 2).length;
+      const dimEst = Math.log2(n / Math.max(prev, 1));
+      p.dim.innerHTML = `维度 ≈ <b>${dimEst.toFixed(2)}</b>`;
+    }
+  }
+  $("boxM").addEventListener("input", draw);
+  // 面板尺寸首次可见时绘制
+  const io = new IntersectionObserver((es) => { if (es.some(e => e.isIntersecting)) draw(); }, { rootMargin: "80px" });
+  io.observe(grid);
+  addEventListener("resize", draw);
+}
+
+/* ============================================================
+   第四章:三维针丛
+============================================================ */
+{
+  const cv = $("cloud");
+  const N = 170;
+  // 斐波那契半球:每个方向一根针;确定性偏移
+  let seed = 20260723;
+  const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+  const needles = [];
+  for (let i = 0; i < N; i++) {
+    const y = (i + 0.5) / N;             // z ∈ (0,1):半球即可(方向不分正反)
+    const rxy = Math.sqrt(1 - y * y);
+    const a = i * 2.399963229728653;     // 黄金角
+    const d = [Math.cos(a) * rxy, Math.sin(a) * rxy, y];
+    const o = [(rnd() - .5) * .7, (rnd() - .5) * .7, (rnd() - .5) * .7];
+    needles.push({ d, o });
+  }
+  let yaw = 0.6, pitch = 0.42, dragging = null;
+  cv.addEventListener("pointerdown", (e) => { dragging = [e.clientX, e.clientY]; cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    yaw += (e.clientX - dragging[0]) * 0.008;
+    pitch = Math.max(-1.3, Math.min(1.3, pitch + (e.clientY - dragging[1]) * 0.008));
+    dragging = [e.clientX, e.clientY];
+    if (anim.userPaused) anim.drawOnce();
+  });
+  cv.addEventListener("pointerup", () => dragging = null);
+  cv.addEventListener("pointercancel", () => dragging = null);
+
+  const anim = makeAnim(cv, (t) => {
+    const { ctx, w, h } = fitCanvas(cv);
+    ctx.clearRect(0, 0, w, h);
+    const unit = Math.min(w, h) * 0.42;
+    const cx = w / 2, cy = h / 2;
+    const Y = yaw + (dragging ? 0 : t * 0.00012);
+    const cyw = Math.cos(Y), syw = Math.sin(Y), cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const proj = (v) => {
+      const x1 = v[0] * cyw + v[2] * syw, z1 = -v[0] * syw + v[2] * cyw;
+      const y2 = v[1] * cp - z1 * sp, z2 = v[1] * sp + z1 * cp;
+      return [cx + x1 * unit, cy - y2 * unit, z2];
+    };
+    const hi = Math.floor(t / 1400) % N;
+    const segs = needles.map((nd, i) => {
+      const A = proj([nd.o[0] - nd.d[0] * .5, nd.o[1] - nd.d[1] * .5, nd.o[2] - nd.d[2] * .5]);
+      const B = proj([nd.o[0] + nd.d[0] * .5, nd.o[1] + nd.d[1] * .5, nd.o[2] + nd.d[2] * .5]);
+      return { A, B, z: (A[2] + B[2]) / 2, i };
+    }).sort((a, b) => a.z - b.z);
+    for (const s of segs) {
+      const depth = (s.z + 1.1) / 2.2;
+      if (s.i === hi) {
+        ctx.strokeStyle = C.accent; ctx.lineWidth = 3; ctx.lineCap = "round";
+      } else {
+        ctx.strokeStyle = `rgba(51,88,155,${(0.12 + 0.4 * depth).toFixed(3)})`;
+        ctx.lineWidth = 1.1 + depth;
+        ctx.lineCap = "round";
+      }
+      ctx.beginPath(); ctx.moveTo(s.A[0], s.A[1]); ctx.lineTo(s.B[0], s.B[1]); ctx.stroke();
+    }
+  });
+  bindPlayBtn($("cloudPlay"), anim);
+}
+</script>
+</body>
+</html>
