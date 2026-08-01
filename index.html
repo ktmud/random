@@ -71,8 +71,6 @@
   .controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:14px;color:var(--muted)}
   .controls label{display:flex;align-items:center;gap:8px;flex:1 1 220px;min-width:200px}
   input[type=range]{flex:1;accent-color:var(--accent);min-width:90px}
-  /* 偏角滑块反向:向右滑 = δ 变小 = 面积更省,与叙事趋势一致 */
-  #relayDelta,#palDelta{direction:rtl}
   .btn{
     font:inherit;font-size:14px;border:1px solid var(--line);background:#fff;color:var(--ink);
     border-radius:99px;padding:5px 16px;cursor:pointer;flex:none;
@@ -285,8 +283,8 @@
       <canvas id="pal" class="viz" data-aspect="0.42" aria-label="帕尔平移技巧动画"></canvas>
       <div class="controls">
         <button class="btn" id="palPlay" aria-pressed="true">⏸ 暂停</button>
-        <label>偏转角度
-          <input type="range" id="palDelta" min="0.5" max="10" step="0.5" value="4" aria-label="偏转角度(度)">
+        <label>偏转角度(大→小)
+          <input type="range" id="palDelta" min="0.5" max="10" step="0.5" value="6.5" aria-label="偏转角度(度),向右变小">
           <span class="readout"><b id="palDeltaV">4°</b></span>
         </label>
         <span class="readout">扫过 <b id="palArea">0.070</b> ,是直接横移的 <b id="palRatio">1/5</b></span>
@@ -304,8 +302,8 @@
       <canvas id="relay" class="viz" data-aspect="0.62" aria-label="佩龙树内针的接力调头动画"></canvas>
       <div class="controls">
         <button class="btn" id="relayPlay" aria-pressed="true">⏸ 暂停</button>
-        <label>接力偏角 δ
-          <input type="range" id="relayDelta" min="2" max="12" step="0.5" value="6" aria-label="接力偏角(度)">
+        <label>接力偏角 δ(大→小)
+          <input type="range" id="relayDelta" min="2" max="12" step="0.5" value="8" aria-label="接力偏角(度),向右变小">
           <span class="readout"><b id="relayDeltaV">6°</b></span>
         </label>
         <span class="readout">第 <b id="relayStep">1</b>/8 条 · 已转 <b id="relayAngle">0°</b></span>
@@ -924,16 +922,19 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   const D = 0.35; // 目标平行线距离(针长单位)
   const deltaInput = $("palDelta");
   const PERIOD = 7000;
+  // 滑块从大到小:显示值 = min+max − 原始值(向右滑 = 偏角变小)
+  const palDeg = () => 10.5 - parseFloat(deltaInput.value);
 
   function params() {
-    const delta = parseFloat(deltaInput.value) * Math.PI / 180;
+    const delta = palDeg() * Math.PI / 180;
     const L = D / Math.sin(delta); // 沿针方向滑行距离
     return { delta, L };
   }
   function updateReadout() {
     const { delta } = params();
     const swept = delta; // 两个扇形:2 × δ/2 × 1²
-    $("palDeltaV").textContent = deltaInput.value + "°";
+    $("palDeltaV").textContent = palDeg().toFixed(1).replace(/\.0$/, "") + "°";
+    deltaInput.setAttribute("aria-valuetext", palDeg() + "度");
     $("palArea").textContent = swept.toFixed(3);
     $("palRatio").textContent = "1/" + Math.max(1, Math.round(D / swept));
   }
@@ -1030,11 +1031,13 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   const uDir = (phi) => [Math.sin(phi), -Math.cos(phi)];
   const HOLD = 2000, FAN_T = 700, TILT_T = 280, SLIDE_T = 470, HOME_T = 300;
   const deltaInput = $("relayDelta");
+  // 滑块从大到小:显示值 = min+max − 原始值(向右滑 = 偏角变小)
+  const relDeg = () => 14 - (+deltaInput.value);
   const ease = (u) => u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
 
   let plan = [], total = HOLD, world = null;
   function buildPlan() {
-    const delta = (+deltaInput.value) * Math.PI / 180;
+    const delta = relDeg() * Math.PI / 180;
     plan = []; total = 0;
     const pts = [];
     tris.forEach(T => pts.push(...T));
@@ -1087,7 +1090,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     ctx.clearRect(0, 0, w, h);
     const cycle = Math.floor(t / total);
     const tms = t % total;
-    const dv = +deltaInput.value;
+    const dv = relDeg();
     if (sw.cycle !== cycle || sw.w !== w || sw.h !== h || sw.delta !== dv) {
       sw.cycle = cycle; sw.w = w; sw.h = h; sw.delta = dv;
       sw.buf.width = Math.max(1, Math.round(w));
@@ -1148,7 +1151,8 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   });
   bindPlayBtn($("relayPlay"), anim);
   deltaInput.addEventListener("input", () => {
-    $("relayDeltaV").textContent = (+deltaInput.value).toFixed(1).replace(/\.0$/, "") + "°";
+    $("relayDeltaV").textContent = relDeg().toFixed(1).replace(/\.0$/, "") + "°";
+    deltaInput.setAttribute("aria-valuetext", relDeg() + "度");
     buildPlan();
     anim.t = 0;
     anim.drawOnce();
