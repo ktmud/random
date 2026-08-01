@@ -79,7 +79,7 @@
   .btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
   .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
   .tabs .btn{font-size:13.5px;display:inline-flex;align-items:center;gap:5px}
-  .shape-ic{width:14px;height:14px;flex:none;display:block}
+  .shape-ic{width:14px;height:14px;flex:none;display:block;opacity:.55}
   @media (max-width:520px){
     .tabs{gap:5px}
     .tabs .btn{font-size:11.5px;padding:4px 7px;gap:3px}
@@ -139,7 +139,7 @@
   /* 准确定义卡 */
   .defbox{background:var(--card);border:1.5px solid var(--blue);border-radius:16px;padding:6px 22px 8px;margin:30px 0;box-shadow:0 2px 14px rgba(51,88,155,.08)}
   .def-head{font-family:var(--serif);font-weight:700;font-size:18px;padding:16px 0 10px}
-  .def-row{display:grid;grid-template-columns:3.4em 1fr;gap:14px;padding:13px 0;border-top:1px dashed var(--line);font-size:15.5px;line-height:1.95}
+  .def-row{display:grid;grid-template-columns:3.9em 1fr;gap:14px;padding:13px 0;border-top:1px dashed var(--line);font-size:15.5px;line-height:1.95}
   .def-k{font-family:var(--serif);font-weight:700;color:var(--blue);letter-spacing:.18em;padding-top:2px}
   .def-row.key .def-k{color:var(--accent)}
   .def-row .mutline{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.7}
@@ -392,6 +392,17 @@
       <div class="tl-item major"><div class="tl-year">2025 年 2 月</div><p><b>王虹</b>(时任纽约大学库朗研究所教授)与 <b>Joshua Zahl</b>(英属哥伦比亚大学)发布 127 页论文:三维挂谷猜想<b>成立</b>。陶哲轩当天撰长文解读,称之为几何测度论的「惊人进展」(spectacular progress);《量子杂志》的标题是——<b>「百年一遇的证明」</b>。</p></div>
       <div class="tl-item gold"><div class="tl-year">2026 年 7 月</div><p>王虹在费城国际数学家大会上获<b>菲尔兹奖</b>。</p></div>
     </div>
+
+    <h3>他们究竟是怎么证的?(听得懂的版本)</h3>
+    <p>127 页的证明无法在这里复原,但作战思路可以讲清楚——那是一场跨越所有尺度的<em class="hl">排除法</em>:</p>
+    <div class="defbox">
+      <div class="def-row"><span class="def-k">换问法</span><div><b>把针换成面条。</b>无限细的针没有体积可谈,数学家改问:给每个方向配一根粗细为 δ 的细管,所有细管叠在一起,总体积最小是多少?挂谷猜想等价于:无论 δ 多细,总体积都不能太小。想省体积,唯一的办法就是让细管们<b>疯狂重叠</b>——所以真正要证明的是:重叠不可能狠到那个程度。</div></div>
+      <div class="def-row"><span class="def-k">画像</span><div><b>给「想变小的集合」画像。</b>王虹与 Zahl 证明了一个结构定理:假如真存在异常小的挂谷集合,用「望远镜」在一层层尺度上看,它绝不能是随意的——细管必须一束束<b>抱团</b>,凝聚成颗粒与薄板;而且粗尺度上的抱团方式,必须在更细的尺度上<b>自我复制</b>。这种跨尺度自我复制的结构,行话叫「黏性」(sticky)。</div></div>
+      <div class="def-row"><span class="def-k">两头堵</span><div>2022 年,他们已经证明:<b>黏性的挂谷集合不可能小</b>(时间线上那决定性的一步)。2025 年的新武器——一整套关于「凸体并集的体积估计」的定理(论文标题正来自于此)——把另一头也堵死:<b>任何想变小的集合,都会被逼进黏性结构</b>。</div></div>
+      <div class="def-row key"><span class="def-k">将军</span><div>想变小 ⟹ 必须黏性;黏性 ⟹ 不可能小。<b>矛盾。</b>所以异常小的三维挂谷集合根本不存在——维度必须是整整 3。像一场排除法审讯:先证明嫌疑人必须长成某个样子,再证明长成那样的人并不存在。</div></div>
+    </div>
+    <p>整个论证要在无穷多个尺度层级上做归纳,每一层都不能让体积「漏走」——这正是之前一百年里所有尝试倒下的地方,也是这个证明被称为「百年一遇」的原因。</p>
+
     <div class="fields">
       <div class="medal">🏅</div>
       <h3>2026 年 7 月 23 日 · 费城</h3>
@@ -719,10 +730,10 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   // 形状选项卡 + 面积条(条同样可点:前四条切换形状,悬念条跳到第二章)
   // 图标描边用 currentColor:未选中为墨色、悬停变红、选中(深底)自动变白
   const ICONS = [
-    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>',
-    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2.4 A8.8 8.8 0 0 1 11.4 10 A8.8 8.8 0 0 1 2.6 10 A8.8 8.8 0 0 1 7 2.4 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
-    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2.6 L12 11 H2 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
-    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.6 Q8.1 6.9 12.4 11 Q7 9.3 1.6 11 Q5.9 6.9 7 1.6 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>',
+    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2.4 A8.8 8.8 0 0 1 11.4 10 A8.8 8.8 0 0 1 2.6 10 A8.8 8.8 0 0 1 7 2.4 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>',
+    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2.6 L12 11 H2 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>',
+    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.6 Q8.1 6.9 12.4 11 Q7 9.3 1.6 11 Q5.9 6.9 7 1.6 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>',
   ];
   const tabs = $("shapeTabs"), barsEl = $("areaBars");
   function selectShape(i) { cur = i; anim.t = 0; sw.shape = -1; renderTabs(); renderBars(); anim.drawOnce(); anim.kick(); }
