@@ -147,6 +147,11 @@
 
   /* 盒子计数 */
   .boxgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media (max-width:640px){
+    .duo{grid-template-columns:1fr}
+    .duo canvas.viz{max-width:300px;margin:0 auto}
+  }
   @media (max-width:640px){
     .boxgrid{grid-template-columns:1fr;gap:18px}
     .boxcell canvas.viz{max-width:270px;margin:0 auto}
@@ -408,7 +413,27 @@
     </div>
   </div>
   <div class="wrap">
-    <p>三维为什么难?因为细针可以在空间里互相「错身而过」:压缩这里,别处就鼓起来;各种压缩方案彼此纠缠,谁也不知道极限在哪。数学家们围攻了几十年,每前进 0.1 维都要发明全新的工具:</p>
+    <p class="lead">三维为什么难了一百年?先看二维为什么「相对简单」。</p>
+    <p>平面上,两条方向不同的直线<em class="hl">必定相交</em>——纸面就这么大,谁也躲不开谁。所以平面挂谷集里,不同方向的针被迫互相穿插、共享地盘;这种「被迫的重叠」给了数学家结实的抓手,戴维斯 1971 年的证明正是踩着它完成的。</p>
+    <p>而三维空间多出来的那一个维度,恰好是给针用来<em class="hl">躲</em>的:</p>
+  </div>
+  <div class="wide">
+    <div class="demo">
+      <div class="demo-title"><span class="tag">看明白</span><span class="name">躲不开,与躲得开</span></div>
+      <div class="demo-sub">左:平面上两条方向不同的直线,无论怎么转,<b>交点</b>(红点)都躲不掉。右:三维中两条方向不同的直线可以一上一下地「异面」错开——虚线是两者的最近距离,<b>始终大于零</b>。拖动右图可换视角。</div>
+      <div class="duo">
+        <div class="boxcell"><canvas id="skew2d" class="viz" data-aspect="0.8" aria-label="平面上两条直线必然相交的动画"></canvas><div class="cap"><b>平面</b>:方向不同 ⇒ <b style="color:var(--accent)">必然相交</b></div></div>
+        <div class="boxcell"><canvas id="skew3d" class="viz" data-aspect="0.8" aria-label="三维中两条异面直线擦肩而过(可拖动)"></canvas><div class="cap"><b>三维</b>:可以「异面」——<b style="color:var(--blue)">擦肩而过,永不接触</b></div></div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="skewPlay" aria-pressed="true">⏸ 暂停</button>
+        <span class="readout" style="border:none;background:none">💡 右图可用手指或鼠标拖动</span>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p>于是三维挂谷集里的细针获得了避让的自由,可以精巧地编排出各种「互不打扰」的方案。要证明的却是反过来的事:<b>躲得再巧,也躲不干净</b>——这正是三维挂谷猜想的难点。</p>
+    <p>数学家的每一寸进展,都用「维度」丈量。把上一章的数格子游戏搬进三维(小方格换成小方块):边长减半后,块数 ×2 的是线、×4 的是面、<b>×8 的才是「体」</b>。沃尔夫 1995 年证明:三维挂谷集的块数至少按 ×5.66(= 2<sup>2.5</sup>,也就是「2.5 维」)的速度增长——比任何曲面都「厚」,可离满满的 3 维还差着最后的 0.5。此后三十年,全世界的调和分析学家就悬在这半个维度上,每前进 0.1 维都要发明全新的工具:</p>
     <div class="timeline">
       <div class="tl-item"><div class="tl-year">1917</div><p>挂谷宗一提出转针问题。</p></div>
       <div class="tl-item"><div class="tl-year">1928</div><p>贝西科维奇:面积可以任意小;存在零面积的挂谷集合。</p></div>
@@ -1484,6 +1509,99 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   const io = new IntersectionObserver((es) => { if (es.some(e => e.isIntersecting)) draw(); }, { rootMargin: "80px" });
   io.observe(grid);
   addEventListener("resize", draw);
+}
+
+/* ============================================================
+   第四章 A:躲不开(平面)与躲得开(三维异面直线)
+============================================================ */
+{
+  const cv2 = $("skew2d"), cv3 = $("skew3d");
+
+  // 平面:两条方向不同的直线,交点用克莱姆法则实时求解
+  const anim2d = makeAnim(cv2, (t) => {
+    const { ctx, w, h } = fitCanvas(cv2);
+    ctx.clearRect(0, 0, w, h);
+    const unit = Math.min(w, h) / 2.3, cx = w / 2, cy = h / 2;
+    const X = (p) => cx + p[0] * unit, Y = (p) => cy - p[1] * unit;
+    const a = 0.4 + t * 0.00013;
+    const b = a + Math.PI * (47 + 18 * Math.sin(t * 0.00021)) / 180;
+    const A = [-0.25, -0.06], Bp = [0.25, 0.06];
+    const da = [Math.cos(a), Math.sin(a)], db = [Math.cos(b), Math.sin(b)];
+    const cross = da[0] * db[1] - da[1] * db[0];
+    const dx = Bp[0] - A[0], dy = Bp[1] - A[1];
+    const sPar = (dx * db[1] - dy * db[0]) / cross;
+    const P = [A[0] + sPar * da[0], A[1] + sPar * da[1]];
+    ctx.lineCap = "round";
+    ctx.strokeStyle = C.blue; ctx.lineWidth = 2.6;
+    ctx.beginPath(); ctx.moveTo(X([A[0] - da[0] * 3, A[1] - da[1] * 3]), Y([A[0] - da[0] * 3, A[1] - da[1] * 3]));
+    ctx.lineTo(X([A[0] + da[0] * 3, A[1] + da[1] * 3]), Y([A[0] + da[0] * 3, A[1] + da[1] * 3])); ctx.stroke();
+    ctx.strokeStyle = C.gold;
+    ctx.beginPath(); ctx.moveTo(X([Bp[0] - db[0] * 3, Bp[1] - db[1] * 3]), Y([Bp[0] - db[0] * 3, Bp[1] - db[1] * 3]));
+    ctx.lineTo(X([Bp[0] + db[0] * 3, Bp[1] + db[1] * 3]), Y([Bp[0] + db[0] * 3, Bp[1] + db[1] * 3])); ctx.stroke();
+    // 交点:脉冲红点
+    const r = 4.5 + 1.5 * Math.sin(t * 0.006);
+    ctx.fillStyle = C.accent;
+    ctx.beginPath(); ctx.arc(X(P), Y(P), r, 0, TAU); ctx.fill();
+    ctx.strokeStyle = "rgba(188,63,30,.35)"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(X(P), Y(P), r + 5, 0, TAU); ctx.stroke();
+  });
+
+  // 三维:异面直线,虚线为公垂线段(最近距离)
+  let yaw3 = 0.7, pitch3 = 0.35, drag3 = null, last3 = 0;
+  cv3.addEventListener("pointerdown", (e) => { drag3 = [e.clientX, e.clientY]; cv3.setPointerCapture(e.pointerId); });
+  cv3.addEventListener("pointermove", (e) => {
+    if (!drag3) return;
+    yaw3 += (e.clientX - drag3[0]) * 0.008;
+    pitch3 = Math.max(-1.2, Math.min(1.2, pitch3 + (e.clientY - drag3[1]) * 0.008));
+    drag3 = [e.clientX, e.clientY];
+    if (anim3d.userPaused) anim3d.drawOnce();
+  });
+  cv3.addEventListener("pointerup", () => drag3 = null);
+  cv3.addEventListener("pointercancel", () => drag3 = null);
+  const anim3d = makeAnim(cv3, (t) => {
+    const { ctx, w, h } = fitCanvas(cv3);
+    ctx.clearRect(0, 0, w, h);
+    const unit = Math.min(w, h) * 0.52, cx = w / 2, cy = h / 2;
+    const dt3 = Math.min(t - last3, 100); last3 = t;
+    if (!drag3) yaw3 += dt3 * 0.0001;
+    const cyw = Math.cos(yaw3), syw = Math.sin(yaw3), cp = Math.cos(pitch3), sp = Math.sin(pitch3);
+    const proj = (v) => {
+      const x1 = v[0] * cyw + v[2] * syw, z1 = -v[0] * syw + v[2] * cyw;
+      const y2 = v[1] * cp - z1 * sp;
+      return [cx + x1 * unit, cy - y2 * unit];
+    };
+    ctx.lineCap = "round";
+    // 蓝线:沿 x 方向,悬在 z=+0.28;金线:沿 y 方向,沉在 z=−0.28
+    const a0 = proj([-0.85, 0, 0.28]), a1 = proj([0.85, 0, 0.28]);
+    const b0 = proj([0, -0.85, -0.28]), b1 = proj([0, 0.85, -0.28]);
+    ctx.strokeStyle = C.gold; ctx.lineWidth = 2.6;
+    ctx.beginPath(); ctx.moveTo(b0[0], b0[1]); ctx.lineTo(b1[0], b1[1]); ctx.stroke();
+    // 公垂线段(最近距离)
+    const m0 = proj([0, 0, 0.28]), m1 = proj([0, 0, -0.28]);
+    ctx.setLineDash([5, 5]);
+    ctx.strokeStyle = C.accent; ctx.lineWidth = 1.8;
+    ctx.beginPath(); ctx.moveTo(m0[0], m0[1]); ctx.lineTo(m1[0], m1[1]); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.strokeStyle = C.blue; ctx.lineWidth = 2.6;
+    ctx.beginPath(); ctx.moveTo(a0[0], a0[1]); ctx.lineTo(a1[0], a1[1]); ctx.stroke();
+    for (const [pt, col] of [[m0, C.blue], [m1, C.gold]]) {
+      ctx.fillStyle = col;
+      ctx.beginPath(); ctx.arc(pt[0], pt[1], 3.4, 0, TAU); ctx.fill();
+    }
+  });
+
+  // 一个按钮同时控制两个面板
+  const bp = $("skewPlay");
+  const syncBtn = () => {
+    bp.textContent = anim2d.userPaused ? "▶ 播放" : "⏸ 暂停";
+    bp.setAttribute("aria-pressed", String(!anim2d.userPaused));
+  };
+  bp.addEventListener("click", () => {
+    const v = !anim2d.userPaused;
+    anim2d.userPaused = anim3d.userPaused = v;
+    syncBtn(); anim2d.kick(); anim3d.kick();
+  });
+  syncBtn();
 }
 
 /* ============================================================
