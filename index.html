@@ -71,6 +71,8 @@
   .controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:14px;color:var(--muted)}
   .controls label{display:flex;align-items:center;gap:8px;flex:1 1 220px;min-width:200px}
   input[type=range]{flex:1;accent-color:var(--accent);min-width:90px}
+  /* 偏角滑块反向:向右滑 = δ 变小 = 面积更省,与叙事趋势一致 */
+  #relayDelta,#palDelta{direction:rtl}
   .btn{
     font:inherit;font-size:14px;border:1px solid var(--line);background:#fff;color:var(--ink);
     border-radius:99px;padding:5px 16px;cursor:pointer;flex:none;
