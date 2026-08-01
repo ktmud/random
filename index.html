@@ -95,7 +95,7 @@
   }
   .readout b{color:var(--accent)}
   /* 动态数字按最宽值预留宽度,避免动画中胶囊变宽、换行跳动 */
-  #shapesAngle,#perronArea,#perronDirV,#relayAngle,#copiesAngle{display:inline-block;min-width:2.6em;text-align:right}
+  #shapesAngle,#perronArea,#perronDirV,#perronApexV,#relayAngle,#copiesAngle{display:inline-block;min-width:2.6em;text-align:right}
   #shapesSwept,#relayArea{display:inline-block;min-width:2.9em;text-align:right}
   #palDeltaV,#relayDeltaV{display:inline-block;min-width:2.3em;text-align:right}
   .readout .mut{color:var(--muted);font-weight:400}
@@ -256,12 +256,16 @@
   <div class="wide">
     <div class="demo">
       <div class="demo-title"><span class="tag">动手玩</span><span class="name">佩龙树:切碎、平移、叠放</span></div>
-      <div class="demo-sub">拖动「切分次数」,看面积如何被「折叠」掉;再拖动「针的方向」,验证任何方向的针都还躺在图形里。</div>
+      <div class="demo-sub">拖动「切分次数」,看面积如何被「折叠」掉;拖动「针的方向」,验证任何方向的针都还躺在图形里;再试试「三角形顶角」——<b>树能装下的方向范围,恰好就是初始三角形的顶角</b>。</div>
       <canvas id="perron" class="viz" data-aspect="0.56" aria-label="佩龙树构造动画"></canvas>
       <div class="controls">
         <label>切分次数
           <input type="range" id="perronK" min="0" max="7" step="1" value="0" aria-label="切分次数">
           <span class="readout"><b id="perronN">1</b> 块</span>
+        </label>
+        <label>三角形顶角
+          <input type="range" id="perronApex" min="30" max="90" step="1" value="53" aria-label="初始三角形顶角(度)">
+          <span class="readout"><b id="perronApexV">53°</b></span>
         </label>
         <label>针的方向
           <input type="range" id="perronDir" min="-26" max="26" step="0.5" value="0" aria-label="针的方向(度)">
@@ -324,7 +328,7 @@
         <button class="btn" id="copiesPlay" aria-pressed="true">⏸ 暂停</button>
         <span class="readout">方向 <b id="copiesAngle">0°</b> · 第 <b id="copiesN">1</b> 份值班</span>
       </div>
-      <div class="fineprint">「53°」从哪来?佩龙树只会切碎和平移,而平移不改方向——所以树能装的方向,就是最初那个三角形里「顶点连向底边各点」的方向范围,恰好等于三角形的<b>顶角</b>:底 1、高 1 ⇒ 2·arctan(½) ≈ 53°。把三角形做宽能装更多,但永远到不了 180°(方向越接近水平,底边就得越长,180° 需要无限长的底)——所以旋转拷贝不可省,只是份数可多可少。四份拷贝的总面积至多是单份的四倍——任意小的四倍,依旧任意小。至此,调头的完整路线凑齐:条内旋转 + 条间接力 + 份间轮换。</div>
+      <div class="fineprint">「53°」就是佩龙树初始三角形的顶角(底 1、高 1 ⇒ 2·arctan(½) ≈ 53°)——回到上面的佩龙树演示,拖动「三角形顶角」滑块即可亲自验证:能装的方向范围恰好随顶角变化。但无论把三角形做多宽,都到不了 180°(那需要无限宽的底)——所以旋转拷贝不可省,只是份数可多可少。四份拷贝的总面积至多是单份的四倍——任意小的四倍,依旧任意小。至此,调头的完整路线凑齐:条内旋转 + 条间接力 + 份间轮换。</div>
     </div>
   </div>
   <div class="wrap">
@@ -820,29 +824,41 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
 {
   const cv = $("perron");
   const ALPHA = 0.42;
-  const kInput = $("perronK"), dirInput = $("perronDir");
-  let k = 0, animU = 1, animating = false, prevT = 0;
+  const kInput = $("perronK"), dirInput = $("perronDir"), apexInput = $("perronApex");
+  let k = 0, B = 1, animU = 1, animating = false, prevT = 0;
+
+  // 底宽 B 由顶角决定(高恒为 1):B = 2·tan(顶角/2);方向容量 = ±顶角/2
+  function applyApex() {
+    const deg = +apexInput.value;
+    B = 2 * Math.tan(deg / 2 * Math.PI / 180);
+    const half = deg / 2;
+    dirInput.min = String(-half);
+    dirInput.max = String(half);
+    $("perronApexV").textContent = deg + "°";
+    $("perronDirV").textContent = (+dirInput.value).toFixed(1).replace(/\.0$/, "") + "°";
+  }
 
   function shiftOf(i, k) {
     const N = 1 << k;
     let sh = 0;
-    for (let s = 1; s <= k; s++) if ((i >> (s - 1)) & 1) sh += (1 - ALPHA) * (1 << (s - 1)) / N;
+    for (let s = 1; s <= k; s++) if ((i >> (s - 1)) & 1) sh += (1 - ALPHA) * (1 << (s - 1)) / N * B;
     return sh;
   }
   function triangles(k, u) { // u∈[0,1] 平移动画进度
     const N = 1 << k, out = [];
     for (let i = 0; i < N; i++) {
       const sh = shiftOf(i, k) * u;
-      out.push([[i / N - sh, 0], [(i + 1) / N - sh, 0], [0.5 - sh, 1]]);
+      out.push([[i * B / N - sh, 0], [(i + 1) * B / N - sh, 0], [B / 2 - sh, 1]]);
     }
     return out;
   }
 
-  // 逐像素实测面积(相对 k=0)
-  const areaCache = [];
+  // 逐像素实测面积(相对 k=0;按顶角+切分数缓存)
+  const areaCache = new Map();
   function measureArea(k) {
-    if (areaCache[k] !== undefined) return areaCache[k];
-    const W = 1400, H = 900, off = document.createElement("canvas");
+    const key = apexInput.value + ":" + k;
+    if (areaCache.has(key)) return areaCache.get(key);
+    const W = 1000, H = 640, off = document.createElement("canvas");
     off.width = W; off.height = H;
     const c = off.getContext("2d", { willReadFrequently: true });
     const tris = triangles(k, 1);
@@ -858,8 +874,9 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     const data = c.getImageData(0, 0, W, H).data;
     let n = 0;
     for (let i = 3; i < data.length; i += 4) if (data[i] > 127) n++;
-    areaCache[k] = n / (sc * sc); // 单位:初始三角形高=1 的坐标系
-    return areaCache[k];
+    const val = n / (sc * sc); // 单位:初始三角形高=1 的坐标系
+    areaCache.set(key, val);
+    return val;
   }
 
   const anim = makeAnim(cv, (t) => {
@@ -871,8 +888,12 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       if (animU >= 1) { animating = false; anim.userPaused = true; }
     }
     const eased = 1 - Math.pow(1 - animU, 3);
-    const pad = 22, unit = Math.min((w - pad * 2) / 1.34, (h - pad * 2 - 14));
-    const ox = pad + unit * 0.24, oy = h - pad;
+    // 视口按最终形态(u=1)+ 原三角形 [0,B] 取包围盒,动画过程中不晃动
+    let bx0 = 0, bx1 = B;
+    for (const T of triangles(k, 1)) for (const p of T) { bx0 = Math.min(bx0, p[0]); bx1 = Math.max(bx1, p[0]); }
+    const pad = 22, unit = Math.min((w - pad * 2) / (bx1 - bx0), (h - pad * 2 - 14));
+    const ox = pad - bx0 * unit + (w - pad * 2 - (bx1 - bx0) * unit) / 2;
+    const oy = h - pad;
     const X = (x) => ox + x * unit, Y = (y) => oy - y * unit;
 
     // 地平线 + 原三角形轮廓(虚线)
@@ -880,7 +901,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     ctx.beginPath(); ctx.moveTo(0, oy + .5); ctx.lineTo(w, oy + .5); ctx.stroke();
     ctx.setLineDash([5, 5]);
     ctx.strokeStyle = "#c9bfa9";
-    ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(1), Y(0)); ctx.lineTo(X(0.5), Y(1)); ctx.closePath(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(B), Y(0)); ctx.lineTo(X(B / 2), Y(1)); ctx.closePath(); ctx.stroke();
     ctx.setLineDash([]);
 
     const tris = triangles(k, eased);
@@ -893,13 +914,13 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       if (strokeToo) { ctx.strokeStyle = "rgba(255,255,255,.75)"; ctx.lineWidth = 1; ctx.stroke(); }
     }
 
-    // 方向针:φ ∈ [−26.5°, 26.5°],落在覆盖该方向的细条里
+    // 方向针:φ ∈ [−顶角/2, +顶角/2],落在覆盖该方向的细条里
     const phi = parseFloat(dirInput.value) * Math.PI / 180;
     const N = 1 << k;
-    const xb = 0.5 + Math.tan(phi);
-    const i = Math.min(N - 1, Math.max(0, Math.floor(xb * N)));
+    const xb = B / 2 + Math.tan(phi);
+    const i = Math.min(N - 1, Math.max(0, Math.floor(xb / B * N)));
     const sh = shiftOf(i, k) * eased;
-    const apex = [0.5 - sh, 1];
+    const apex = [B / 2 - sh, 1];
     const dvec = [Math.sin(phi), -Math.cos(phi)];
     // 高亮所在细条
     const T = tris[i];
@@ -947,10 +968,21 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     }
   }
   kInput.addEventListener("input", () => refresh(true));
+  let apexBarsTimer = 0;
+  apexInput.addEventListener("input", () => {
+    applyApex();
+    k = parseInt(kInput.value, 10);
+    const rel = measureArea(k) / measureArea(0);
+    $("perronArea").textContent = (rel * 100).toFixed(0) + "%";
+    animU = 1; animating = false; anim.drawOnce();
+    clearTimeout(apexBarsTimer);
+    apexBarsTimer = setTimeout(() => renderPerronBars(), 250); // 8 档实测延迟到拖动停稳
+  });
   dirInput.addEventListener("input", () => {
     $("perronDirV").textContent = (+dirInput.value).toFixed(1).replace(/\.0$/, "") + "°";
     anim.drawOnce();
   });
+  applyApex();
   // 逐像素测量延迟到浏览器空闲期,不阻塞首屏
   (window.requestIdleCallback || ((fn) => setTimeout(fn, 200)))(() => refresh(false), { timeout: 600 });
 }
