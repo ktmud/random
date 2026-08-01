@@ -146,8 +146,17 @@
   @media (max-width:520px){.def-row{grid-template-columns:1fr;gap:2px;padding:12px 0}}
 
   /* 盒子计数 */
-  .boxgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  @media (max-width:640px){.boxgrid{grid-template-columns:1fr}}
+  .boxgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+  @media (max-width:640px){
+    .boxgrid{grid-template-columns:1fr;gap:18px}
+    .boxcell canvas.viz{max-width:270px;margin:0 auto}
+    /* 面板纵向很长,滑块吸顶悬浮,滚动时随手可调 */
+    #boxControls{
+      position:sticky;top:8px;z-index:6;margin-top:2px;
+      background:var(--card);border:1px solid var(--line);border-radius:12px;
+      padding:8px 12px;box-shadow:0 3px 14px rgba(90,75,45,.14);
+    }
+  }
   .boxcell{text-align:center}
   .boxcell .cap{font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.6}
   .boxcell .dim{font-size:15px;font-variant-numeric:tabular-nums;margin-top:2px}
@@ -354,13 +363,13 @@
     <div class="demo">
       <div class="demo-title"><span class="tag">动手玩</span><span class="name">数格子,量维度</span></div>
       <div class="demo-sub">拖动滑块细化网格,数一数每个图形占了多少格(高亮显示)。注意「贝西科维奇式集合」那一格:面积一直在流失,格子数的增长速度却和实心方块几乎一样快。</div>
-      <div class="boxgrid" id="boxGrid"></div>
-      <div class="controls">
+      <div class="controls" id="boxControls">
         <label>网格精细度
           <input type="range" id="boxM" min="0" max="3" step="1" value="1" aria-label="网格精细度">
           <span class="readout"><b id="boxMV">16 × 16</b></span>
         </label>
       </div>
+      <div class="boxgrid" id="boxGrid"></div>
       <div class="fineprint">「维度 ≈」由相邻两档格子数的倍率折算(×2 ≈ 1 维,×4 ≈ 2 维)。真正的维度定义在无限细分的极限下;右图取的是第二章佩龙树的有限步构造,故估值略低于 2。</div>
     </div>
   </div>
