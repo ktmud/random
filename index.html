@@ -206,7 +206,7 @@
     <canvas id="hero" class="hero-canvas" aria-label="三尖摆线内旋转的针(动画)"></canvas>
     <div class="kicker">1917 — 2026</div>
     <h1>一根针的百年难题</h1>
-    <p class="subtitle">看懂<b>挂谷猜想</b>(Kakeya Conjecture)——<br>一个从「掉头要多大地方」开始的故事</p>
+    <p class="subtitle">看懂<b>挂谷猜想</b>(Kakeya Conjecture)——<br>一个从「调头要多大地方」开始的故事</p>
     <p class="hero-note">往下滑,亲手转一转这根针<span class="down">↓</span></p>
   </div>
 </header>
@@ -216,7 +216,7 @@
 <section id="ch1">
   <div class="wrap">
     <div class="chapnum">第 一 章</div>
-    <h2>转针问题:掉头最少要多大地方?</h2>
+    <h2>转针问题:调头最少要多大地方?</h2>
     <p class="lead">1917 年,日本数学家<b>挂谷宗一</b>提出了一个看似儿戏的问题:</p>
     <p class="lead">平面上有一根长度为 1 的针——一条<em class="hl">粗细为零</em>的线段。要让它<em class="hl">原地调头</em>(转过 180°),它扫过的「场地」面积,最小可以是多少?</p>
     <p>最老实的做法:让针绕中心转一圈,场地是个圆。聪明一点,可以借助各种巧妙的形状,让场地一步步变小。点击下面的形状,看针是怎么转的:</p>
@@ -318,7 +318,7 @@
   <div class="wide">
     <div class="demo">
       <div class="demo-title"><span class="tag">看明白</span><span class="name">最后一步:四份拷贝,拼满 180°</span></div>
-      <div class="demo-sub">把整棵佩龙树各旋转 45°、90°、135°,得到四份拷贝,每份负责 180° 中的一段(树能装 53°,比 45° 宽,绰绰有余)。看左边的方向表盘:针的方向转到哪一段,右边哪份拷贝就「值班」——针就躺在它的某根细条里。份与份之间的衔接,照旧是帕尔机动。</div>
+      <div class="demo-sub">把整棵佩龙树旋转到四个不同的角度,得到四份拷贝,每份负责 180° 中的一段(树能装 53°,比每段的 45° 宽,绰绰有余)。看方向表盘:针的方向转到哪一段,哪份拷贝就「值班」亮起——针就躺在它的某根细条里。份与份之间的衔接,照旧是帕尔机动。</div>
       <canvas id="copies" class="viz" data-aspect="0.5" aria-label="四份旋转拷贝覆盖 180 度方向的演示"></canvas>
       <div class="controls">
         <button class="btn" id="copiesPlay" aria-pressed="true">⏸ 暂停</button>
@@ -329,7 +329,7 @@
   </div>
   <div class="wrap">
     <p>切得更细、偏角更小,总面积就能压到任意小——挂谷的问题就此有了答案,却是一个没有终点的答案。</p>
-    <div class="takeaway"><span class="tk">结 论 一</span>
+    <div class="takeaway"><span class="tk">结 论</span>
       连续调头:面积可以<b>任意小</b>,但不能恰好为零。<br>
       若只要求「每个方向都躺着一根完整的针」、不要求转动过程:存在<b>面积恰好为零</b>的集合——数学家称之为<b>贝西科维奇集合</b>(也叫挂谷集合)。
     </div>
@@ -344,12 +344,12 @@
     <div class="chapnum">第 三 章</div>
     <h2>面积为零,却「瘦」不下去</h2>
     <p class="lead">面积为零,听上去像是「什么都不剩」。但数学家有更精细的尺子:<b>维度</b>。</p>
-    <p>量法很朴素:用越来越小的方格去覆盖一个图形,数一数需要多少格。<b>把方格边长缩小一半</b>:盖一条曲线,格子数大约翻 <b>2 倍</b>——它是 1 维的;盖一块实心区域,格子数翻 <b>4 倍</b>——它是 2 维的。翻倍的速度介于两者之间,就是介于 1 和 2 之间的「分数维」。</p>
+    <p>量法很朴素:用越来越小的方格去覆盖一个图形,数一数需要多少格。<b>把方格边长缩小一半</b>:盖一条曲线,格子数大约变成原来的 <b>2 倍</b>——它是 1 维的;盖一块实心区域,格子数变成原来的 <b>4 倍</b>——它是 2 维的。增长的倍率介于两者之间,就是介于 1 和 2 之间的「分数维」。</p>
   </div>
   <div class="wide">
     <div class="demo">
       <div class="demo-title"><span class="tag">动手玩</span><span class="name">数格子,量维度</span></div>
-      <div class="demo-sub">拖动滑块细化网格,数一数每个图形占了多少格(高亮显示)。注意右侧的贝西科维奇式集合:面积一直在流失,格子数的增长速度却和实心方块几乎一样快。</div>
+      <div class="demo-sub">拖动滑块细化网格,数一数每个图形占了多少格(高亮显示)。注意「贝西科维奇式集合」那一格:面积一直在流失,格子数的增长速度却和实心方块几乎一样快。</div>
       <div class="boxgrid" id="boxGrid"></div>
       <div class="controls">
         <label>网格精细度
@@ -357,7 +357,7 @@
           <span class="readout"><b id="boxMV">16 × 16</b></span>
         </label>
       </div>
-      <div class="fineprint">「维度 ≈」由相邻两档格子数的倍率折算(翻 2 倍 ≈ 1 维,翻 4 倍 ≈ 2 维)。真正的维度定义在无限细分的极限下;右图取的是第二章佩龙树的有限步构造,故估值略低于 2。</div>
+      <div class="fineprint">「维度 ≈」由相邻两档格子数的倍率折算(×2 ≈ 1 维,×4 ≈ 2 维)。真正的维度定义在无限细分的极限下;右图取的是第二章佩龙树的有限步构造,故估值略低于 2。</div>
     </div>
   </div>
   <div class="wrap">
@@ -402,7 +402,7 @@
       <div class="tl-item"><div class="tl-year">1971</div><p>戴维斯证明平面挂谷猜想:2 维情形成立。</p></div>
       <div class="tl-item"><div class="tl-year">1995</div><p>沃尔夫(T. Wolff):三维挂谷集合维度至少 2.5。此后二十余年,人类被卡在 2.5 附近。</p></div>
       <div class="tl-item"><div class="tl-year">1999</div><p>卡茨、瓦巴、陶哲轩:把下界(按「数格子」意义下的维度)推进到 2.5000000001——每一位小数都是一场战役。</p></div>
-      <div class="tl-item"><div class="tl-year">2014</div><p>卡茨与陶哲轩提出「黏性」挂谷猜想,画出一张通往全面解决的路线图。</p></div>
+      <div class="tl-item"><div class="tl-year">2014</div><p>卡茨与陶哲轩提出「黏性」挂谷猜想——先攻克一类跨尺度自我复制的特殊情形(何为「黏性」,下文详解)——画出一张通往全面解决的路线图。</p></div>
       <div class="tl-item"><div class="tl-year">2022</div><p>王虹与 Zahl 联手证明「黏性」挂谷猜想——路线图上决定性的一步。</p></div>
       <div class="tl-item major"><div class="tl-year">2025 年 2 月</div><p><b>王虹</b>(时任纽约大学库朗研究所教授)与 <b>Joshua Zahl</b>(英属哥伦比亚大学)发布 127 页论文:三维挂谷猜想<b>成立</b>。陶哲轩当天撰长文解读,称之为几何测度论的「惊人进展」(spectacular progress);《量子杂志》的标题是——<b>「百年一遇的证明」</b>。</p></div>
       <div class="tl-item gold"><div class="tl-year">2026 年 7 月</div><p>王虹在费城国际数学家大会上获<b>菲尔兹奖</b>。</p></div>
@@ -502,7 +502,8 @@ function makeAnim(cv, render, { autoplay = true } = {}) {
     drawOnce() { render(a.t); }
   };
   a.step = a.step.bind(a);
-  const io = new IntersectionObserver(([e]) => {
+  const io = new IntersectionObserver((entries) => {
+    const e = entries[entries.length - 1];
     a.visible = e.isIntersecting;
     if (a.visible) { a.kick(); if (a.userPaused) a.drawOnce(); }
   }, { rootMargin: "60px" });
@@ -696,13 +697,24 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     const tau = Math.min((t % TOTAL) / PERIOD, 1); // 转满 180° 后停顿 HOLD 毫秒
     const flip = cycle % 2 === 1;                  // 每轮结束两端互换,颜色跟随物理端点
 
-    if (sw.shape !== cur || sw.cycle !== cycle || sw.w !== w || sw.h !== h) {
+    if (sw.shape !== cur || sw.cycle !== cycle) {
       sw.shape = cur; sw.cycle = cycle; sw.w = w; sw.h = h;
       sw.buf.width = Math.max(1, Math.round(w));
       sw.buf.height = Math.max(1, Math.round(h));
-      sw.prev = null; sw.frames = 0;
+      sw.prev = null; sw.frames = 0; sw.final = false;
       $("shapesSwept").textContent = "0.000";
+    } else if (sw.w !== w || sw.h !== h) {
+      // 转屏/缩放:把已扫过的区域等比迁移到新尺寸,计数不清零
+      const tmp = document.createElement("canvas");
+      tmp.width = sw.buf.width; tmp.height = sw.buf.height;
+      tmp.getContext("2d").drawImage(sw.buf, 0, 0);
+      sw.buf.width = Math.max(1, Math.round(w));
+      sw.buf.height = Math.max(1, Math.round(h));
+      const r = unit / sw.unit;
+      sw.bc.drawImage(tmp, cx - sw.cx * r, cy - sw.cy * r, tmp.width * r, tmp.height * r);
+      sw.w = w; sw.h = h; sw.prev = null; sw.final = false;
     }
+    sw.unit = unit; sw.cx = cx; sw.cy = cy;
 
     let n;
     if (cur === 3) {
@@ -724,11 +736,12 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       sw.bc.closePath(); sw.bc.fill();
     }
     sw.prev = [ax, ay, bx, by];
-    if ((sw.frames++ % 6 === 0 || tau >= 1) && unit > 0) {
+    if (unit > 0 && !sw.final && (sw.frames++ % 6 === 0 || tau >= 1)) {
       const d = sw.bc.getImageData(0, 0, sw.buf.width, sw.buf.height).data;
       let npx = 0;
       for (let i = 3; i < d.length; i += 4) if (d[i] > 127) npx++;
       $("shapesSwept").textContent = (npx / (unit * unit)).toFixed(3);
+      if (tau >= 1) sw.final = true; // 停顿期间不再重复整幅读取
     }
 
     // 区域 → 已扫过的阴影 → 针
@@ -751,14 +764,21 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.6 Q8.1 6.9 12.4 11 Q7 9.3 1.6 11 Q5.9 6.9 7 1.6 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>',
   ];
   const tabs = $("shapeTabs"), barsEl = $("areaBars");
-  function selectShape(i) { cur = i; anim.t = 0; sw.shape = -1; renderTabs(); renderBars(); anim.drawOnce(); anim.kick(); }
+  function selectShape(i) {
+    const fromTab = tabs.contains(document.activeElement);
+    const fromBar = barsEl.contains(document.activeElement);
+    cur = i; anim.t = 0; sw.shape = -1;
+    renderTabs(); renderBars();
+    if (fromTab && tabs.children[i]) tabs.children[i].focus();
+    else if (fromBar && barsEl.children[i]) barsEl.children[i].focus();
+    anim.drawOnce(); anim.kick();
+  }
   function renderTabs() {
     tabs.innerHTML = "";
     shapes.forEach((s, i) => {
       const b = document.createElement("button");
       b.className = "btn";
       b.innerHTML = ICONS[i] + "<span>" + s.name + "</span>";
-      b.setAttribute("role", "tab");
       b.setAttribute("aria-pressed", String(i === cur));
       b.onclick = () => selectShape(i);
       tabs.appendChild(b);
@@ -915,7 +935,12 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       row.setAttribute("role", "button");
       row.setAttribute("tabindex", "0");
       row.setAttribute("aria-label", `切分 ${j} 次(${1 << j} 块)`);
-      const go = () => { kInput.value = String(j); refresh(true); };
+      const go = () => {
+        const kb = el.contains(document.activeElement);
+        kInput.value = String(j);
+        refresh(true);
+        if (kb && el.children[j]) el.children[j].focus();
+      };
       row.onclick = go;
       row.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
       el.appendChild(row);
@@ -926,7 +951,8 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     $("perronDirV").textContent = (+dirInput.value).toFixed(1).replace(/\.0$/, "") + "°";
     anim.drawOnce();
   });
-  refresh(false);
+  // 逐像素测量延迟到浏览器空闲期,不阻塞首屏
+  (window.requestIdleCallback || ((fn) => setTimeout(fn, 200)))(() => refresh(false), { timeout: 600 });
 }
 
 /* ============================================================
@@ -1106,18 +1132,29 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     const cycle = Math.floor(t / total);
     const tms = t % total;
     const dv = relDeg();
-    if (sw.cycle !== cycle || sw.w !== w || sw.h !== h || sw.delta !== dv) {
-      sw.cycle = cycle; sw.w = w; sw.h = h; sw.delta = dv;
-      sw.buf.width = Math.max(1, Math.round(w));
-      sw.buf.height = Math.max(1, Math.round(h));
-      sw.prev = null; sw.frames = 0;
-      $("relayArea").textContent = "0.000";
-    }
     const pad = 16;
     const bw = world.x1 - world.x0, bh = world.y1 - world.y0;
     const unit = Math.min((w - pad * 2) / bw, (h - pad * 2) / bh);
     const ox = (w - bw * unit) / 2 - world.x0 * unit;
     const oy = (h + bh * unit) / 2 + world.y0 * unit;
+    if (sw.cycle !== cycle || sw.delta !== dv) {
+      sw.cycle = cycle; sw.w = w; sw.h = h; sw.delta = dv;
+      sw.buf.width = Math.max(1, Math.round(w));
+      sw.buf.height = Math.max(1, Math.round(h));
+      sw.prev = null; sw.frames = 0;
+      $("relayArea").textContent = "0.000";
+    } else if (sw.w !== w || sw.h !== h) {
+      // 转屏/缩放:迁移已扫过区域,计数不清零
+      const tmp = document.createElement("canvas");
+      tmp.width = sw.buf.width; tmp.height = sw.buf.height;
+      tmp.getContext("2d").drawImage(sw.buf, 0, 0);
+      sw.buf.width = Math.max(1, Math.round(w));
+      sw.buf.height = Math.max(1, Math.round(h));
+      const r = unit / sw.unit;
+      sw.bc.drawImage(tmp, ox - sw.ox * r, oy - sw.oy * r, tmp.width * r, tmp.height * r);
+      sw.w = w; sw.h = h; sw.prev = null;
+    }
+    sw.unit = unit; sw.ox = ox; sw.oy = oy;
     const X = (x) => ox + x * unit, Y = (y) => oy - y * unit;
 
     const st = evalPlan(tms);
@@ -1322,7 +1359,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       c.strokeStyle = "#000"; c.lineWidth = Math.max(1, S / 260);
       c.beginPath(); c.moveTo(S * .08, S * .88); c.lineTo(S * .92, S * .12); c.stroke();
     } else if (kind === "square") {
-      c.fillStyle = "#000"; c.fillRect(S * .16, S * .16, S * .68, S * .68);
+      c.fillStyle = "#000"; c.fillRect(S * .25, S * .25, S * .5, S * .5);
     } else {
       c.fillStyle = "#000";
       for (const T of kTris) {
@@ -1382,7 +1419,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
         ctx.strokeStyle = C.blue; ctx.lineWidth = 2;
         ctx.beginPath(); ctx.moveTo(S * .08, S * .88); ctx.lineTo(S * .92, S * .12); ctx.stroke();
       } else if (p.kind === "square") {
-        ctx.fillStyle = "rgba(51,88,155,.5)"; ctx.fillRect(S * .16, S * .16, S * .68, S * .68);
+        ctx.fillStyle = "rgba(51,88,155,.5)"; ctx.fillRect(S * .25, S * .25, S * .5, S * .5);
       } else {
         ctx.fillStyle = "rgba(51,88,155,.45)";
         for (const T of kTris) {
@@ -1424,7 +1461,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     const o = [(rnd() - .5) * .7, (rnd() - .5) * .7, (rnd() - .5) * .7];
     needles.push({ d, o });
   }
-  let yaw = 0.6, pitch = 0.42, dragging = null;
+  let yaw = 0.6, pitch = 0.42, dragging = null, cloudLastT = 0;
   cv.addEventListener("pointerdown", (e) => { dragging = [e.clientX, e.clientY]; cv.setPointerCapture(e.pointerId); });
   cv.addEventListener("pointermove", (e) => {
     if (!dragging) return;
@@ -1441,7 +1478,9 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     ctx.clearRect(0, 0, w, h);
     const unit = Math.min(w, h) * 0.42;
     const cx = w / 2, cy = h / 2;
-    const Y = yaw + (dragging ? 0 : t * 0.00012);
+    const cdt = Math.min(t - cloudLastT, 100); cloudLastT = t;
+    if (!dragging) yaw += cdt * 0.00012;
+    const Y = yaw;
     const cyw = Math.cos(Y), syw = Math.sin(Y), cp = Math.cos(pitch), sp = Math.sin(pitch);
     const proj = (v) => {
       const x1 = v[0] * cyw + v[2] * syw, z1 = -v[0] * syw + v[2] * cyw;
