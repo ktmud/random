@@ -362,7 +362,7 @@
   <div class="wide">
     <div class="demo">
       <div class="demo-title"><span class="tag">动手玩</span><span class="name">数格子,量维度</span></div>
-      <div class="demo-sub">拖动滑块细化网格,数一数每个图形占了多少格(高亮显示)。注意「贝西科维奇式集合」那一格:面积一直在流失,格子数的增长速度却和实心方块几乎一样快。</div>
+      <div class="demo-sub">拖动滑块细化网格,数一数每个图形占了多少格(高亮显示)。每个面板下方列出<b>粗细两档网格</b>的格子数:格子边长减半时,格子数变成几倍,维度就是几(×2 ⇒ 1 维,×4 ⇒ 2 维)。注意「贝西科维奇式集合」那一格:面积一直在流失,格子数的增长倍率却和实心方块几乎一样。</div>
       <div class="controls" id="boxControls">
         <label>网格精细度
           <input type="range" id="boxM" min="0" max="3" step="1" value="1" aria-label="网格精细度">
@@ -370,7 +370,7 @@
         </label>
       </div>
       <div class="boxgrid" id="boxGrid"></div>
-      <div class="fineprint">「维度 ≈」由相邻两档格子数的倍率折算(×2 ≈ 1 维,×4 ≈ 2 维)。真正的维度定义在无限细分的极限下;右图取的是第二章佩龙树的有限步构造,故估值略低于 2。</div>
+      <div class="fineprint">「维度 ≈ log₂(倍率)」:×2 ⇒ 1.00,×4 ⇒ 2.00,介于其间就是分数维。对比档取的是格子边长放大一倍的网格(如当前 16×16,则对比 8×8)。真正的维度定义在无限细分的极限下;「贝西科维奇式集合」取的是第二章佩龙树的有限步构造,故估值略低于 2。</div>
     </div>
   </div>
   <div class="wrap">
@@ -1471,10 +1471,12 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       }
       ctx.restore();
       const n = occ.length;
-      p.cnt.textContent = `占 ${n} 格`;
-      const prev = occupancy(p.kind, m / 2).length;
-      const dimEst = Math.log2(n / Math.max(prev, 1));
-      p.dim.innerHTML = `维度 ≈ <b>${dimEst.toFixed(2)}</b>`;
+      const half = m / 2;
+      const prev = occupancy(p.kind, half).length;
+      const ratio = n / Math.max(prev, 1);
+      const dimEst = Math.log2(ratio);
+      p.cnt.innerHTML = `${half}×${half}:<b>${prev}</b> 格 → ${m}×${m}:<b>${n}</b> 格`;
+      p.dim.innerHTML = `倍率 ×${ratio.toFixed(1)} ⇒ 维度 ≈ <b>${dimEst.toFixed(2)}</b>`;
     }
   }
   $("boxM").addEventListener("input", draw);
