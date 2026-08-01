@@ -81,9 +81,19 @@
   .tabs .btn{font-size:13.5px}
   .readout{
     font-variant-numeric:tabular-nums;background:var(--paper);border:1px solid var(--line);
-    border-radius:10px;padding:3px 12px;color:var(--ink);font-size:14px;flex:none;
+    border-radius:10px;padding:3px 12px;color:var(--ink);font-size:14px;flex:none;white-space:nowrap;
   }
   .readout b{color:var(--accent)}
+  /* 动态数字按最宽值预留宽度,避免动画中胶囊变宽、换行跳动 */
+  #shapesAngle,#perronArea,#perronDirV{display:inline-block;min-width:2.6em;text-align:right}
+  #perronN{display:inline-block;min-width:1.9em;text-align:right}
+  #palDeltaV{display:inline-block;min-width:2.3em;text-align:right}
+  @media (max-width:520px){
+    .controls{gap:8px 10px}
+    .readout{font-size:12.5px;padding:3px 9px}
+    .btn{font-size:12.5px;padding:4px 12px}
+    .controls label{flex:1 1 100%;min-width:0}
+  }
   .fineprint{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.7}
 
   /* area bars (第一章) */
