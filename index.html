@@ -126,6 +126,15 @@
   }
   .takeaway .tk{font-size:12.5px;letter-spacing:.3em;color:var(--accent);display:block;margin-bottom:6px}
 
+  /* 准确定义卡 */
+  .defbox{background:var(--card);border:1.5px solid var(--blue);border-radius:16px;padding:6px 22px 8px;margin:30px 0;box-shadow:0 2px 14px rgba(51,88,155,.08)}
+  .def-head{font-family:var(--serif);font-weight:700;font-size:18px;padding:16px 0 10px}
+  .def-row{display:grid;grid-template-columns:3.4em 1fr;gap:14px;padding:13px 0;border-top:1px dashed var(--line);font-size:15.5px;line-height:1.95}
+  .def-k{font-family:var(--serif);font-weight:700;color:var(--blue);letter-spacing:.18em;padding-top:2px}
+  .def-row.key .def-k{color:var(--accent)}
+  .def-row .mutline{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.7}
+  @media (max-width:520px){.def-row{grid-template-columns:1fr;gap:2px;padding:12px 0}}
+
   /* 盒子计数 */
   .boxgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
   @media (max-width:640px){.boxgrid{grid-template-columns:1fr}}
@@ -308,12 +317,15 @@
   </div>
   <div class="wrap">
     <p>这正是整件事最微妙的地方:贝西科维奇集合的面积是零,可它依然「密不透风」——无论网格多细,它占据格子的速度都追着实心区域跑。它是一个<em class="hl">零面积、却满维度</em>的幽灵。</p>
-    <p>于是,现代版的猜想登场了:</p>
-    <div class="takeaway"><span class="tk">挂 谷 猜 想</span>
-      在 n 维空间里,凡是<b>每个方向都包含一根单位长线段</b>的集合,维度必须等于 <b>n</b>——一格都不能少。<br>
-      <span style="font-size:14px;color:var(--muted)">(这里的「维度」指豪斯多夫维数——数格子思想的精细化版本,允许用大小不一的小块去覆盖。)</span>
+    <p>于是,现代版的猜想登场了。它究竟「猜」的是什么?这一次,把话说准——</p>
+    <div class="defbox" id="defn">
+      <div class="def-head">挂谷猜想 · 准确版</div>
+      <div class="def-row"><span class="def-k">对象</span><div><b>挂谷集合</b>(也叫贝西科维奇集合):一个点集,要求<b>每一个方向上,都完整地躺着一根那个方向的、长度为 1 的线段</b>。在平面上,「每一个方向」指 0° 到 180° 之间的所有角度;在三维空间里,则是所有的空间方向。</div></div>
+      <div class="def-row"><span class="def-k">已知</span><div>这样的集合,面积(三维及以上是体积)<b>可以恰好等于零</b>——这正是第二章贝西科维奇构造的结论。所以「它能有多小」,按面积问已经问到了头。</div></div>
+      <div class="def-row key"><span class="def-k">猜想</span><div><b>在 n 维空间中,任何挂谷集合的(豪斯多夫)维数都必须恰好等于 n。</b>直观地说:用小格子去覆盖它,所需的格子数必须和覆盖一块实心区域增长得一样快——面积可以被压成零,<b>维度却一格都压不掉</b>。猜的就是这件事:挂谷集合没有任何「降维」的余地。<div class="mutline">豪斯多夫维数:上面「数格子」维度的精细化版本,允许用大小不一的小块来覆盖。</div></div></div>
+      <div class="def-row"><span class="def-k">进展</span><div>2 维:已证(戴维斯,1971)。3 维:已证(王虹 & Zahl,2025)。<b>4 维及以上:至今仍是猜想。</b></div></div>
     </div>
-    <p><b>平面(2 维)的情形,1971 年由戴维斯(Roy Davies)证明。</b>而从 3 维开始,这个问题挡住了此后半个世纪里最强的一批数学家——它看似是几何小品,实则连着现代分析学的地基(第五章见)。</p>
+    <p>注意提问方式的变化:1917 年挂谷宗一问的是<em class="hl">面积</em>,那个问题已被贝西科维奇终结;今天数学家说「挂谷猜想」,猜的是<em class="hl">维度</em>。就是这个看似几何小品的命题,从 3 维开始挡住了几代最强的数学家——因为它连着现代分析学的地基(第五章见)。</p>
   </div>
 </section>
 
@@ -834,8 +846,14 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     for (let j = 0; j <= 7; j++) {
       const rel = measureArea(j) / measureArea(0);
       const row = document.createElement("div");
-      row.className = "bar-row" + (j === k ? " active" : "");
+      row.className = "bar-row" + (j === k ? " active" : "") + " clickable";
       row.innerHTML = `<span>切 ${j} 次 · ${1 << j} 块</span><div class="track"><div class="fill" style="width:${(rel * 100).toFixed(1)}%"></div></div><span class="val">${(rel * 100).toFixed(0)}%</span>`;
+      row.setAttribute("role", "button");
+      row.setAttribute("tabindex", "0");
+      row.setAttribute("aria-label", `切分 ${j} 次(${1 << j} 块)`);
+      const go = () => { kInput.value = String(j); refresh(true); };
+      row.onclick = go;
+      row.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
       el.appendChild(row);
     }
   }
