@@ -95,11 +95,11 @@
   }
   .readout b{color:var(--accent)}
   /* 动态数字按最宽值预留宽度,避免动画中胶囊变宽、换行跳动 */
-  #shapesAngle,#perronArea,#perronDirV{display:inline-block;min-width:2.6em;text-align:right}
-  #shapesSwept{display:inline-block;min-width:2.9em;text-align:right}
+  #shapesAngle,#perronArea,#perronDirV,#relayAngle{display:inline-block;min-width:2.6em;text-align:right}
+  #shapesSwept,#relayArea{display:inline-block;min-width:2.9em;text-align:right}
+  #palDeltaV,#relayDeltaV{display:inline-block;min-width:2.3em;text-align:right}
   .readout .mut{color:var(--muted);font-weight:400}
   #perronN{display:inline-block;min-width:1.9em;text-align:right}
-  #palDeltaV{display:inline-block;min-width:2.3em;text-align:right}
   @media (max-width:520px){
     .controls{gap:8px 10px}
     .readout{font-size:12.5px;padding:3px 9px}
@@ -293,7 +293,27 @@
     </div>
   </div>
   <div class="wrap">
-    <p>把两步合起来:用佩龙树把「装下所有方向」的面积压到任意小,再用帕尔的戏法把碎片之间的挪动费用也压到任意小——<b>转针的总面积就能任意小</b>。挂谷的问题就此有了答案,却是一个没有终点的答案。</p>
+    <p>把两步合起来,就是针的完整调头「接力」:在一根细条里转完自己那份角度,「斜一点、绕出去」平移到下一根细条,接着转——</p>
+  </div>
+  <div class="wide">
+    <div class="demo">
+      <div class="demo-title"><span class="tag">动手玩</span><span class="name">合体:在佩龙树里接力调头</span></div>
+      <div class="demo-sub">8 根细条接力,走完整个扇区:条内旋转(小扇形)→ 帕尔机动平移到下一条(绕路免费,只付两个 δ 小扇形)→ 继续旋转。红色阴影是针扫过的全部区域(并集,实时逐像素累计)。</div>
+      <canvas id="relay" class="viz" data-aspect="0.62" aria-label="佩龙树内针的接力调头动画"></canvas>
+      <div class="controls">
+        <button class="btn" id="relayPlay" aria-pressed="true">⏸ 暂停</button>
+        <label>接力偏角 δ
+          <input type="range" id="relayDelta" min="2" max="12" step="0.5" value="6" aria-label="接力偏角(度)">
+          <span class="readout"><b id="relayDeltaV">6°</b></span>
+        </label>
+        <span class="readout">第 <b id="relayStep">1</b>/8 条 · 已转 <b id="relayAngle">0°</b></span>
+        <span class="readout">扫过 <b id="relayArea">0.000</b></span>
+      </div>
+      <div class="fineprint">为了看清接力,这里固定切 8 条、只走完约 53° 的扇区——把整棵树再旋转两三份、同样接力,即可拼满 180°。试着调小偏角 δ:接力的小扇形更省,代价是绕行更远(画面会自动缩小)。只切 8 条当然还省不了多少——但趋势已在眼前:真实构造中,切分数趋于无穷、δ 趋于零,总面积便可小于任何给定的数。</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p>看到了吗:旋转只发生在细条内部和接力的小扇形里,长途跋涉全靠<em class="hl">免费的滑行</em>。切得更细、偏角更小,总面积就能压到任意小——挂谷的问题就此有了答案,却是一个没有终点的答案。</p>
     <div class="takeaway"><span class="tk">结 论 一</span>
       连续调头:面积可以<b>任意小</b>,但不能恰好为零。<br>
       若只要求「每个方向都躺着一根完整的针」、不要求转动过程:存在<b>面积恰好为零</b>的集合——数学家称之为<b>贝西科维奇集合</b>(也叫挂谷集合)。
@@ -970,6 +990,157 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   bindPlayBtn($("palPlay"), anim);
   deltaInput.addEventListener("input", () => { updateReadout(); anim.drawOnce(); });
   updateReadout();
+}
+
+/* ============================================================
+   第二章 C:合体——在佩龙树里接力调头
+   针在细条 i 内绕顶点旋转过自己的角度区间,再用帕尔机动
+   (倾斜 δ → 沿针方向长滑 → 摆正 → 沿针方向归位)平移到细条 i+1。
+   平移位移分解:D = a·u + b·n(u 为针方向,n 为垂直方向),
+   倾斜 σδ(σ=sign(b))后滑行 L = |b|/sinδ,恰好补上垂直分量。
+============================================================ */
+{
+  const cv = $("relay");
+  const K = 3, N = 1 << K, ALPHA = 0.42;
+  const shiftOf = (i) => {
+    let sh = 0;
+    for (let s = 1; s <= K; s++) if ((i >> (s - 1)) & 1) sh += (1 - ALPHA) * (1 << (s - 1)) / N;
+    return sh;
+  };
+  const phis = [], apexes = [], tris = [];
+  for (let i = 0; i <= N; i++) phis.push(Math.atan(i / N - 0.5));
+  for (let i = 0; i < N; i++) {
+    const s = shiftOf(i);
+    apexes.push([0.5 - s, 1]);
+    tris.push([[i / N - s, 0], [(i + 1) / N - s, 0], [0.5 - s, 1]]);
+  }
+  const uDir = (phi) => [Math.sin(phi), -Math.cos(phi)];
+  const HOLD = 2000, FAN_T = 700, TILT_T = 280, SLIDE_T = 470, HOME_T = 300;
+  const deltaInput = $("relayDelta");
+  const ease = (u) => u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+
+  let plan = [], total = HOLD, world = null;
+  function buildPlan() {
+    const delta = (+deltaInput.value) * Math.PI / 180;
+    plan = []; total = 0;
+    const pts = [];
+    tris.forEach(T => pts.push(...T));
+    for (let i = 0; i < N; i++) {
+      plan.push({ kind: "fan", dur: FAN_T, i, a: phis[i], b: phis[i + 1], p: apexes[i] });
+      pts.push([apexes[i][0] + Math.sin(phis[i]), apexes[i][1] - Math.cos(phis[i])]);
+      if (i < N - 1) {
+        const phi = phis[i + 1];
+        const u = uDir(phi), n = [Math.cos(phi), Math.sin(phi)];
+        const dx = apexes[i + 1][0] - apexes[i][0];
+        const a = dx * u[0], b = dx * n[0];
+        const sg = Math.sign(b) || 1;
+        const L = Math.abs(b) / Math.sin(delta);
+        const phi2 = phi + sg * delta;
+        const P1 = [apexes[i][0] + L * uDir(phi2)[0], apexes[i][1] + L * uDir(phi2)[1]];
+        const resid = a - L * Math.cos(delta);
+        plan.push({ kind: "tilt", dur: TILT_T, i, p: apexes[i], phi0: phi, phi1: phi2 });
+        plan.push({ kind: "slide", dur: SLIDE_T, i, phi: phi2, p0: apexes[i], p1: P1 });
+        plan.push({ kind: "tilt", dur: TILT_T, i: i + 1, p: P1, phi0: phi2, phi1: phi });
+        plan.push({ kind: "slide", dur: HOME_T, i: i + 1, phi, p0: P1, p1: apexes[i + 1] });
+        pts.push(P1, [P1[0] + uDir(phi2)[0], P1[1] + uDir(phi2)[1]]);
+      }
+    }
+    for (const ph of plan) total += ph.dur;
+    total += HOLD;
+    let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+    for (const p of pts) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); }
+    world = { x0, x1, y0, y1 };
+  }
+  function evalPlan(tms) {
+    let acc = 0;
+    for (const ph of plan) {
+      if (tms < acc + ph.dur) {
+        const e = ease((tms - acc) / ph.dur);
+        if (ph.kind === "fan") return { i: ph.i, phi: ph.a + (ph.b - ph.a) * e, pivot: ph.p };
+        if (ph.kind === "tilt") return { i: ph.i, phi: ph.phi0 + (ph.phi1 - ph.phi0) * e, pivot: ph.p };
+        return { i: ph.i, phi: ph.phi, pivot: [ph.p0[0] + (ph.p1[0] - ph.p0[0]) * e, ph.p0[1] + (ph.p1[1] - ph.p0[1]) * e] };
+      }
+      acc += ph.dur;
+    }
+    return { i: N - 1, phi: phis[N], pivot: apexes[N - 1], done: true };
+  }
+
+  const sw = { buf: document.createElement("canvas"), bc: null, cycle: -1, w: 0, h: 0, prev: null, frames: 0, delta: -1 };
+  sw.bc = sw.buf.getContext("2d", { willReadFrequently: true });
+
+  buildPlan();
+  const anim = makeAnim(cv, (t) => {
+    const { ctx, w, h } = fitCanvas(cv);
+    ctx.clearRect(0, 0, w, h);
+    const cycle = Math.floor(t / total);
+    const tms = t % total;
+    const dv = +deltaInput.value;
+    if (sw.cycle !== cycle || sw.w !== w || sw.h !== h || sw.delta !== dv) {
+      sw.cycle = cycle; sw.w = w; sw.h = h; sw.delta = dv;
+      sw.buf.width = Math.max(1, Math.round(w));
+      sw.buf.height = Math.max(1, Math.round(h));
+      sw.prev = null; sw.frames = 0;
+      $("relayArea").textContent = "0.000";
+    }
+    const pad = 16;
+    const bw = world.x1 - world.x0, bh = world.y1 - world.y0;
+    const unit = Math.min((w - pad * 2) / bw, (h - pad * 2) / bh);
+    const ox = (w - bw * unit) / 2 - world.x0 * unit;
+    const oy = (h + bh * unit) / 2 + world.y0 * unit;
+    const X = (x) => ox + x * unit, Y = (y) => oy - y * unit;
+
+    const st = evalPlan(tms);
+    const u = uDir(st.phi);
+    const ax = X(st.pivot[0]), ay = Y(st.pivot[1]);
+    const bx = X(st.pivot[0] + u[0]), by = Y(st.pivot[1] + u[1]);
+
+    if (sw.prev) {
+      sw.bc.fillStyle = "#bc3f1e";
+      sw.bc.beginPath();
+      sw.bc.moveTo(sw.prev[0], sw.prev[1]); sw.bc.lineTo(sw.prev[2], sw.prev[3]);
+      sw.bc.lineTo(bx, by); sw.bc.lineTo(ax, ay);
+      sw.bc.closePath(); sw.bc.fill();
+    }
+    sw.prev = [ax, ay, bx, by];
+    if (sw.frames++ % 6 === 0 && unit > 0) {
+      const d = sw.bc.getImageData(0, 0, sw.buf.width, sw.buf.height).data;
+      let npx = 0;
+      for (let i = 3; i < d.length; i += 4) if (d[i] > 127) npx++;
+      $("relayArea").textContent = (npx / (unit * unit)).toFixed(3);
+    }
+
+    // 地平线 + 树 + 当前细条高亮
+    ctx.strokeStyle = C.line; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, Y(0) + .5); ctx.lineTo(w, Y(0) + .5); ctx.stroke();
+    ctx.fillStyle = "rgba(51,88,155,.26)";
+    for (const T of tris) {
+      ctx.beginPath();
+      T.forEach((p, j) => { j ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1])); });
+      ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,.7)"; ctx.lineWidth = 1; ctx.stroke();
+    }
+    const T = tris[st.i];
+    ctx.fillStyle = "rgba(188,63,30,.18)";
+    ctx.beginPath();
+    T.forEach((p, j) => { j ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1])); });
+    ctx.closePath(); ctx.fill();
+
+    ctx.globalAlpha = 0.26;
+    ctx.drawImage(sw.buf, 0, 0, w, h);
+    ctx.globalAlpha = 1;
+    needleStroke(ctx, ax, ay, bx, by, 2.8);
+
+    $("relayStep").textContent = String(st.i + 1);
+    $("relayAngle").textContent = Math.max(0, Math.round((st.phi - phis[0]) * 180 / Math.PI)) + "°";
+  });
+  bindPlayBtn($("relayPlay"), anim);
+  deltaInput.addEventListener("input", () => {
+    $("relayDeltaV").textContent = (+deltaInput.value).toFixed(1).replace(/\.0$/, "") + "°";
+    buildPlan();
+    anim.t = 0;
+    anim.drawOnce();
+    anim.kick();
+  });
 }
 
 /* ============================================================
