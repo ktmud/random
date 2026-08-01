@@ -78,7 +78,17 @@
   .btn:hover{border-color:var(--accent);color:var(--accent)}
   .btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
   .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-  .tabs .btn{font-size:13.5px}
+  .tabs .btn{font-size:13.5px;display:inline-flex;align-items:center;gap:5px}
+  .shape-ic{width:14px;height:14px;flex:none;display:block}
+  @media (max-width:520px){
+    .tabs{gap:5px}
+    .tabs .btn{font-size:11.5px;padding:4px 7px;gap:3px}
+    .shape-ic{width:12px;height:12px}
+  }
+  @media (max-width:390px){
+    .tabs{gap:4px}
+    .tabs .btn{font-size:11px;padding:4px 5px;gap:2px}
+  }
   .readout{
     font-variant-numeric:tabular-nums;background:var(--paper);border:1px solid var(--line);
     border-radius:10px;padding:3px 12px;color:var(--ink);font-size:14px;flex:none;white-space:nowrap;
@@ -687,13 +697,21 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   bindPlayBtn($("shapesPlay"), anim);
 
   // 形状选项卡 + 面积条(条同样可点:前四条切换形状,悬念条跳到第二章)
+  // 图标描边用 currentColor:未选中为墨色、悬停变红、选中(深底)自动变白
+  const ICONS = [
+    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>',
+    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2.4 A8.8 8.8 0 0 1 11.4 10 A8.8 8.8 0 0 1 2.6 10 A8.8 8.8 0 0 1 7 2.4 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2.6 L12 11 H2 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.6 Q8.1 6.9 12.4 11 Q7 9.3 1.6 11 Q5.9 6.9 7 1.6 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+  ];
   const tabs = $("shapeTabs"), barsEl = $("areaBars");
   function selectShape(i) { cur = i; anim.t = 0; sw.shape = -1; renderTabs(); renderBars(); anim.drawOnce(); anim.kick(); }
   function renderTabs() {
     tabs.innerHTML = "";
     shapes.forEach((s, i) => {
       const b = document.createElement("button");
-      b.className = "btn"; b.textContent = s.name;
+      b.className = "btn";
+      b.innerHTML = ICONS[i] + "<span>" + s.name + "</span>";
       b.setAttribute("role", "tab");
       b.setAttribute("aria-pressed", String(i === cur));
       b.onclick = () => selectShape(i);
