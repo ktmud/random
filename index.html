@@ -86,6 +86,8 @@
   .readout b{color:var(--accent)}
   /* 动态数字按最宽值预留宽度,避免动画中胶囊变宽、换行跳动 */
   #shapesAngle,#perronArea,#perronDirV{display:inline-block;min-width:2.6em;text-align:right}
+  #shapesSwept{display:inline-block;min-width:2.9em;text-align:right}
+  .readout .mut{color:var(--muted);font-weight:400}
   #perronN{display:inline-block;min-width:1.9em;text-align:right}
   #palDeltaV{display:inline-block;min-width:2.3em;text-align:right}
   @media (max-width:520px){
@@ -93,6 +95,11 @@
     .readout{font-size:12.5px;padding:3px 9px}
     .btn{font-size:12.5px;padding:4px 12px}
     .controls label{flex:1 1 100%;min-width:0}
+  }
+  @media (max-width:380px){
+    #shapesTotal{display:none} /* 总面积在下方面积条中已有 */
+    .controls{gap:8px 6px}
+    .btn{padding:4px 10px}
   }
   .fineprint{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.7}
 
@@ -198,13 +205,13 @@
   <div class="wide">
     <div class="demo">
       <div class="demo-title"><span class="tag">动手玩</span><span class="name">四块场地,同一根针</span></div>
-      <div class="demo-sub">针(红色)在每块场地内连续转动 180°。四个图形按同一比例绘制——面积差距一目了然。</div>
+      <div class="demo-sub">针的两端<b style="color:var(--gold)">一金</b><b style="color:var(--accent)">一红</b>:完整调头(180°)后,两端恰好互换位置——然后停顿一下,继续下一轮。红色阴影是针已经扫过的地方,「扫过」面积实时逐像素累计。四个图形按同一比例绘制。</div>
       <div class="tabs" id="shapeTabs" role="tablist"></div>
       <canvas id="shapes" class="viz" data-aspect="0.62" aria-label="针在所选形状内旋转的动画"></canvas>
       <div class="controls">
         <button class="btn" id="shapesPlay" aria-pressed="true">⏸ 暂停</button>
-        <span class="readout">已转过 <b id="shapesAngle">0°</b></span>
-        <span class="readout" id="shapesArea">面积 ≈ 0.785</span>
+        <span class="readout">转过 <b id="shapesAngle">0°</b></span>
+        <span class="readout">扫过 <b id="shapesSwept">0.000</b><span class="mut" id="shapesTotal"> / 0.785</span></span>
       </div>
       <div class="bars" id="areaBars" aria-label="各形状面积对比"></div>
       <div class="fineprint">面积以针长为单位(针长 = 1)。等边三角形是<b>凸形</b>里的最优解(帕尔,1921);三尖摆线一度被认为就是最终答案。</div>
@@ -465,9 +472,11 @@ function needleStroke(ctx, x1, y1, x2, y2, w = 3.2, color = C.accent) {
   ctx.lineWidth = w;
   ctx.lineCap = "round";
   ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
-  ctx.fillStyle = color;
-  for (const [x, y] of [[x1, y1], [x2, y2]]) {
-    ctx.beginPath(); ctx.arc(x, y, w * 0.85, 0, TAU); ctx.fill();
+  // 两端不同标记(金 / 红),调头后能看出两端互换
+  for (const [x, y, fill] of [[x1, y1, C.gold], [x2, y2, color]]) {
+    ctx.beginPath(); ctx.arc(x, y, w * 1.15, 0, TAU);
+    ctx.fillStyle = fill; ctx.fill();
+    ctx.lineWidth = 1.5; ctx.strokeStyle = "#fffdf9"; ctx.stroke();
   }
 }
 
@@ -480,7 +489,7 @@ function deltoidPoint(r, t) {
   return [2 * r * Math.cos(t) + r * Math.cos(2 * t),
           2 * r * Math.sin(t) - r * Math.sin(2 * t)];
 }
-function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueFill, needleW = 3.2, showTangent = true } = {}) {
+function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueFill, needleW = 3.2, showTangent = true, drawNeedle = true } = {}) {
   const r = 0.25; // 针长 4r = 1
   const X = (p) => cx + p[0] * unit, Y = (p) => cy - p[1] * unit;
   ctx.beginPath();
@@ -491,6 +500,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   ctx.closePath();
   ctx.fillStyle = fill; ctx.fill();
   ctx.strokeStyle = curveColor; ctx.lineWidth = 1.6; ctx.stroke();
+  if (!drawNeedle) return;
   const A = deltoidPoint(r, -t / 2), B = deltoidPoint(r, Math.PI - t / 2);
   if (showTangent) {
     const T = deltoidPoint(r, t);
@@ -526,7 +536,15 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     { name: "三尖摆线", area: Math.PI / 8, desc: "曾被当作最终答案" },
   ];
   let cur = 0;
-  const PERIOD = 8000; // 一次 180° 调头的毫秒数
+  const PERIOD = 8000;          // 一次 180° 调头的毫秒数
+  const HOLD = 1500;            // 调头完成后的停顿
+  const TOTAL = PERIOD + HOLD;
+  // 扫过区域缓冲(逐帧累积针掠过的四边形,逐像素测面积)
+  const sw = {
+    buf: document.createElement("canvas"),
+    bc: null, shape: -1, cycle: -1, w: 0, h: 0, prev: null, frames: 0,
+  };
+  sw.bc = sw.buf.getContext("2d", { willReadFrequently: true });
 
   // —— 各形状:给定进度 τ∈[0,1) 返回针的两端(单位坐标)与已转角度(弧度)——
   const dir = (a) => [Math.cos(a), Math.sin(a)];
@@ -541,17 +559,13 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     const h = Math.sqrt(3) / 2, cy = h / 3;
     return { V: [[-0.5, -cy], [0.5, -cy], [0, h - cy]] };
   })();
+  // A/B 两端在各阶段保持物理连续:轴心在 A 端与 B 端之间交替
   function reuleauxNeedle(tau) {
     const th = tau * Math.PI;
-    const seq = [
-      { p: RLX.V[0], a0: 0 },                    // θ∈[0,60°): 轴心 V0,射线角 = θ
-      { p: RLX.V[2], a0: Math.PI },              // θ∈[60°,120°): 轴心 V2,射线角 = θ+180°
-      { p: RLX.V[1], a0: 0 },                    // θ∈[120°,180°): 轴心 V1,射线角 = θ
-    ];
     const k = Math.min(2, Math.floor(th / (Math.PI / 3)));
-    const s = seq[k];
-    const ray = th + s.a0;
-    return { A: s.p, B: add(s.p, dir(ray)), rot: th };
+    if (k === 0) return { A: RLX.V[0], B: add(RLX.V[0], dir(th)), rot: th };            // 轴心 V0 = A 端
+    if (k === 1) return { A: add(RLX.V[2], dir(th + Math.PI)), B: RLX.V[2], rot: th };  // 轴心 V2 = B 端
+    return { A: RLX.V[1], B: add(RLX.V[1], dir(th)), rot: th };                          // 轴心 V1 = A 端
   }
   // 等边三角形(高 1,边 s=2/√3):顶点旋转 + 沿边滑动
   const TRI = (() => {
@@ -563,13 +577,14 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     const { A, B, Cv, slide } = TRI;
     const d60 = dir(Math.PI / 3), d300 = dir(-Math.PI / 3);
     // 时间分配:三段旋转各 .28,三段滑动各 .0533
+    // 轴心交替落在 A、B 两端,保证端点物理连续(颜色不跳):A→(C=B端)→(B=A端)
     const seg = [
       { len: .28, f: (u) => { const ray = u * Math.PI / 3; return { A: A, B: add(A, dir(ray)), rot: ray }; } },
       { len: .0533, f: (u) => { const o = add(A, d60, u * slide); return { A: o, B: add(o, d60), rot: Math.PI / 3 }; } },
-      { len: .28, f: (u) => { const ray = Math.PI * (240 + 60 * u) / 180; return { A: Cv, B: add(Cv, dir(ray)), rot: Math.PI / 3 + u * Math.PI / 3 }; } },
-      { len: .0533, f: (u) => { const o = add(Cv, d300, u * slide); return { A: o, B: add(o, d300), rot: Math.PI * 2 / 3 }; } },
+      { len: .28, f: (u) => { const ray = Math.PI * (240 + 60 * u) / 180; return { A: add(Cv, dir(ray)), B: Cv, rot: Math.PI / 3 + u * Math.PI / 3 }; } },
+      { len: .0533, f: (u) => { const o = add(Cv, d300, u * slide); return { A: add(o, d300), B: o, rot: Math.PI * 2 / 3 }; } },
       { len: .28, f: (u) => { const ray = Math.PI * (120 + 60 * u) / 180; return { A: B, B: add(B, dir(ray)), rot: Math.PI * 2 / 3 + u * Math.PI / 3 }; } },
-      { len: .0534, f: (u) => { const o = add(add(B, [-1, 0]), [-u * slide, 0]); return { A: o, B: add(o, [1, 0]), rot: Math.PI }; } },
+      { len: .0534, f: (u) => { const o = add(B, [-u * slide, 0]); return { A: o, B: add(o, [-1, 0]), rot: Math.PI }; } },
     ];
     let acc = 0;
     for (const sg of seg) {
@@ -609,24 +624,59 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     ctx.clearRect(0, 0, w, h);
     const unit = Math.min(w / 1.75, h / 1.62);
     const cx = w / 2, cy = h / 2 + (cur === 2 ? h * 0.02 : 0);
-    const tau = (t % PERIOD) / PERIOD;
-    let rot;
-    if (cur === 3) {
-      drawDeltoid(ctx, cx, cy, unit, tau * TAU);
-      rot = tau * Math.PI;
-    } else {
-      drawShapeRegion(ctx, cx, cy, unit);
-      const n = cur === 0 ? circleNeedle(tau) : cur === 1 ? reuleauxNeedle(tau) : triangleNeedle(tau);
-      needleStroke(ctx, cx + n.A[0] * unit, cy - n.A[1] * unit, cx + n.B[0] * unit, cy - n.B[1] * unit);
-      rot = n.rot;
+    const cycle = Math.floor(t / TOTAL);
+    const tau = Math.min((t % TOTAL) / PERIOD, 1); // 转满 180° 后停顿 HOLD 毫秒
+    const flip = cycle % 2 === 1;                  // 每轮结束两端互换,颜色跟随物理端点
+
+    if (sw.shape !== cur || sw.cycle !== cycle || sw.w !== w || sw.h !== h) {
+      sw.shape = cur; sw.cycle = cycle; sw.w = w; sw.h = h;
+      sw.buf.width = Math.max(1, Math.round(w));
+      sw.buf.height = Math.max(1, Math.round(h));
+      sw.prev = null; sw.frames = 0;
+      $("shapesSwept").textContent = "0.000";
     }
-    $("shapesAngle").textContent = Math.round(rot * 180 / Math.PI) + "°";
+
+    let n;
+    if (cur === 3) {
+      const td = tau * TAU;
+      n = { A: deltoidPoint(0.25, -td / 2), B: deltoidPoint(0.25, Math.PI - td / 2), rot: tau * Math.PI };
+    } else {
+      n = cur === 0 ? circleNeedle(tau) : cur === 1 ? reuleauxNeedle(tau) : triangleNeedle(tau);
+    }
+    if (flip) { const tmp = n.A; n.A = n.B; n.B = tmp; }
+    const ax = cx + n.A[0] * unit, ay = cy - n.A[1] * unit;
+    const bx = cx + n.B[0] * unit, by = cy - n.B[1] * unit;
+
+    // 相邻两帧针位置围成的四边形累积进缓冲(绕轴旋转时为蝶形,nonzero 填充两瓣都覆盖)
+    if (sw.prev) {
+      sw.bc.fillStyle = "#bc3f1e";
+      sw.bc.beginPath();
+      sw.bc.moveTo(sw.prev[0], sw.prev[1]); sw.bc.lineTo(sw.prev[2], sw.prev[3]);
+      sw.bc.lineTo(bx, by); sw.bc.lineTo(ax, ay);
+      sw.bc.closePath(); sw.bc.fill();
+    }
+    sw.prev = [ax, ay, bx, by];
+    if ((sw.frames++ % 6 === 0 || tau >= 1) && unit > 0) {
+      const d = sw.bc.getImageData(0, 0, sw.buf.width, sw.buf.height).data;
+      let npx = 0;
+      for (let i = 3; i < d.length; i += 4) if (d[i] > 127) npx++;
+      $("shapesSwept").textContent = (npx / (unit * unit)).toFixed(3);
+    }
+
+    // 区域 → 已扫过的阴影 → 针
+    if (cur === 3) drawDeltoid(ctx, cx, cy, unit, tau * TAU, { drawNeedle: false });
+    else drawShapeRegion(ctx, cx, cy, unit);
+    ctx.globalAlpha = 0.24;
+    ctx.drawImage(sw.buf, 0, 0, w, h);
+    ctx.globalAlpha = 1;
+    needleStroke(ctx, ax, ay, bx, by);
+    $("shapesAngle").textContent = Math.round(n.rot * 180 / Math.PI) + "°";
   });
   bindPlayBtn($("shapesPlay"), anim);
 
   // 形状选项卡 + 面积条(条同样可点:前四条切换形状,悬念条跳到第二章)
   const tabs = $("shapeTabs"), barsEl = $("areaBars");
-  function selectShape(i) { cur = i; anim.t = 0; renderTabs(); renderBars(); anim.drawOnce(); anim.kick(); }
+  function selectShape(i) { cur = i; anim.t = 0; sw.shape = -1; renderTabs(); renderBars(); anim.drawOnce(); anim.kick(); }
   function renderTabs() {
     tabs.innerHTML = "";
     shapes.forEach((s, i) => {
@@ -637,7 +687,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       b.onclick = () => selectShape(i);
       tabs.appendChild(b);
     });
-    $("shapesArea").textContent = "面积 ≈ " + shapes[cur].area.toFixed(3);
+    $("shapesTotal").textContent = " / " + shapes[cur].area.toFixed(3);
   }
   function renderBars() {
     barsEl.innerHTML = "";
