@@ -105,6 +105,11 @@
   .bar-row.active .fill{background:var(--accent);opacity:1}
   .bar-row .val{text-align:right;font-variant-numeric:tabular-nums}
   .bar-row.tease .fill{background:repeating-linear-gradient(90deg,var(--gold),var(--gold) 6px,transparent 6px,transparent 11px);opacity:.8}
+  .bar-row.clickable{cursor:pointer;border-radius:8px;padding:3px 8px;margin:0 -8px;transition:background .15s}
+  .bar-row.clickable:hover{background:rgba(51,88,155,.08)}
+  .bar-row.clickable:hover span:first-child{color:var(--ink)}
+  .bar-row.clickable:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+  .bar-row.tease.clickable:hover{background:var(--gold-soft)}
 
   /* takeaway 卡 */
   .takeaway{
@@ -619,8 +624,9 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   });
   bindPlayBtn($("shapesPlay"), anim);
 
-  // 形状选项卡 + 面积条
+  // 形状选项卡 + 面积条(条同样可点:前四条切换形状,悬念条跳到第二章)
   const tabs = $("shapeTabs"), barsEl = $("areaBars");
+  function selectShape(i) { cur = i; anim.t = 0; renderTabs(); renderBars(); anim.drawOnce(); anim.kick(); }
   function renderTabs() {
     tabs.innerHTML = "";
     shapes.forEach((s, i) => {
@@ -628,7 +634,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       b.className = "btn"; b.textContent = s.name;
       b.setAttribute("role", "tab");
       b.setAttribute("aria-pressed", String(i === cur));
-      b.onclick = () => { cur = i; anim.t = 0; renderTabs(); renderBars(); anim.drawOnce(); anim.kick(); };
+      b.onclick = () => selectShape(i);
       tabs.appendChild(b);
     });
     $("shapesArea").textContent = "面积 ≈ " + shapes[cur].area.toFixed(3);
@@ -636,16 +642,26 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   function renderBars() {
     barsEl.innerHTML = "";
     const max = shapes[0].area;
-    shapes.forEach((s, i) => {
+    const mkRow = (cls, html, onClick, label) => {
       const row = document.createElement("div");
-      row.className = "bar-row" + (i === cur ? " active" : "");
-      row.innerHTML = `<span>${s.name}</span><div class="track"><div class="fill" style="width:${(s.area / max * 100).toFixed(1)}%"></div></div><span class="val">${s.area.toFixed(3)}</span>`;
+      row.className = cls + " clickable";
+      row.innerHTML = html;
+      row.setAttribute("role", "button");
+      row.setAttribute("tabindex", "0");
+      row.setAttribute("aria-label", label);
+      row.onclick = onClick;
+      row.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onClick(); } };
       barsEl.appendChild(row);
+    };
+    shapes.forEach((s, i) => {
+      mkRow("bar-row" + (i === cur ? " active" : ""),
+        `<span>${s.name}</span><div class="track"><div class="fill" style="width:${(s.area / max * 100).toFixed(1)}%"></div></div><span class="val">${s.area.toFixed(3)}</span>`,
+        () => selectShape(i), "切换到" + s.name);
     });
-    const row = document.createElement("div");
-    row.className = "bar-row tease";
-    row.innerHTML = `<span>还能更小…?</span><div class="track"><div class="fill" style="width:14%"></div></div><span class="val">→ 0 ?</span>`;
-    barsEl.appendChild(row);
+    mkRow("bar-row tease",
+      `<span>还能更小…?</span><div class="track"><div class="fill" style="width:14%"></div></div><span class="val">→ 0 ?</span>`,
+      () => $("ch2").scrollIntoView({ behavior: RM ? "auto" : "smooth" }),
+      "跳到第二章:面积可以任意小");
   }
   renderTabs(); renderBars();
 }
