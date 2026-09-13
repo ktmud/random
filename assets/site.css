@@ -215,3 +215,14 @@ div.tl-card .tl-more:hover{color:var(--accent);border-color:var(--accent)}
 #tl .tag.progress::before,.legend .tag.progress::before{content:"↑ "}
 #tl .tag.milestone::before,.legend .tag.milestone::before{content:"★ "}
 #tl .tag.caution::before,.legend .tag.caution::before{content:"! "}
+
+/* ---------- 有详解的卡片 vs 简讯卡片 ---------- */
+a.tl-card{border-left:4px solid var(--accent);padding-left:18px}
+.tag.detail{background:var(--accent);color:#fff}
+#tl .tag.detail::before,.legend .tag.detail::before{content:none}
+.tl-more.detail{display:inline-block;margin-top:4px;background:var(--ink);color:#fff;border-radius:99px;padding:3px 13px;font-size:13px;transition:background .15s ease}
+a.tl-card:hover .tl-more.detail{background:var(--accent);color:#fff}
+.tl-card.brief{background:transparent;border:1px dashed #d9cfb8;box-shadow:none;padding:12px 16px 10px}
+.tl-card.brief .tl-title{font-size:17px;font-weight:600}
+.tl-card.brief p{font-size:14px;color:#5a5346}
+.tl-card.brief .tl-more{font-size:13px}
