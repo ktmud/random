@@ -25,7 +25,7 @@
     <div class="kicker" id="heroStat">2023 — 2026</div>
     <h1>近年被攻克的数学难题</h1>
     <p class="subtitle">从<b>一块瓷砖</b>到<b>百万美元的流体方程</b>——<br>三年间,人类与机器各解开了哪些悬置数十年的问题?又是怎么解的?</p>
-    <p class="hero-note">按时间往下读;AI 参与的每个问题都有一页详解<span class="down">↓</span></p>
+    <p class="hero-note">最新的在最上面,越往下越早;AI 参与的每个问题都有一页详解<span class="down">↓</span></p>
   </div>
 </header>
 
@@ -50,7 +50,7 @@
 <section id="timeline">
   <div class="wrap">
     <div class="chapnum">时 间 线</div>
-    <h2>三年,从一块瓷砖到千禧年难题</h2>
+    <h2>三年,从千禧年难题回望到一块瓷砖</h2>
     <p class="legend">每张卡片都标了<b>谁解的</b>:<span class="tag human">🧑 人类</span> 纯人类证明;<span class="tag ai">🤖 AI</span> 机器给出证明或反例,人类只做核验;<span class="tag hybrid">🤝 人机合作</span> 人类主导、AI 深度参与。时间轴上的图标是<b>事件类型</b>:<span class="tag solved">难题解决</span> 公开问题被证明或推翻;<span class="tag progress">改进纪录</span> 找到更好的构造或界;<span class="tag milestone">里程碑</span> 能力节点或奖项;<span class="tag caution">争议 · 乌龙</span> 提醒你别急着相信标题。</p>
     <div class="filters" role="group" aria-label="按解决者筛选">
       <button class="chip" data-who="all" aria-pressed="true">全部</button>
@@ -67,98 +67,119 @@
   </div>
   <div class="wide">
     <div class="timeline" id="tl">
-
-      <div class="tl-year">2023</div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
-        <div class="tl-card human">
-          <div class="tl-meta"><span class="tl-date">2023 年 3 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag org">David Smith · Myers · Kaplan · Goodman-Strauss</span></div>
-          <div class="tl-title">「爱因斯坦」瓷砖:一块砖就能铺满平面、却永不重复<small>悬置约 60 年</small></div>
-          <p>有没有一种形状,能无缝铺满整个平面,却无论怎么铺都不会出现周期性的重复?这个「单块非周期瓷砖」问题自 1960 年代起就没有答案。英国退休印刷工 David Smith 用剪纸摆出了一块 13 边的「帽子」,三位数学家随后证明它确实做到了——半年后他们又找到了不需要翻面的「幽灵」版本。</p>
-          <a class="tl-more" href="https://www.quantamagazine.org/hobbyist-finds-maths-elusive-einstein-tile-20230404/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
-        </div>
-      </div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
-        <div class="tl-card human">
-          <div class="tl-meta"><span class="tl-date">2023 年 11 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag org">Gowers · Green · Manners · 陶哲轩</span></div>
-          <div class="tl-title">多项式 Freiman–Ruzsa 猜想:加法组合学的核心猜想<small>悬置约 25 年</small></div>
-          <p>如果一个集合「几乎封闭于加法」(自己加自己不会变大很多),它是否必然接近一个真正的子群?这是加法组合学里最重要的猜想之一。四位数学家给出了证明,陶哲轩随即发起众包,把 30 多页的证明在<b>三周内</b>完整翻译成 Lean——这是 Lean 形式化第一次跟上研究前沿的速度。</p>
-          <a class="tl-more" href="https://terrytao.wordpress.com/2023/11/13/on-a-conjecture-of-marton/" target="_blank" rel="noopener">陶哲轩博客 ↗</a>
-        </div>
-      </div>
-      <div class="tl-item" data-kind="progress" data-group="progress" data-who="ai">
-        <a class="tl-card" href="problems/cap-set.html">
-          <div class="tl-meta"><span class="tl-date">2023 年 12 月</span><span class="tag ai">🤖 AI</span><span class="tag progress">改进纪录</span><span class="tag org">Google DeepMind · FunSearch</span></div>
-          <div class="tl-title">帽子集问题:大语言模型第一次「发现」新数学<small>悬置数十年的构造纪录</small></div>
-          <p>让模型写程序、让程序生成候选、再用评分器优胜劣汰。几天之内,FunSearch 在 8 维空间找到了比人类已知更大的「帽子集」,还改进了渐近下界——这是 LLM 首次对公开数学问题给出经得起检验的新结果。</p>
-          <span class="tl-more">来龙去脉 →</span>
+      <div class="tl-year">2026</div>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
+        <a class="tl-card" href="problems/navier-stokes.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 9 月 8 日</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决 · 待同行评审</span><span class="tag lean">Lean 已验证</span><span class="tag caution">署名争议</span><span class="tag org">OpenAI · 万级智能体</span></div>
+          <div class="tl-title">纳维–斯托克斯方程:千禧年大奖难题的「有限时间爆破」<small>百万美元 · 悬置 26 年(方程本身 200 年)</small></div>
+          <p>约一万个智能体连跑 88 小时,产出 166 页论文和一份 Lean 形式化:三维不可压缩流体在光滑外力驱动下,可以在有限时间内「爆破」。但纽约大学的 Buckmaster 与 Anthropic 的 Alpöge 一年前就沿同一条路走到了欧拉方程,并指控 OpenAI 施压删去合作者署名——25 位菲尔兹奖得主随即联名发声。</p>
+          <span class="tl-more">证明思路与风波全纪录 →</span>
         </a>
       </div>
-
-      <div class="tl-year">2024</div>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="hybrid">
+        <div class="tl-card hybrid">
+          <div class="tl-meta"><span class="tl-date">2026 年 8 月</span><span class="tag hybrid">🤝 人机合作</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag org">Buckmaster(纽约大学)· Alpöge(Anthropic)+ Claude · Codex</span></div>
+          <div class="tl-title">欧拉方程在光滑外力下的有限时间爆破<small>千禧年难题的前一站</small></div>
+          <p>两位数学家沿着 Córdoba 与 Martínez-Zoroa 的「跨尺度放大」路线,用一年时间证明了三维欧拉方程(纳维–斯托克斯去掉粘性的版本)以及两个相关方程可以在光滑外力下有限时间爆破。他们用 Claude 复现前人论证、用 Claude 与 Codex 撰写正文,8 月 22 日通过 Lean 核验。陶哲轩:「了不起的成就。」</p>
+          <a class="tl-more" href="problems/navier-stokes.html">铺路与风波 →</a>
+        </div>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
+        <a class="tl-card" href="problems/non-sofic.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 8 月 1 日</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag caution">署名争议</span><span class="tag org">OpenAI · Astra</span></div>
+          <div class="tl-title">Astra:第一个非 sofic 群,以及另外九个公开问题<small>Gromov 1999 年的问题 · 悬置 27 年</small></div>
+          <p>OpenAI 未发布的 Astra 模型用约两千美元的算力,交出 249 页手稿和十份 Lean 证书:构造出首个「非 sofic 群」,推翻 Connes 刚性猜想,证明 Ehrhart 体积猜想,并给出 1978 年以来高维球堆积上界的首次改进。随后,德累斯顿的群论学家 Andreas Thom 质疑:证明的核心正是他二十年的路线,模型是否学过他的私人对话?</p>
+          <span class="tl-more">什么是 sofic 群 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="milestone" data-group="progress" data-who="human">
+        <div class="tl-card human">
+          <div class="tl-meta"><span class="tl-date">2026 年 7 月</span><span class="tag human">🧑 人类</span><span class="tag milestone">里程碑</span><span class="tag org">费城 · 国际数学家大会</span></div>
+          <div class="tl-title">2026 年菲尔兹奖:邓煜、John Pardon、Jacob Tsimerman、王虹<small>四位得主解决的问题悬置 20 到 126 年</small></div>
+          <p>四年一度的数学最高奖颁给了四位人类数学家——其中两项获奖工作(三维挂谷猜想、希尔伯特第六问题)就在这条时间线上。同一场典礼上,Tsimerman 宣布加入 OpenAI;两个月前,他刚参与核验了 AI 对单位距离猜想的反例。</p>
+          <a class="tl-more" href="https://www.simonsfoundation.org/2026/07/23/2026-fields-medals-awarded-to-four-of-worlds-top-mathematicians/" target="_blank" rel="noopener">西蒙斯基金会报道 ↗</a>
+        </div>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
+        <a class="tl-card" href="problems/alphaproof-nexus.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 5 月 21 日</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag org">Google DeepMind · AlphaProof Nexus</span></div>
+          <div class="tl-title">AlphaProof Nexus:一口气解决 9 个 Erdős 问题、44 个 OEIS 猜想<small>每题成本几百美元</small></div>
+          <p>把大语言模型、奥赛级形式化证明器 AlphaProof 和进化算法接成一个多智能体系统,对 353 个已形式化的 Erdős 公开问题全自动开工,9 个被彻底解决——其中两个已悬置 56 年。所有证明都是 Lean 代码,无需人工核对。</p>
+          <span class="tl-more">系统怎么运转 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
+        <a class="tl-card" href="problems/unit-distance.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 5 月 20 日</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决 · 反例</span><span class="tag org">OpenAI 内部模型</span></div>
+          <div class="tl-title">单位距离猜想被推翻:Erdős 1946 年的猜测错了<small>悬置 80 年</small></div>
+          <p>平面上 n 个点,最多有多少对恰好相距 1?八十年来人们相信方格点阵就是最优。模型却从代数数论的「类域塔」里搬来一套完全不相干的机器,构造出多得多的单位距离对。九位顶尖数学家当天联名核验;Gowers 说:若是人写的,他会推荐《数学年刊》接收。</p>
+          <span class="tl-more">反例是怎么造的 →</span>
+        </a>
+      </div>
       <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
         <div class="tl-card human">
-          <div class="tl-meta"><span class="tl-date">2024 年 5 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag org">Gaitsgory · Raskin 等 9 人</span></div>
-          <div class="tl-title">几何朗兰兹猜想:五篇论文、近千页<small>悬置约 30 年</small></div>
-          <p>朗兰兹纲领是数学里最宏大的「统一理论」,把数论、几何与表示论用一张地图连起来。它的几何版本由 Dennis Gaitsgory 与 Sam Raskin 领衔的九人团队证明,共五篇论文、近 1000 页。《量子杂志》称之为「纪念碑式的证明」。</p>
-          <a class="tl-more" href="https://www.quantamagazine.org/monumental-proof-settles-geometric-langlands-conjecture-20240719/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
+          <div class="tl-meta"><span class="tl-date">2026 年 3 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag org">Diskin · Easo · Radhakrishnan · Sudakov · Tassion(苏黎世联邦理工)</span></div>
+          <div class="tl-title">渗流的「锐利性」猜想:相变为什么这么陡<small>悬置约 30 年</small></div>
+          <p>往一张网络里随机倒水,超过某个临界比例后,水会突然从零星水洼变成几乎覆盖全网——这个「相变」到底有多陡?超临界情形的锐利性猜想 30 年无人能证。苏黎世联邦理工的五人团队在 2025 年圣诞节前完成证明,《量子杂志》称之为「惊艳」。</p>
+          <a class="tl-more" href="https://www.quantamagazine.org/stunning-percolation-proof-solves-decades-old-puzzle-about-phase-transitions-20260831/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
         </div>
       </div>
       <div class="tl-item" data-kind="milestone" data-group="progress" data-who="ai">
-        <a class="tl-card" href="problems/imo.html">
-          <div class="tl-meta"><span class="tl-date">2024 年 7 月</span><span class="tag ai">🤖 AI</span><span class="tag milestone">里程碑</span><span class="tag lean">Lean 已验证</span><span class="tag org">Google DeepMind · AlphaProof</span></div>
-          <div class="tl-title">国际数学奥林匹克:AI 拿到银牌<small>28 / 42 分</small></div>
-          <p>AlphaProof 把奥赛题翻译成 Lean 语言,用强化学习在形式化世界里搜索证明,解出 6 题中的 4 题——包括当年最难的一道。代价是:有的题算了三天。</p>
-          <span class="tl-more">从银牌到金牌 →</span>
+        <a class="tl-card" href="problems/first-proof.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 2 – 7 月</span><span class="tag ai">🤖 AI</span><span class="tag milestone">里程碑</span><span class="tag org">11 位数学家 · First Proof</span></div>
+          <div class="tl-title">First Proof:用「从未发表」的题目给 AI 出考卷<small>结果好坏参半</small></div>
+          <p>为了排除「答案早就在训练数据里」,11 位数学家拿出自己研究中刚遇到的 10 个问题。第一轮各家模型表现平平;到 7 月,苏黎世联邦理工的两位博士后用自研智能体解出 6 题,击败 OpenAI、UCLA 与普林斯顿的参赛系统。</p>
+          <span class="tl-more">考卷长什么样 →</span>
         </a>
       </div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
-        <div class="tl-card human">
-          <div class="tl-meta"><span class="tl-date">2024 年 12 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag org">Jineon Baek(백진언)</span></div>
-          <div class="tl-title">移动沙发问题:能拐过直角走廊的最大沙发<small>悬置 58 年</small></div>
-          <p>一条宽 1 的走廊拐了个直角,能搬过去的「沙发」最大面积是多少?1966 年 Leo Moser 提出这个问题,1992 年 Gerver 给出一个由 18 段曲线拼成的候选答案,但没人能证明它最优。韩国数学家 Jineon Baek 用 119 页论文证明:Gerver 的沙发就是最大的,面积约 2.2195。</p>
-          <a class="tl-more" href="https://arxiv.org/abs/2411.19826" target="_blank" rel="noopener">论文(arXiv) ↗</a>
+      <div class="tl-item" data-kind="progress" data-group="progress" data-who="hybrid">
+        <div class="tl-card hybrid">
+          <div class="tl-meta"><span class="tl-date">2026 年 1 月</span><span class="tag hybrid">🤝 人机合作</span><span class="tag progress">新发现</span><span class="tag org">Ellenberg · Williamson 等 + AlphaEvolve</span></div>
+          <div class="tl-title">Bruhat 区间的超立方体结构:50 年没人注意到的规律<small>意外之喜</small></div>
+          <p>五位数学家让 AlphaEvolve 为一个表示论问题写代码,却在生成的 50 行 Python 里发现了另一件事:当某类「Bruhat 区间」的大小恰好是 2 的幂时,代码简化成 5 行——它们的结构是超立方体。人类盯着这个领域 50 年没有注意到这条规律。</p>
+          <a class="tl-more" href="https://www.quantamagazine.org/the-ai-revolution-in-math-has-arrived-20260413/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
         </div>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
+        <a class="tl-card" href="problems/erdos-first.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 1 月</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag org">GPT-5.2 Pro + Aristotle · 业余爱好者</span></div>
+          <div class="tl-title">Erdős 第 728 号问题:第一个被 AI 独立解决的 Erdős 问题<small>阶乘整除 · 一位剑桥本科生的提问</small></div>
+          <p>一名本科生把问题原样输给 GPT-5.2 Pro,再用 Harmonic 的 Aristotle 把证明翻译成 Lean,最后由陶哲轩确认。同一周里,第 397 号(被反例推翻)和第 205 号相继失守。陶哲轩的评价:AI 正在收割 Erdős 问题的「长尾」。</p>
+          <span class="tl-more">证明的核心想法 →</span>
+        </a>
       </div>
 
       <div class="tl-year">2025</div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
-        <div class="tl-card human">
-          <div class="tl-meta"><span class="tl-date">2025 年 2 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag milestone">菲尔兹奖</span><span class="tag org">王虹 · Joshua Zahl</span></div>
-          <div class="tl-title">三维挂谷猜想:一根针的百年难题<small>悬置 108 年 · 2026 年菲尔兹奖</small></div>
-          <p>一根针在三维空间里转过所有方向,扫过的集合体积可以任意小,但「维度」必须拉满到 3。从 1917 年挂谷宗一的转针谜题,到 127 页的证明,陶哲轩称之为「百年一遇」。本站有一整页可交互动画,亲手转一转这根针。</p>
-          <a class="tl-more" href="kakeya/">一根针的百年难题 →</a>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
+        <a class="tl-card" href="problems/aletheia.html">
+          <div class="tl-meta"><span class="tl-date">2025 年 12 月</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决</span><span class="tag org">Google DeepMind · Aletheia</span></div>
+          <div class="tl-title">Aletheia 一周扫过 700 个 Erdős 公开问题<small>4 个被真正解决,8 个被发现早有答案</small></div>
+          <p>基于 Gemini Deep Think 的研究智能体,配上「自然语言验证器」和 24 位数学家的人工筛选:212 份候选,63 份正确,其中 4 个公开问题是新的证明——这是第一次有系统地、批量地用 AI 攻研究级问题。</p>
+          <span class="tl-more">流水线是怎么搭的 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="hybrid">
+        <div class="tl-card hybrid">
+          <div class="tl-meta"><span class="tl-date">2025 年 10 月</span><span class="tag hybrid">🤝 人机合作</span><span class="tag solved">难题解决</span><span class="tag org">Ernest Ryu(UCLA)+ ChatGPT</span></div>
+          <div class="tl-title">Nesterov 加速梯度法的收敛猜想:与 ChatGPT 对话 12 小时<small>悬置 42 年</small></div>
+          <p>1983 年 Nesterov 提出的加速梯度法是现代机器学习优化器的祖先,但它的一个基本收敛性质 42 年来无人能证。UCLA 的 Ernest Ryu 用三天里的 12 小时反复向 ChatGPT 提问、核对、把正确的部分喂回去——他形容自己是「验证者」。结果发表于顶级优化期刊。</p>
+          <a class="tl-more" href="https://www.quantamagazine.org/the-ai-revolution-in-math-has-arrived-20260413/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
         </div>
       </div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
-        <div class="tl-card human">
-          <div class="tl-meta"><span class="tl-date">2025 年 2 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决 · 反例</span><span class="tag org">Hannah Cairo,17 岁</span></div>
-          <div class="tl-title">Mizohata–Takeuchi 猜想被推翻:一位 17 岁高中生的反例<small>悬置约 40 年</small></div>
-          <p>这是调和分析里关于「波的能量如何分布」的一个著名预测,40 年来没人能证明或推翻。当时 17 岁、在伯克利旁听研究生课程的 Hannah Cairo 构造出了反例——先是被自己的老师怀疑,反复检查后确认无误。她随后跳过本科直接进入博士项目。</p>
-          <a class="tl-more" href="https://www.quantamagazine.org/at-17-hannah-cairo-solved-a-major-math-mystery-20250701/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
-        </div>
-      </div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
-        <div class="tl-card human">
-          <div class="tl-meta"><span class="tl-date">2025 年 3 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag milestone">菲尔兹奖</span><span class="tag org">邓煜 · Zaher Hani · 马骁</span></div>
-          <div class="tl-title">希尔伯特第六问题:从牛顿定律推出流体方程<small>悬置 125 年 · 2026 年菲尔兹奖</small></div>
-          <p>1900 年希尔伯特问:能否从单个分子碰撞的牛顿力学,严格推导出描述气体与流体的宏观方程?三位数学家完成了这条链条的关键一环:从「硬球碰撞」推出玻尔兹曼方程,再推出流体方程。邓煜因此获 2026 年菲尔兹奖。</p>
-          <a class="tl-more" href="https://arxiv.org/abs/2503.01800" target="_blank" rel="noopener">论文(arXiv) ↗</a>
-        </div>
-      </div>
-      <div class="tl-item" data-kind="progress" data-group="progress" data-who="ai">
-        <a class="tl-card" href="problems/alphaevolve.html">
-          <div class="tl-meta"><span class="tl-date">2025 年 5 月</span><span class="tag ai">🤖 AI</span><span class="tag progress">改进纪录</span><span class="tag org">Google DeepMind · AlphaEvolve</span></div>
-          <div class="tl-title">AlphaEvolve:4×4 矩阵乘法 48 次、11 维亲吻数 593<small>打破 1969 年施特拉森的纪录</small></div>
-          <p>一个「让代码进化」的智能体,在 50 多个公开问题上跑了一遍:约两成给出了比人类已知更好的构造,其中最响亮的是 56 年来第一次把 4×4 复矩阵乘法的乘法次数从 49 降到 48。</p>
-          <span class="tl-more">它是怎么找的 →</span>
+      <div class="tl-item" data-kind="caution" data-group="caution" data-who="ai">
+        <a class="tl-card" href="problems/erdos-literature.html">
+          <div class="tl-meta"><span class="tl-date">2025 年 8 – 10 月</span><span class="tag ai">🤖 AI</span><span class="tag caution">争议 · 乌龙</span><span class="tag org">OpenAI</span></div>
+          <div class="tl-title">「GPT-5 解决了十个 Erdős 问题」——其实是查到了文献<small>两次抢跑,两次翻车</small></div>
+          <p>8 月,一个凸优化界被宣布为「新数学」,但更好的结果几个月前就已发表;10 月,OpenAI 高管宣称模型解决了 10 个 Erdős 问题,数据库维护者 Thomas Bloom 回应:「严重失实」——模型只是找到了他没读过的旧论文。这两件事定义了此后所有人看 AI 数学新闻的方式。</p>
+          <span class="tl-more">乌龙是怎么发生的 →</span>
         </a>
       </div>
       <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
         <div class="tl-card human">
-          <div class="tl-meta"><span class="tl-date">2025 年 6 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决 · 反例</span><span class="tag org">Brittenham · Hermiller</span></div>
-          <div class="tl-title">解结数不可加:两个结连在一起,解开反而更省<small>悬置约 90 年</small></div>
-          <p>「解结数」是把一个结解开最少需要穿过自己几次。把两个结连在一起,解结数是不是简单相加?这个看似显然的猜想自 1930 年代起就悬而未决。两位内布拉斯加大学的数学家找到了反例:两个各需 7 次的结连起来,只需 13 次。</p>
-          <a class="tl-more" href="https://arxiv.org/abs/2506.24088" target="_blank" rel="noopener">论文(arXiv) ↗</a>
+          <div class="tl-meta"><span class="tl-date">2025 年 8 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决 · 反例</span><span class="tag org">Steininger · Yurkevich</span></div>
+          <div class="tl-title">Noperthedron:第一个「穿不过自己」的凸多面体<small>悬置约 350 年的问题有了反例</small></div>
+          <p>鲁珀特王子在 17 世纪发现:可以在一个立方体上开洞,让同样大的立方体穿过去。此后人们检查的每一种凸多面体都有这个性质,于是猜想「所有凸多面体都行」。两位数学家构造出一个 152 面的多面体,证明它无论怎么开洞都穿不过自己。</p>
+          <a class="tl-more" href="https://www.scientificamerican.com/article/the-top-10-math-discoveries-of-2025/" target="_blank" rel="noopener">《科学美国人》年度盘点 ↗</a>
         </div>
       </div>
       <div class="tl-item" data-kind="milestone" data-group="progress" data-who="ai">
@@ -171,117 +192,95 @@
       </div>
       <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
         <div class="tl-card human">
-          <div class="tl-meta"><span class="tl-date">2025 年 8 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决 · 反例</span><span class="tag org">Steininger · Yurkevich</span></div>
-          <div class="tl-title">Noperthedron:第一个「穿不过自己」的凸多面体<small>悬置约 350 年的问题有了反例</small></div>
-          <p>鲁珀特王子在 17 世纪发现:可以在一个立方体上开洞,让同样大的立方体穿过去。此后人们检查的每一种凸多面体都有这个性质,于是猜想「所有凸多面体都行」。两位数学家构造出一个 152 面的多面体,证明它无论怎么开洞都穿不过自己。</p>
-          <a class="tl-more" href="https://www.scientificamerican.com/article/the-top-10-math-discoveries-of-2025/" target="_blank" rel="noopener">《科学美国人》年度盘点 ↗</a>
+          <div class="tl-meta"><span class="tl-date">2025 年 6 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决 · 反例</span><span class="tag org">Brittenham · Hermiller</span></div>
+          <div class="tl-title">解结数不可加:两个结连在一起,解开反而更省<small>悬置约 90 年</small></div>
+          <p>「解结数」是把一个结解开最少需要穿过自己几次。把两个结连在一起,解结数是不是简单相加?这个看似显然的猜想自 1930 年代起就悬而未决。两位内布拉斯加大学的数学家找到了反例:两个各需 7 次的结连起来,只需 13 次。</p>
+          <a class="tl-more" href="https://arxiv.org/abs/2506.24088" target="_blank" rel="noopener">论文(arXiv) ↗</a>
         </div>
       </div>
-      <div class="tl-item" data-kind="caution" data-group="caution" data-who="ai">
-        <a class="tl-card" href="problems/erdos-literature.html">
-          <div class="tl-meta"><span class="tl-date">2025 年 8 – 10 月</span><span class="tag ai">🤖 AI</span><span class="tag caution">争议 · 乌龙</span><span class="tag org">OpenAI</span></div>
-          <div class="tl-title">「GPT-5 解决了十个 Erdős 问题」——其实是查到了文献<small>两次抢跑,两次翻车</small></div>
-          <p>8 月,一个凸优化界被宣布为「新数学」,但更好的结果几个月前就已发表;10 月,OpenAI 高管宣称模型解决了 10 个 Erdős 问题,数据库维护者 Thomas Bloom 回应:「严重失实」——模型只是找到了他没读过的旧论文。这两件事定义了此后所有人看 AI 数学新闻的方式。</p>
-          <span class="tl-more">乌龙是怎么发生的 →</span>
-        </a>
-      </div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="hybrid">
-        <div class="tl-card hybrid">
-          <div class="tl-meta"><span class="tl-date">2025 年 10 月</span><span class="tag hybrid">🤝 人机合作</span><span class="tag solved">难题解决</span><span class="tag org">Ernest Ryu(UCLA)+ ChatGPT</span></div>
-          <div class="tl-title">Nesterov 加速梯度法的收敛猜想:与 ChatGPT 对话 12 小时<small>悬置 42 年</small></div>
-          <p>1983 年 Nesterov 提出的加速梯度法是现代机器学习优化器的祖先,但它的一个基本收敛性质 42 年来无人能证。UCLA 的 Ernest Ryu 用三天里的 12 小时反复向 ChatGPT 提问、核对、把正确的部分喂回去——他形容自己是「验证者」。结果发表于顶级优化期刊。</p>
-          <a class="tl-more" href="https://www.quantamagazine.org/the-ai-revolution-in-math-has-arrived-20260413/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
-        </div>
-      </div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
-        <a class="tl-card" href="problems/aletheia.html">
-          <div class="tl-meta"><span class="tl-date">2025 年 12 月</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决</span><span class="tag org">Google DeepMind · Aletheia</span></div>
-          <div class="tl-title">Aletheia 一周扫过 700 个 Erdős 公开问题<small>4 个被真正解决,8 个被发现早有答案</small></div>
-          <p>基于 Gemini Deep Think 的研究智能体,配上「自然语言验证器」和 24 位数学家的人工筛选:212 份候选,63 份正确,其中 4 个公开问题是新的证明——这是第一次有系统地、批量地用 AI 攻研究级问题。</p>
-          <span class="tl-more">流水线是怎么搭的 →</span>
-        </a>
-      </div>
-
-      <div class="tl-year">2026</div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
-        <a class="tl-card" href="problems/erdos-first.html">
-          <div class="tl-meta"><span class="tl-date">2026 年 1 月</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag org">GPT-5.2 Pro + Aristotle · 业余爱好者</span></div>
-          <div class="tl-title">Erdős 第 728 号问题:第一个被 AI 独立解决的 Erdős 问题<small>阶乘整除 · 一位剑桥本科生的提问</small></div>
-          <p>一名本科生把问题原样输给 GPT-5.2 Pro,再用 Harmonic 的 Aristotle 把证明翻译成 Lean,最后由陶哲轩确认。同一周里,第 397 号(被反例推翻)和第 205 号相继失守。陶哲轩的评价:AI 正在收割 Erdős 问题的「长尾」。</p>
-          <span class="tl-more">证明的核心想法 →</span>
-        </a>
-      </div>
-      <div class="tl-item" data-kind="progress" data-group="progress" data-who="hybrid">
-        <div class="tl-card hybrid">
-          <div class="tl-meta"><span class="tl-date">2026 年 1 月</span><span class="tag hybrid">🤝 人机合作</span><span class="tag progress">新发现</span><span class="tag org">Ellenberg · Williamson 等 + AlphaEvolve</span></div>
-          <div class="tl-title">Bruhat 区间的超立方体结构:50 年没人注意到的规律<small>意外之喜</small></div>
-          <p>五位数学家让 AlphaEvolve 为一个表示论问题写代码,却在生成的 50 行 Python 里发现了另一件事:当某类「Bruhat 区间」的大小恰好是 2 的幂时,代码简化成 5 行——它们的结构是超立方体。人类盯着这个领域 50 年没有注意到这条规律。</p>
-          <a class="tl-more" href="https://www.quantamagazine.org/the-ai-revolution-in-math-has-arrived-20260413/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
-        </div>
-      </div>
-      <div class="tl-item" data-kind="milestone" data-group="progress" data-who="ai">
-        <a class="tl-card" href="problems/first-proof.html">
-          <div class="tl-meta"><span class="tl-date">2026 年 2 – 7 月</span><span class="tag ai">🤖 AI</span><span class="tag milestone">里程碑</span><span class="tag org">11 位数学家 · First Proof</span></div>
-          <div class="tl-title">First Proof:用「从未发表」的题目给 AI 出考卷<small>结果好坏参半</small></div>
-          <p>为了排除「答案早就在训练数据里」,11 位数学家拿出自己研究中刚遇到的 10 个问题。第一轮各家模型表现平平;到 7 月,苏黎世联邦理工的两位博士后用自研智能体解出 6 题,击败 OpenAI、UCLA 与普林斯顿的参赛系统。</p>
-          <span class="tl-more">考卷长什么样 →</span>
+      <div class="tl-item" data-kind="progress" data-group="progress" data-who="ai">
+        <a class="tl-card" href="problems/alphaevolve.html">
+          <div class="tl-meta"><span class="tl-date">2025 年 5 月</span><span class="tag ai">🤖 AI</span><span class="tag progress">改进纪录</span><span class="tag org">Google DeepMind · AlphaEvolve</span></div>
+          <div class="tl-title">AlphaEvolve:4×4 矩阵乘法 48 次、11 维亲吻数 593<small>打破 1969 年施特拉森的纪录</small></div>
+          <p>一个「让代码进化」的智能体,在 50 多个公开问题上跑了一遍:约两成给出了比人类已知更好的构造,其中最响亮的是 56 年来第一次把 4×4 复矩阵乘法的乘法次数从 49 降到 48。</p>
+          <span class="tl-more">它是怎么找的 →</span>
         </a>
       </div>
       <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
         <div class="tl-card human">
-          <div class="tl-meta"><span class="tl-date">2026 年 3 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag org">Diskin · Easo · Radhakrishnan · Sudakov · Tassion(苏黎世联邦理工)</span></div>
-          <div class="tl-title">渗流的「锐利性」猜想:相变为什么这么陡<small>悬置约 30 年</small></div>
-          <p>往一张网络里随机倒水,超过某个临界比例后,水会突然从零星水洼变成几乎覆盖全网——这个「相变」到底有多陡?超临界情形的锐利性猜想 30 年无人能证。苏黎世联邦理工的五人团队在 2025 年圣诞节前完成证明,《量子杂志》称之为「惊艳」。</p>
-          <a class="tl-more" href="https://www.quantamagazine.org/stunning-percolation-proof-solves-decades-old-puzzle-about-phase-transitions-20260831/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
+          <div class="tl-meta"><span class="tl-date">2025 年 3 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag milestone">菲尔兹奖</span><span class="tag org">邓煜 · Zaher Hani · 马骁</span></div>
+          <div class="tl-title">希尔伯特第六问题:从牛顿定律推出流体方程<small>悬置 125 年 · 2026 年菲尔兹奖</small></div>
+          <p>1900 年希尔伯特问:能否从单个分子碰撞的牛顿力学,严格推导出描述气体与流体的宏观方程?三位数学家完成了这条链条的关键一环:从「硬球碰撞」推出玻尔兹曼方程,再推出流体方程。邓煜因此获 2026 年菲尔兹奖。</p>
+          <a class="tl-more" href="https://arxiv.org/abs/2503.01800" target="_blank" rel="noopener">论文(arXiv) ↗</a>
         </div>
       </div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
-        <a class="tl-card" href="problems/unit-distance.html">
-          <div class="tl-meta"><span class="tl-date">2026 年 5 月 20 日</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决 · 反例</span><span class="tag org">OpenAI 内部模型</span></div>
-          <div class="tl-title">单位距离猜想被推翻:Erdős 1946 年的猜测错了<small>悬置 80 年</small></div>
-          <p>平面上 n 个点,最多有多少对恰好相距 1?八十年来人们相信方格点阵就是最优。模型却从代数数论的「类域塔」里搬来一套完全不相干的机器,构造出多得多的单位距离对。九位顶尖数学家当天联名核验;Gowers 说:若是人写的,他会推荐《数学年刊》接收。</p>
-          <span class="tl-more">反例是怎么造的 →</span>
-        </a>
-      </div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
-        <a class="tl-card" href="problems/alphaproof-nexus.html">
-          <div class="tl-meta"><span class="tl-date">2026 年 5 月 21 日</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag org">Google DeepMind · AlphaProof Nexus</span></div>
-          <div class="tl-title">AlphaProof Nexus:一口气解决 9 个 Erdős 问题、44 个 OEIS 猜想<small>每题成本几百美元</small></div>
-          <p>把大语言模型、奥赛级形式化证明器 AlphaProof 和进化算法接成一个多智能体系统,对 353 个已形式化的 Erdős 公开问题全自动开工,9 个被彻底解决——其中两个已悬置 56 年。所有证明都是 Lean 代码,无需人工核对。</p>
-          <span class="tl-more">系统怎么运转 →</span>
-        </a>
-      </div>
-      <div class="tl-item" data-kind="milestone" data-group="progress" data-who="human">
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
         <div class="tl-card human">
-          <div class="tl-meta"><span class="tl-date">2026 年 7 月</span><span class="tag human">🧑 人类</span><span class="tag milestone">里程碑</span><span class="tag org">费城 · 国际数学家大会</span></div>
-          <div class="tl-title">2026 年菲尔兹奖:邓煜、John Pardon、Jacob Tsimerman、王虹<small>四位得主解决的问题悬置 20 到 126 年</small></div>
-          <p>四年一度的数学最高奖颁给了四位人类数学家——其中两项获奖工作(三维挂谷猜想、希尔伯特第六问题)就在这条时间线上。同一场典礼上,Tsimerman 宣布加入 OpenAI;两个月前,他刚参与核验了 AI 对单位距离猜想的反例。</p>
-          <a class="tl-more" href="https://www.simonsfoundation.org/2026/07/23/2026-fields-medals-awarded-to-four-of-worlds-top-mathematicians/" target="_blank" rel="noopener">西蒙斯基金会报道 ↗</a>
+          <div class="tl-meta"><span class="tl-date">2025 年 2 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决 · 反例</span><span class="tag org">Hannah Cairo,17 岁</span></div>
+          <div class="tl-title">Mizohata–Takeuchi 猜想被推翻:一位 17 岁高中生的反例<small>悬置约 40 年</small></div>
+          <p>这是调和分析里关于「波的能量如何分布」的一个著名预测,40 年来没人能证明或推翻。当时 17 岁、在伯克利旁听研究生课程的 Hannah Cairo 构造出了反例——先是被自己的老师怀疑,反复检查后确认无误。她随后跳过本科直接进入博士项目。</p>
+          <a class="tl-more" href="https://www.quantamagazine.org/at-17-hannah-cairo-solved-a-major-math-mystery-20250701/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
         </div>
       </div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
-        <a class="tl-card" href="problems/non-sofic.html">
-          <div class="tl-meta"><span class="tl-date">2026 年 8 月 1 日</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag caution">署名争议</span><span class="tag org">OpenAI · Astra</span></div>
-          <div class="tl-title">Astra:第一个非 sofic 群,以及另外九个公开问题<small>Gromov 1999 年的问题 · 悬置 27 年</small></div>
-          <p>OpenAI 未发布的 Astra 模型用约两千美元的算力,交出 249 页手稿和十份 Lean 证书:构造出首个「非 sofic 群」,推翻 Connes 刚性猜想,证明 Ehrhart 体积猜想,并给出 1978 年以来高维球堆积上界的首次改进。随后,德累斯顿的群论学家 Andreas Thom 质疑:证明的核心正是他二十年的路线,模型是否学过他的私人对话?</p>
-          <span class="tl-more">什么是 sofic 群 →</span>
-        </a>
-      </div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="hybrid">
-        <div class="tl-card hybrid">
-          <div class="tl-meta"><span class="tl-date">2026 年 8 月</span><span class="tag hybrid">🤝 人机合作</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag org">Buckmaster(纽约大学)· Alpöge(Anthropic)+ Claude · Codex</span></div>
-          <div class="tl-title">欧拉方程在光滑外力下的有限时间爆破<small>千禧年难题的前一站</small></div>
-          <p>两位数学家沿着 Córdoba 与 Martínez-Zoroa 的「跨尺度放大」路线,用一年时间证明了三维欧拉方程(纳维–斯托克斯去掉粘性的版本)以及两个相关方程可以在光滑外力下有限时间爆破。他们用 Claude 复现前人论证、用 Claude 与 Codex 撰写正文,8 月 22 日通过 Lean 核验。陶哲轩:「了不起的成就。」</p>
-          <a class="tl-more" href="problems/navier-stokes.html">铺路与风波 →</a>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
+        <div class="tl-card human">
+          <div class="tl-meta"><span class="tl-date">2025 年 2 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag milestone">菲尔兹奖</span><span class="tag org">王虹 · Joshua Zahl</span></div>
+          <div class="tl-title">三维挂谷猜想:一根针的百年难题<small>悬置 108 年 · 2026 年菲尔兹奖</small></div>
+          <p>一根针在三维空间里转过所有方向,扫过的集合体积可以任意小,但「维度」必须拉满到 3。从 1917 年挂谷宗一的转针谜题,到 127 页的证明,陶哲轩称之为「百年一遇」。本站有一整页可交互动画,亲手转一转这根针。</p>
+          <a class="tl-more" href="kakeya/">一根针的百年难题 →</a>
         </div>
       </div>
-      <div class="tl-item" data-kind="solved" data-group="solved" data-who="ai">
-        <a class="tl-card" href="problems/navier-stokes.html">
-          <div class="tl-meta"><span class="tl-date">2026 年 9 月 8 日</span><span class="tag ai">🤖 AI</span><span class="tag solved">难题解决 · 待同行评审</span><span class="tag lean">Lean 已验证</span><span class="tag caution">署名争议</span><span class="tag org">OpenAI · 万级智能体</span></div>
-          <div class="tl-title">纳维–斯托克斯方程:千禧年大奖难题的「有限时间爆破」<small>百万美元 · 悬置 26 年(方程本身 200 年)</small></div>
-          <p>约一万个智能体连跑 88 小时,产出 166 页论文和一份 Lean 形式化:三维不可压缩流体在光滑外力驱动下,可以在有限时间内「爆破」。但纽约大学的 Buckmaster 与 Anthropic 的 Alpöge 一年前就沿同一条路走到了欧拉方程,并指控 OpenAI 施压删去合作者署名——25 位菲尔兹奖得主随即联名发声。</p>
-          <span class="tl-more">证明思路与风波全纪录 →</span>
+
+      <div class="tl-year">2024</div>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
+        <div class="tl-card human">
+          <div class="tl-meta"><span class="tl-date">2024 年 12 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag org">Jineon Baek(백진언)</span></div>
+          <div class="tl-title">移动沙发问题:能拐过直角走廊的最大沙发<small>悬置 58 年</small></div>
+          <p>一条宽 1 的走廊拐了个直角,能搬过去的「沙发」最大面积是多少?1966 年 Leo Moser 提出这个问题,1992 年 Gerver 给出一个由 18 段曲线拼成的候选答案,但没人能证明它最优。韩国数学家 Jineon Baek 用 119 页论文证明:Gerver 的沙发就是最大的,面积约 2.2195。</p>
+          <a class="tl-more" href="https://arxiv.org/abs/2411.19826" target="_blank" rel="noopener">论文(arXiv) ↗</a>
+        </div>
+      </div>
+      <div class="tl-item" data-kind="milestone" data-group="progress" data-who="ai">
+        <a class="tl-card" href="problems/imo.html">
+          <div class="tl-meta"><span class="tl-date">2024 年 7 月</span><span class="tag ai">🤖 AI</span><span class="tag milestone">里程碑</span><span class="tag lean">Lean 已验证</span><span class="tag org">Google DeepMind · AlphaProof</span></div>
+          <div class="tl-title">国际数学奥林匹克:AI 拿到银牌<small>28 / 42 分</small></div>
+          <p>AlphaProof 把奥赛题翻译成 Lean 语言,用强化学习在形式化世界里搜索证明,解出 6 题中的 4 题——包括当年最难的一道。代价是:有的题算了三天。</p>
+          <span class="tl-more">从银牌到金牌 →</span>
         </a>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
+        <div class="tl-card human">
+          <div class="tl-meta"><span class="tl-date">2024 年 5 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag org">Gaitsgory · Raskin 等 9 人</span></div>
+          <div class="tl-title">几何朗兰兹猜想:五篇论文、近千页<small>悬置约 30 年</small></div>
+          <p>朗兰兹纲领是数学里最宏大的「统一理论」,把数论、几何与表示论用一张地图连起来。它的几何版本由 Dennis Gaitsgory 与 Sam Raskin 领衔的九人团队证明,共五篇论文、近 1000 页。《量子杂志》称之为「纪念碑式的证明」。</p>
+          <a class="tl-more" href="https://www.quantamagazine.org/monumental-proof-settles-geometric-langlands-conjecture-20240719/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
+        </div>
+      </div>
+
+      <div class="tl-year">2023</div>
+      <div class="tl-item" data-kind="progress" data-group="progress" data-who="ai">
+        <a class="tl-card" href="problems/cap-set.html">
+          <div class="tl-meta"><span class="tl-date">2023 年 12 月</span><span class="tag ai">🤖 AI</span><span class="tag progress">改进纪录</span><span class="tag org">Google DeepMind · FunSearch</span></div>
+          <div class="tl-title">帽子集问题:大语言模型第一次「发现」新数学<small>悬置数十年的构造纪录</small></div>
+          <p>让模型写程序、让程序生成候选、再用评分器优胜劣汰。几天之内,FunSearch 在 8 维空间找到了比人类已知更大的「帽子集」,还改进了渐近下界——这是 LLM 首次对公开数学问题给出经得起检验的新结果。</p>
+          <span class="tl-more">来龙去脉 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
+        <div class="tl-card human">
+          <div class="tl-meta"><span class="tl-date">2023 年 11 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag org">Gowers · Green · Manners · 陶哲轩</span></div>
+          <div class="tl-title">多项式 Freiman–Ruzsa 猜想:加法组合学的核心猜想<small>悬置约 25 年</small></div>
+          <p>如果一个集合「几乎封闭于加法」(自己加自己不会变大很多),它是否必然接近一个真正的子群?这是加法组合学里最重要的猜想之一。四位数学家给出了证明,陶哲轩随即发起众包,把 30 多页的证明在<b>三周内</b>完整翻译成 Lean——这是 Lean 形式化第一次跟上研究前沿的速度。</p>
+          <a class="tl-more" href="https://terrytao.wordpress.com/2023/11/13/on-a-conjecture-of-marton/" target="_blank" rel="noopener">陶哲轩博客 ↗</a>
+        </div>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved" data-who="human">
+        <div class="tl-card human">
+          <div class="tl-meta"><span class="tl-date">2023 年 3 月</span><span class="tag human">🧑 人类</span><span class="tag solved">难题解决</span><span class="tag org">David Smith · Myers · Kaplan · Goodman-Strauss</span></div>
+          <div class="tl-title">「爱因斯坦」瓷砖:一块砖就能铺满平面、却永不重复<small>悬置约 60 年</small></div>
+          <p>有没有一种形状,能无缝铺满整个平面,却无论怎么铺都不会出现周期性的重复?这个「单块非周期瓷砖」问题自 1960 年代起就没有答案。英国退休印刷工 David Smith 用剪纸摆出了一块 13 边的「帽子」,三位数学家随后证明它确实做到了——半年后他们又找到了不需要翻面的「幽灵」版本。</p>
+          <a class="tl-more" href="https://www.quantamagazine.org/hobbyist-finds-maths-elusive-einstein-tile-20230404/" target="_blank" rel="noopener">《量子杂志》报道 ↗</a>
+        </div>
       </div>
 
     </div>
