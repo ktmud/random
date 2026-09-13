@@ -52,6 +52,17 @@
   <div class="wrap">
     <div class="chapnum">考 卷</div>
     <h2>十道题,全部来自「昨天的草稿纸」</h2>
+    
+  </div>
+  <div class="wide">
+    <div class="figure" style="max-width:640px">
+      <div class="tl-meta"><span class="tag solved">动画</span><span>怎样保证「没人提前见过答案」</span></div>
+      <canvas id="commit" style="height:200px" aria-label="先公布答案的加密指纹、再公开题目、限时作答、最后揭晓答案的流程动画"></canvas>
+      <div class="controls"><button class="btn" id="commitPlay" aria-pressed="true">⏸ 暂停</button><span class="readout" id="commitOut"></span></div>
+      <div class="cap">出题人先把自己的答案加密、公布「指纹」(哈希值);再公开题目;各团队限时作答;最后公布答案,任何人都能核对它与当初的指纹一致——既保证答案事先存在,又保证没人能提前看到。</div>
+    </div>
+  </div>
+  <div class="wrap">
     <p>2026 年 2 月 5 日,First Proof 的第一批题目公开。这 10 道题的共同点是:它们都是作者们<b>自己正在进行的研究</b>中自然冒出来的、已经解决但尚未发表的引理级问题。题目分布在代数几何、组合、概率、分析等多个领域,每一道都要求给出完整证明,而不是一个数值答案。</p>
     <div class="grid2">
       <div class="card"><div class="ic">🔒</div><h4>不可能泄漏</h4><p>题目公开之前,答案只存在于作者的手稿里。模型不可能「见过」。</p></div>
@@ -61,6 +72,40 @@
     </div>
   </div>
 </section>
+<script>
+(() => {
+  const cv = document.getElementById("commit"), ctx = cv.getContext("2d"), btn = document.getElementById("commitPlay"), out = document.getElementById("commitOut");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let playing = !reduce, t = 0, last = performance.now();
+  const steps = ["① 答案写好,加密", "② 公布指纹 a3f9…", "③ 公开题目", "④ 限时一周作答", "⑤ 揭晓答案,核对指纹 ✓"];
+  const T = 10;
+  const draw = (now) => {
+    const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    if (cv.width !== Math.round(r.width * dpr)) { cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const W = r.width, H = r.height; const dt = Math.max(0, now - last) / 1000; last = now; if (playing) t += dt; if (t > T) t = 0;
+    const prog = t / T, cur = Math.min(4, Math.floor(prog * 5));
+    ctx.clearRect(0, 0, W, H);
+    const y = H * 0.42, x0 = 30, x1 = W - 30;
+    ctx.strokeStyle = "#e6dfd0"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x1, y); ctx.stroke();
+    ctx.strokeStyle = "#bc3f1e"; ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x0 + (x1 - x0) * prog, y); ctx.stroke();
+    steps.forEach((s, i) => {
+      const x = x0 + (x1 - x0) * i / 4; const on = i <= cur;
+      ctx.fillStyle = on ? "#bc3f1e" : "#faf6ee"; ctx.strokeStyle = on ? "#bc3f1e" : "#c9bfa8"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = on ? "#2a2418" : "#8a8272"; ctx.font = (i === cur ? "bold " : "") + "12px sans-serif"; ctx.textAlign = "center";
+      const lines = s.split(","); lines.forEach((ln, j) => ctx.fillText(ln, x, y + 26 + j * 15));
+      // 锁 / 解锁
+      if (i === 0 || i === 4) { ctx.font = "18px sans-serif"; ctx.fillText(i === 0 ? "🔒" : "🔓", x, y - 18); }
+    });
+    out.innerHTML = steps[cur];
+    requestAnimationFrame(draw);
+  };
+  btn.addEventListener("click", () => { playing = !playing; btn.textContent = playing ? "⏸ 暂停" : "▶ 播放"; btn.setAttribute("aria-pressed", playing); });
+  btn.textContent = playing ? "⏸ 暂停" : "▶ 播放";
+  requestAnimationFrame(draw);
+})();
+</script>
 
 <hr class="sep">
 

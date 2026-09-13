@@ -76,7 +76,18 @@
   <div class="wrap">
     <div class="chapnum">后 果</div>
     <h2>两次乌龙,换来一套规矩</h2>
-    <p>这两件事没有让社区放弃 AI,反而催生了此后一年所有人遵守的三条默契:</p>
+    <p>这两件事没有让社区放弃 AI,反而催生了一套新的记录规范:把每一条 AI 贡献分门别类,「解决」与「查到」泾渭分明。</p>
+  </div>
+  <div class="wide">
+    <div class="figure" style="max-width:640px">
+      <div class="tl-meta"><span class="tag solved">图表</span><span>AI 对 Erdős 问题的贡献,按类别(截至 2026 年 8 月,约数)</span></div>
+      <canvas id="contrib" style="height:230px" aria-label="AI 对 Erdős 问题各类贡献的条数"></canvas>
+      <div class="cap">数据来自陶哲轩等维护的记录页,取整。「文献检索」单独成类:模型找到了早已发表的解——有用,但不是新数学。2025 年 10 月那 10 个问题,全部属于最下面这一条。</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p>此后一年所有人遵守的三条默契:</p>
+<p>这两件事没有让社区放弃 AI,反而催生了此后一年所有人遵守的三条默契:</p>
     <div class="steps">
       <div class="step"><b>先查文献,再谈解决。</b>陶哲轩牵头在 GitHub 上建立了「AI 对 Erdős 问题的贡献」记录页,把每一条贡献分级:独立解决、与文献同时、基于文献、人机合作——以及单独一类<b>「文献检索」</b>。截至 2026 年 8 月,后者已有 80 余条。Bloom 也承认:这些「找回来的旧解」对数据库本身非常有价值。</div>
       <div class="step"><b>证明要能被机器核对。</b>三个月后第一个真正被 AI 解决的 Erdős 问题(<a href="erdos-first.html">第 728 号</a>),从一开始就附带 Lean 形式化证明——因为没人愿意再为「是不是真的」吵一次。</div>
@@ -85,6 +96,25 @@
     <div class="takeaway"><span class="tk">一句话</span>AI 数学新闻的可信度,是从这两次翻车之后才开始建立的。看到「解决了 N 个问题」的标题,先问:谁核的?有没有 Lean?文献查过了吗?</div>
   </div>
 </section>
+<script>
+(() => {
+  const cv = document.getElementById("contrib"), ctx = cv.getContext("2d");
+  const rows = [["AI 独立解决", 50, "#bc3f1e"], ["AI 解决,后发现文献中已有", 25, "#a8801f"], ["AI 在已有文献上推进", 35, "#33589b"], ["人机合作解决", 100, "#6e3f8f"], ["仅文献检索(找到旧解)", 80, "#8a8272"]];
+  const draw = () => {
+    const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const W = r.width, H = r.height, narrow = W < 480, L = narrow ? 8 : 190, rowH = H / rows.length, max = 110;
+    ctx.clearRect(0, 0, W, H); ctx.font = "12.5px sans-serif";
+    rows.forEach(([name, v, c], i) => {
+      const y = i * rowH + (narrow ? 14 : 0), bh = narrow ? rowH * 0.36 : rowH * 0.55, by = y + (narrow ? rowH * 0.32 : (rowH - bh) / 2);
+      ctx.fillStyle = "#3a3426"; ctx.textAlign = narrow ? "left" : "right"; ctx.fillText(name, narrow ? 8 : L - 10, narrow ? y : by + bh / 2 + 4);
+      ctx.fillStyle = c; ctx.fillRect(L, by, (W - L - 44) * v / max, bh);
+      ctx.fillStyle = "#2a2418"; ctx.textAlign = "left"; ctx.fillText("~" + v, L + (W - L - 44) * v / max + 6, by + bh / 2 + 4);
+    });
+  };
+  addEventListener("resize", draw); draw();
+})();
+</script>
 </main>
 
 <div class="wrap">

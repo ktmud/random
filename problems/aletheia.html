@@ -58,10 +58,62 @@
       <div class="step"><b>人工复核。</b>24 位研究者分头细读这 212 份——目标是先快速把候选池缩到专家能承受的规模,再交给对应领域的专家逐行检查。最终 <b>63 份</b>被确认为技术上正确。</div>
       <div class="step"><b>文献比对。</b>63 份正确证明里,大多数是重新证明了人类早已知道的结果。真正的「新」只有 <b>5 个</b>;另有 <b>8 个</b>问题被发现其实早已在文献中解决,数据库据此更新。</div>
     </div>
+    
+  </div>
+  <div class="wide">
+    <div class="figure" style="max-width:640px">
+      <div class="tl-meta"><span class="tag solved">动画</span><span>700 → 212 → 63 → 5 的漏斗</span></div>
+      <canvas id="funnel" style="height:260px" aria-label="700 个问题经过三道筛选剩下 5 个新解的动画"></canvas>
+      <div class="controls"><button class="btn" id="funnelPlay" aria-pressed="true">⏸ 暂停</button><span class="readout" id="funnelOut"></span></div>
+      <div class="cap">每个点是一道题。第一道筛:机器验证器;第二道筛:人工复核;第三道筛:文献比对。灰色是被筛掉的,金色是「正确但早已知道」的,红色是真正的新解。</div>
+    </div>
+  </div>
+  <div class="wrap">
     <p>被全自动解决的是第 652、654、1040 号问题;第 1051 号的解法被进一步推广,写成了一篇独立论文。同一批实验里还有一个副产品:一篇由 AI <b>无人干预</b>写成的研究论文,计算算术几何中一类叫「本征权」(eigenweights)的结构常数——DeepMind 称之为「可靠的自主研究」的第一个样本。</p>
     <div class="aside"><b>为什么「63 → 5」这个漏斗很重要?</b> 它说明当时的 AI 最擅长的是<b>重做已知的事</b>:五分之四的正确证明都是「重新发明轮子」。如果没有认真的文献比对,这次实验的标题本来可以是「AI 解决了 63 个 Erdős 问题」。</div>
   </div>
 </section>
+<script>
+(() => {
+  const cv = document.getElementById("funnel"), ctx = cv.getContext("2d"), btn = document.getElementById("funnelPlay"), out = document.getElementById("funnelOut");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let playing = !reduce, t = 0, last = performance.now();
+  const N = 700, stages = [[N, "700 个公开问题"], [212, "机器验证器:212 份「可能正确」"], [63, "人工复核:63 份正确"], [13, "文献比对:5 个新解 + 8 个旧解"]];
+  // 每个点的命运:0 筛掉于第一道,1 第二道,2 第三道(旧解 8),3 新解 5
+  const fate = []; for (let i = 0; i < N; i++) fate.push(i < 5 ? 3 : i < 13 ? 2 : i < 63 ? 1.5 : i < 212 ? 1 : 0);
+  let seed = 11; const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+  const jit = fate.map(() => [rnd(), rnd()]);
+  const T = 9;
+  const draw = (now) => {
+    const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    if (cv.width !== Math.round(r.width * dpr)) { cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const W = r.width, H = r.height; const dt = Math.max(0, now - last) / 1000; last = now; if (playing) t += dt; if (t > T) t = 0;
+    const stage = Math.min(3, Math.floor(t / (T / 4)));
+    ctx.clearRect(0, 0, W, H);
+    const cols = 4, cw = W / cols;
+    for (let s = 0; s <= stage; s++) {
+      const cnt = stages[s][0]; const x0 = s * cw + 8, boxW = cw - 16, boxH = H - 40;
+      ctx.strokeStyle = "#e6dfd0"; ctx.strokeRect(x0, 8, boxW, boxH);
+      ctx.fillStyle = "#6f6553"; ctx.font = "11px sans-serif"; ctx.textAlign = "center"; ctx.fillText(stages[s][1], s * cw + cw / 2, H - 12, cw - 8);
+      let k = 0;
+      for (let i = 0; i < N; i++) {
+        const alive = s === 0 || (s === 1 && fate[i] >= 1) || (s === 2 && fate[i] >= 1.5) || (s === 3 && fate[i] >= 2);
+        if (!alive) continue;
+        const per = Math.ceil(Math.sqrt(cnt * boxH / boxW)); const colsN = Math.ceil(cnt / per);
+        const gx = x0 + 6 + (k % colsN) / Math.max(1, colsN - 1) * (boxW - 12), gy = 14 + Math.floor(k / colsN) / Math.max(1, per - 1) * (boxH - 12);
+        ctx.fillStyle = s === 3 ? (fate[i] === 3 ? "#bc3f1e" : "#a8801f") : "#33589b";
+        ctx.fillRect(gx, gy, s === 3 ? 6 : 2.2, s === 3 ? 6 : 2.2); k++;
+      }
+    }
+    out.innerHTML = `第 ${stage + 1} 步 · 剩余 <b>${stages[stage][0]}</b>`;
+    requestAnimationFrame(draw);
+  };
+  btn.addEventListener("click", () => { playing = !playing; btn.textContent = playing ? "⏸ 暂停" : "▶ 播放"; btn.setAttribute("aria-pressed", playing); });
+  btn.textContent = playing ? "⏸ 暂停" : "▶ 播放";
+  requestAnimationFrame(draw);
+})();
+</script>
 
 <hr class="sep">
 

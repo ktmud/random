@@ -66,8 +66,46 @@
       <div class="def-row"><span class="def-k">造数字</span><div>证明的核心是构造出一类特殊的整数:它们在<b>每一个</b>小素数的进制下,加法都「进位丰富、却没有尖峰」。这样对每个素数,整除条件都同时满足。这一步是模型给出的、此前没人写下来的想法。</div></div>
       <div class="def-row key"><span class="def-k">收尾</span><div>证明这样的整数有无穷多个,并且多出来的那一截确实落在 log n 量级。Lean 逐行核验,无漏洞。</div></div>
     </div>
-    <div class="aside"><b>Aristotle 是什么?</b> Harmonic 公司的一个系统,专门把非正式的证明思路翻译成 Lean,并在翻译不通时自行修补漏洞。在这次事件里,它扮演了「数学审稿人」的角色:GPT-5.2 的原始思路并不完整,是 Aristotle 把缺口补齐并让 Lean 接受的。</div>
+    
   </div>
+  <div class="wide">
+    <div class="figure" style="max-width:640px">
+      <div class="tl-meta"><span class="tag solved">动手玩</span><span>Kummer 定理:进位 = 整除次数</span></div>
+      <div class="controls" style="margin-top:0">
+        <label>素数 p <select id="kumP" class="btn" style="padding:4px 10px"><option>2</option><option selected>3</option><option>5</option><option>7</option></select></label>
+        <label>n <input type="range" id="kumN" min="2" max="60" value="20"></label>
+        <label>k <input type="range" id="kumK" min="1" max="59" value="7"></label>
+      </div>
+      <div id="kumBox" style="font-family:var(--mono);font-size:14px;line-height:2;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-top:10px;overflow-x:auto"></div>
+      <div class="cap">把 k 和 n−k 写成 p 进制,竖式相加,数一数<b>进位</b>了几次——这个次数恰好等于 C(n,k) 能被 p 整除的次数。第 728 号问题的证明,就是构造出在<b>每个</b>小素数下都「进位很多」的数。</div>
+    </div>
+  </div>
+  <div class="wrap">
+<div class="aside"><b>Aristotle 是什么?</b> Harmonic 公司的一个系统,专门把非正式的证明思路翻译成 Lean,并在翻译不通时自行修补漏洞。在这次事件里,它扮演了「数学审稿人」的角色:GPT-5.2 的原始思路并不完整,是 Aristotle 把缺口补齐并让 Lean 接受的。</div>
+  </div>
+
+<script>
+(() => {
+  const P = document.getElementById("kumP"), N = document.getElementById("kumN"), K = document.getElementById("kumK"), box = document.getElementById("kumBox");
+  const digits = (x, p) => { const d = []; do { d.push(x % p); x = Math.floor(x / p); } while (x > 0); return d; };
+  const binomVal = (n, k) => { let r = 1n; for (let i = 1n; i <= BigInt(k); i++) r = r * (BigInt(n) - i + 1n) / i; return r; };
+  const draw = () => {
+    const p = +P.value, n = +N.value; K.max = n - 1; const k = Math.min(+K.value, n - 1); K.value = k;
+    const a = digits(k, p), b = digits(n - k, p), L = Math.max(a.length, b.length) + 1;
+    const pad = (d) => { const r = []; for (let i = L - 1; i >= 0; i--) r.push(d[i] ?? 0); return r; };
+    const A = pad(a), B = pad(b), C = [], carries = []; let c = 0;
+    for (let i = L - 1; i >= 0; i--) { const s = A[i] + B[i] + c; C[i] = s % p; c = s >= p ? 1 : 0; carries[i] = c; }
+    const nc = carries.reduce((x, y) => x + y, 0);
+    const v = binomVal(n, k); let e = 0, t = v; while (t % BigInt(p) === 0n && t > 0n) { t /= BigInt(p); e++; }
+    const row = (lab, d, hl) => `<div><span style="display:inline-block;width:6.5em;color:var(--muted)">${lab}</span>${d.map((x, i) => `<span style="display:inline-block;width:1.6em;text-align:center;${hl && hl[i] ? "color:var(--accent);font-weight:700" : ""}">${x}</span>`).join("")}</div>`;
+    const carryRow = []; for (let i = 0; i < L; i++) carryRow.push(i + 1 < L && carries[i + 1] ? "1" : "");
+    box.innerHTML = row("进位", carryRow, carryRow.map(x => x === "1")) + row(`k = ${k}`, A) + row(`n−k = ${n - k}`, B) +
+      `<div style="border-top:1px solid var(--line)"></div>` + row(`n = ${n}`, C) +
+      `<div style="margin-top:6px;font-family:var(--sans)">${p} 进制下进位 <b style="color:var(--accent)">${nc}</b> 次 → C(${n},${k}) = ${v.toString().length > 18 ? v.toString().slice(0, 15) + "…" : v} 恰好被 ${p} 整除 <b style="color:var(--accent)">${e}</b> 次 ${nc === e ? "✓" : "?"}</div>`;
+  };
+  [P, N, K].forEach(el => el.addEventListener("input", draw)); draw();
+})();
+</script>
 </section>
 
 <hr class="sep">

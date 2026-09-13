@@ -48,10 +48,45 @@
 
       <h3>② 一个球最多能被多少个同样大的球「亲吻」?</h3>
     <p>三维空间里,一个球最多能同时和 12 个同样大的球相切——牛顿与 Gregory 在 1694 年为此争论,直到 1953 年才被证明。高维空间里的「亲吻数」大多数至今未知,只有上下界。AlphaEvolve 在 11 维找到了一个 <b>593 个球</b>的排列,把下界从 592 推进了 1。</p>
+  </div>
+  <div class="wide">
+    <div class="figure" style="max-width:520px">
+      <div class="tl-meta"><span class="tag solved">动手玩</span><span>二维的亲吻数</span></div>
+      <canvas id="kiss" style="height:300px" aria-label="围绕中央圆摆放相同大小的圆,超过 6 个就会重叠"></canvas>
+      <div class="controls"><label>圆的个数 <input type="range" id="kissN" min="1" max="8" value="6"></label><span class="readout" id="kissOut"></span></div>
+      <div class="cap">平面上,一枚硬币周围最多贴 6 枚同样的硬币——第 7 枚一定会和邻居重叠(红色)。三维是 12,四维是 24,八维是 240,二十四维是 196560;其余维度都只知道范围。AlphaEvolve 做的就是在 11 维里多塞进一个球。</div>
+    </div>
+  </div>
+  <div class="wrap">
+
 
     <h3>③ Erdős 的「最小重叠」问题</h3>
     <p>把 1 到 2n 的数分成两组各 n 个,再把其中一组整体平移,两组「重叠」的元素最少有几个?Erdős 在 1955 年提出的这个问题,答案的常数至今只知道夹在 0.379 与 0.381 之间。AlphaEvolve 把上界从 0.380927 推到 <b>0.380924</b>——这是 2016 年以来的第一次进展。</p>
   </div>
+
+<script>
+(() => {
+  const cv = document.getElementById("kiss"), ctx = cv.getContext("2d"), sl = document.getElementById("kissN"), out = document.getElementById("kissOut");
+  const draw = () => {
+    const n = +sl.value;
+    const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const W = r.width, H = r.height, cx = W / 2, cy = H / 2, R = Math.min(W, H) / 6.4;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = "#33589b"; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+    const pts = []; for (let i = 0; i < n; i++) { const a = -Math.PI / 2 + i * 2 * Math.PI / n; pts.push([cx + 2 * R * Math.cos(a), cy + 2 * R * Math.sin(a)]); }
+    let overlaps = 0;
+    for (let i = 0; i < n; i++) {
+      const bad = pts.some((q, j) => j !== i && Math.hypot(q[0] - pts[i][0], q[1] - pts[i][1]) < 2 * R - 0.5);
+      if (bad) overlaps++;
+      ctx.fillStyle = bad ? "rgba(188,63,30,.55)" : "rgba(168,128,31,.55)"; ctx.strokeStyle = bad ? "#bc3f1e" : "#a8801f"; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(pts[i][0], pts[i][1], R, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    }
+    out.innerHTML = overlaps ? `${n} 个:有 <b>${overlaps}</b> 个重叠,不合法` : `${n} 个:都只与中心相切,合法${n === 6 ? " · 已是极限" : ""}`;
+  };
+  sl.addEventListener("input", draw); addEventListener("resize", draw); draw();
+})();
+</script>
 </section>
 
 <hr class="sep">

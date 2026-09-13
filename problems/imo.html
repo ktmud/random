@@ -58,8 +58,82 @@
       <div class="step"><b>核验。</b>一旦 Lean 接受了完整证明,就没有争议的余地——机器证明在这里意味着「零漏洞」。</div>
     </div>
     <p>代价也很明显:第 4 题(几何)AlphaGeometry 2 只用了 19 秒,但有的题 AlphaProof <b>算了三天</b>,远超比赛时限;两道组合题则完全没做出来。</p>
-    <div class="aside"><b>Lean 是什么?</b> 你可以把它想成一门编程语言,只不过它的「程序」是数学证明,「编译成功」等于「证明正确」。它有一个由全球志愿者维护的数学库 Mathlib,收录了几十万条已经形式化的定理。本站标注「Lean 已验证」的结果,都是指证明被这样逐行核过。</div>
+    
   </div>
+  <div class="wide">
+    <div class="figure" style="max-width:640px">
+      <div class="tl-meta"><span class="tag solved">动画</span><span>在证明的「棋盘」上搜索</span></div>
+      <canvas id="ptree" style="height:300px" aria-label="证明搜索树生长的动画:大多数分支被 Lean 拒绝,一条分支到达证明"></canvas>
+      <div class="controls"><button class="btn" id="ptreePlay" aria-pressed="true">⏸ 暂停</button><button class="btn" id="ptreeAgain">再来一次</button><span class="readout" id="ptreeOut"></span></div>
+      <div class="cap">每个节点是一步推理,由模型提议;Lean 检查每一步:灰色是被拒绝的死路,蓝色是仍然合法的分支,红色是最终走通的完整证明。AlphaProof 的强化学习就是在学「往哪个方向走更容易走通」。</div>
+    </div>
+  </div>
+  <div class="wrap">
+<div class="aside"><b>Lean 是什么?</b> 你可以把它想成一门编程语言,只不过它的「程序」是数学证明,「编译成功」等于「证明正确」。它有一个由全球志愿者维护的数学库 Mathlib,收录了几十万条已经形式化的定理。本站标注「Lean 已验证」的结果,都是指证明被这样逐行核过。</div>
+  </div>
+
+<script>
+(() => {
+  const cv = document.getElementById("ptree"), ctx = cv.getContext("2d");
+  const btn = document.getElementById("ptreePlay"), again = document.getElementById("ptreeAgain"), out = document.getElementById("ptreeOut");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let playing = !reduce, nodes, seed, last = performance.now(), step = 0, acc = 0, done = false;
+  const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+  const reset = () => { seed = 4242; nodes = [{ x: 0.5, y: 0, p: -1, st: "open", d: 0, win: true }]; step = 0; acc = 0; done = false; };
+  reset();
+  const DEPTH = 6;
+  const grow = () => {
+    const open = nodes.filter(n => n.st === "open" && n.d < DEPTH);
+    if (!open.length) { done = true; return; }
+    const n = open[Math.floor(rnd() * open.length)];
+    const k = 1 + Math.floor(rnd() * 3);
+    const spread = 0.42 / (n.d + 1.6);
+    let winAssigned = false;
+    for (let i = 0; i < k; i++) {
+      const x = Math.min(0.97, Math.max(0.03, n.x + (i - (k - 1) / 2) * spread + (rnd() - .5) * spread * .6));
+      let win = false;
+      if (n.win && !winAssigned && (i === k - 1 || rnd() < 0.5)) { win = true; winAssigned = true; }
+      const rejected = !win && rnd() < 0.55;
+      nodes.push({ x, y: n.d + 1, p: nodes.indexOf(n), st: rejected ? "dead" : (n.d + 1 >= DEPTH ? (win ? "goal" : "dead") : "open"), d: n.d + 1, win });
+    }
+    if (n.win && !winAssigned) { nodes[nodes.length - 1].win = true; if (nodes[nodes.length - 1].st === "dead") nodes[nodes.length - 1].st = n.d + 1 >= DEPTH ? "goal" : "open"; }
+    n.st = "expanded";
+    step++;
+  };
+  const draw = (now) => {
+    const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    if (cv.width !== Math.round(r.width * dpr)) { cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const W = r.width, H = r.height;
+    const dt = Math.max(0, now - last); last = now;
+    if (playing && !done) { acc += dt; while (acc > 260 && !done) { grow(); acc -= 260; } }
+    ctx.clearRect(0, 0, W, H);
+    const X = (n) => 16 + n.x * (W - 32), Y = (n) => 18 + n.y / DEPTH * (H - 44);
+    const goalFound = done && nodes.some(n => n.st === "goal");
+    // 边
+    for (const n of nodes) if (n.p >= 0) {
+      const p = nodes[n.p]; const onPath = goalFound && n.win && p.win;
+      ctx.strokeStyle = n.st === "dead" ? "rgba(138,130,114,.35)" : onPath ? "#bc3f1e" : "rgba(51,88,155,.5)";
+      ctx.lineWidth = onPath ? 2.6 : 1.2;
+      ctx.beginPath(); ctx.moveTo(X(p), Y(p)); ctx.lineTo(X(n), Y(n)); ctx.stroke();
+    }
+    for (const n of nodes) {
+      const onPath = goalFound && n.win;
+      ctx.fillStyle = n.st === "dead" ? "#c9c2b3" : n.st === "goal" ? "#bc3f1e" : onPath ? "#bc3f1e" : "#33589b";
+      ctx.beginPath(); ctx.arc(X(n), Y(n), n.st === "goal" ? 6 : 3.5, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.fillStyle = "#6f6553"; ctx.font = "12px sans-serif"; ctx.textAlign = "left";
+    ctx.fillText("定理", 16, 14); ctx.textAlign = "right"; ctx.fillText(goalFound ? "证明 ✓(Lean 接受)" : "…", W - 12, H - 8);
+    const dead = nodes.filter(n => n.st === "dead").length;
+    out.innerHTML = `${step} 次展开 · ${nodes.length} 个节点 · <b>${dead}</b> 条死路` + (goalFound ? " · 找到证明" : "");
+    requestAnimationFrame(draw);
+  };
+  btn.addEventListener("click", () => { playing = !playing; btn.textContent = playing ? "⏸ 暂停" : "▶ 播放"; btn.setAttribute("aria-pressed", playing); });
+  again.addEventListener("click", () => { seed = Math.floor(Math.random() * 1e6); const s0 = seed; reset(); seed = s0; playing = true; btn.textContent = "⏸ 暂停"; });
+  btn.textContent = playing ? "⏸ 暂停" : "▶ 播放";
+  requestAnimationFrame(draw);
+})();
+</script>
 </section>
 
 <hr class="sep">

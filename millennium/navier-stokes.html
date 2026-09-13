@@ -104,7 +104,7 @@
     const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
     if (cv.width !== Math.round(r.width * dpr)) { cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
     const W = r.width, H = r.height;
-    const dt = reduce ? 0 : Math.min((now - last) / 1000, 0.05); last = now; t += dt;
+    const dt = reduce ? 0 : Math.max(0, Math.min((now - last) / 1000, 0.05)); last = now; t += dt;
     const nu = (+sl.value / 100) * 0.6;
     const amp = Math.exp(-2 * nu * t);
     ctx.fillStyle = "rgba(255,253,249,.35)"; ctx.fillRect(0, 0, W, H);

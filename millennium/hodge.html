@@ -109,7 +109,7 @@
     if (cv.width !== Math.round(b.width * dpr)) { cv.width = Math.round(b.width * dpr); cv.height = Math.round(b.height * dpr); }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const W = b.width, H = b.height;
-    const dt = Math.min(now - last, 100); last = now; if (!drag && !reduce) yaw += dt * 0.00012;
+    const dt = Math.max(0, Math.min(now - last, 100)); last = now; if (!drag && !reduce) yaw += dt * 0.00012;
     ctx.clearRect(0, 0, W, H);
     const s = Math.min(W, H) * 0.3, cx = W / 2, cy = H / 2;
     const cyw = Math.cos(yaw), syw = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);

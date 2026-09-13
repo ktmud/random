@@ -59,8 +59,45 @@
     </div>
     <p>他们先从 Erdős 数据库里挑出 <b>353 个</b>已经被翻译成 Lean 陈述的公开问题(只有陈述被形式化了,系统才能自动验证证明),让机器全自动开工。结果:<b>9 个</b>被彻底解决,其中包括第 12、26、125、138、152、741、846 号;两个问题自 1970 年前后就悬而未决,<b>已经 56 年</b>。</p>
     <p>同一套系统也被投放到「在线整数数列百科」(OEIS)——那里收录着数十万条整数数列,附带大量作者留下的猜想。492 个公开猜想中,<b>44 个</b>被证明。此外它还解决了一个代数几何中关于 Hilbert 函数的 15 年老问题,并改进了一个凸优化的界。</p>
-    <div class="aside"><b>每题几百美元。</b> 论文特别强调成本:平均每个解决的问题只花了几百美元的推理算力。对比四个月后 OpenAI 攻克<a href="navier-stokes.html">纳维–斯托克斯方程</a>时「数百万美元」的电费,可以看到问题的难度与算力的关系是多么陡峭。</div>
+    
   </div>
+  <div class="wide">
+    <div class="figure" style="max-width:640px">
+      <div class="tl-meta"><span class="tag solved">图表</span><span>全自动开工的成绩单</span></div>
+      <canvas id="rings" style="height:220px" aria-label="353 个 Erdős 问题中解决 9 个,492 个 OEIS 猜想中证明 44 个"></canvas>
+      <div class="cap">成功率不高——Erdős 问题 2.5%,OEIS 猜想 8.9%——但每一个「成功」都是一份 Lean 证明,不需要任何人再核对。规模与可信度,是这次实验真正的新东西。</div>
+    </div>
+  </div>
+  <div class="wrap">
+<div class="aside"><b>每题几百美元。</b> 论文特别强调成本:平均每个解决的问题只花了几百美元的推理算力。对比四个月后 OpenAI 攻克<a href="navier-stokes.html">纳维–斯托克斯方程</a>时「数百万美元」的电费,可以看到问题的难度与算力的关系是多么陡峭。</div>
+  </div>
+
+<script>
+(() => {
+  const cv = document.getElementById("rings"), ctx = cv.getContext("2d");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const data = [["Erdős 公开问题", 9, 353, "#bc3f1e"], ["OEIS 猜想", 44, 492, "#33589b"]];
+  let t0 = null;
+  const draw = (now) => {
+    if (t0 === null) t0 = now; const k = reduce ? 1 : Math.min(1, (now - t0) / 1600); const ease = 1 - Math.pow(1 - k, 3);
+    const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const W = r.width, H = r.height; ctx.clearRect(0, 0, W, H);
+    data.forEach(([name, a, b, c], i) => {
+      const cx = W * (0.27 + 0.46 * i), cy = H / 2 - 8, R = Math.min(W / 5.5, H / 2.9);
+      ctx.lineWidth = 14; ctx.strokeStyle = "#ece8df"; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+      const frac = a / b * ease; ctx.strokeStyle = c; ctx.lineCap = "round";
+      ctx.beginPath(); ctx.arc(cx, cy, R, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * Math.max(frac, 0.001)); ctx.stroke();
+      ctx.fillStyle = "#2a2418"; ctx.textAlign = "center"; ctx.font = "bold 22px sans-serif"; ctx.fillText(Math.round(a * ease), cx, cy + 2);
+      ctx.font = "12px sans-serif"; ctx.fillStyle = "#6f6553"; ctx.fillText("/ " + b, cx, cy + 20); ctx.fillText(name, cx, cy + R + 26);
+      ctx.fillStyle = c; ctx.font = "bold 12px sans-serif"; ctx.fillText((100 * a / b).toFixed(1) + "%", cx, cy - 22);
+    });
+    if (k < 1) requestAnimationFrame(draw);
+  };
+  const io = new IntersectionObserver((es) => { if (es.some(e => e.isIntersecting)) { t0 = null; requestAnimationFrame(draw); io.disconnect(); } });
+  io.observe(cv); addEventListener("resize", () => { t0 = performance.now() - 5000; requestAnimationFrame(draw); });
+})();
+</script>
 </section>
 
 <hr class="sep">

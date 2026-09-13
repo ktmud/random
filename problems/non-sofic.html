@@ -42,11 +42,46 @@
     <h2>什么是「sofic 群」?</h2>
     <p class="lead"><b>群</b>是数学里描述「对称」的语言:一个正方形的旋转与翻转构成一个群,魔方的所有转法构成一个群,整数的加法也构成一个群。群可以是有限的,也可以是无限的。</p>
     <p>1999 年,Mikhail Gromov 提出了一个问题。有限群最好懂——它就是有限个东西的排列。那么,一个<em class="hl">无限群</em>能不能被有限的排列「越来越好地模仿」?具体说:能不能对每一个精度要求,都找到一个有限集合上的排列方式,使得群的乘法表在这个精度下几乎被照搬?能做到的群,Benjamin Weiss 在 2000 年命名为 <b>sofic 群</b>(希伯来语「有限」)。</p>
+    
+  </div>
+  <div class="wide">
+    <div class="figure" style="max-width:560px">
+      <div class="tl-meta"><span class="tag solved">动手玩</span><span>用有限的排列「模仿」无限的整数加法</span></div>
+      <canvas id="sofic" style="height:300px" aria-label="n 个点排成一圈,每个点指向下一个,模仿整数加一;只有一处绕回来是错的"></canvas>
+      <div class="controls"><label>点的个数 n <input type="range" id="soficN" min="4" max="60" value="10"></label><span class="readout" id="soficOut"></span></div>
+      <div class="cap">整数群里「+1」永远走不到头。用 n 个点排成一圈、每个点指向下一个来模仿它:除了绕回起点的那一步(红),其余 n−1 步都和整数一模一样。n 越大,「错」的比例越小,趋于零——这就是「sofic」的意思。非 sofic 群,就是无论用多少个点、怎么排,错的比例都降不下去的群。</div>
+    </div>
+  </div>
+  <div class="wrap">
     <p>接下来 27 年里,人们检查了所有能想到的群:可数群、剩余有限群、顺从群、自由群、它们的各种组合……<b>全都是 sofic 的</b>。同时,一大批著名猜想(Gottschalk 满射猜想、Kaplansky 直接有限猜想等)都被证明对 sofic 群成立。于是一个尖锐的问题浮现:</p>
     <div class="takeaway"><span class="tk">Gromov 之问</span>是不是<b>所有群</b>都是 sofic 的?如果是,上面那一批猜想就全部成立;如果不是,那个「非 sofic 群」会是什么样子?</div>
     <p>没有人能造出一个非 sofic 群。它成了几何群论里最著名的公开问题之一。</p>
   </div>
 </section>
+<script>
+(() => {
+  const cv = document.getElementById("sofic"), ctx = cv.getContext("2d"), sl = document.getElementById("soficN"), out = document.getElementById("soficOut");
+  const draw = () => {
+    const n = +sl.value;
+    const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const W = r.width, H = r.height, cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2 - 30;
+    ctx.clearRect(0, 0, W, H);
+    const pt = (i) => [cx + R * Math.cos(-Math.PI / 2 + i * 2 * Math.PI / n), cy + R * Math.sin(-Math.PI / 2 + i * 2 * Math.PI / n)];
+    for (let i = 0; i < n; i++) {
+      const [x0, y0] = pt(i), [x1, y1] = pt((i + 1) % n); const bad = i === n - 1;
+      ctx.strokeStyle = bad ? "#bc3f1e" : "rgba(51,88,155,.6)"; ctx.lineWidth = bad ? 3 : 1.6;
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+      const ang = Math.atan2(y1 - y0, x1 - x0); ctx.fillStyle = bad ? "#bc3f1e" : "rgba(51,88,155,.8)";
+      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 - 8 * Math.cos(ang - .4), y1 - 8 * Math.sin(ang - .4)); ctx.lineTo(x1 - 8 * Math.cos(ang + .4), y1 - 8 * Math.sin(ang + .4)); ctx.closePath(); ctx.fill();
+    }
+    for (let i = 0; i < n; i++) { const [x, y] = pt(i); ctx.fillStyle = "#fffdf9"; ctx.strokeStyle = "#33589b"; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(x, y, n > 30 ? 4 : 9, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); if (n <= 30) { ctx.fillStyle = "#2a2418"; ctx.font = "11px sans-serif"; ctx.textAlign = "center"; ctx.fillText(i, x, y + 4); } }
+    ctx.fillStyle = "#6f6553"; ctx.font = "13px sans-serif"; ctx.textAlign = "center"; ctx.fillText("「+1」", cx, cy + 5);
+    out.innerHTML = `n = <b>${n}</b> · 错误比例 1/n = <b>${(100 / n).toFixed(1)}%</b>`;
+  };
+  sl.addEventListener("input", draw); addEventListener("resize", draw); draw();
+})();
+</script>
 
 <hr class="sep">
 
