@@ -86,12 +86,15 @@ ul.plain li{margin:8px 0;color:#3a3426}
 .tl-year:first-child{margin-top:8px}
 .tl-item{position:relative;margin:0 0 18px}
 .tl-item::before{
-  content:"";position:absolute;left:-33px;top:22px;width:12px;height:12px;border-radius:50%;
-  background:var(--paper);border:3px solid var(--blue);
+  position:absolute;left:-37px;top:18px;width:20px;height:20px;border-radius:50%;
+  background:var(--paper);border:2px solid var(--line);color:var(--ink);
+  font-family:var(--sans);font-size:11.5px;font-weight:700;line-height:16px;text-align:center;
 }
-.tl-item[data-kind="solved"]::before{background:var(--accent);border-color:var(--accent)}
-.tl-item[data-kind="milestone"]::before{background:var(--gold);border-color:var(--gold)}
-.tl-item[data-kind="caution"]::before{background:var(--grey);border-color:var(--grey)}
+/* 事件类型用图标区分:✓ 难题解决 · ↑ 改进纪录 · ★ 里程碑 · ! 争议乌龙 */
+.tl-item[data-kind="solved"]::before{content:"✓";color:var(--accent);border-color:var(--accent)}
+.tl-item[data-kind="progress"]::before{content:"↑";color:var(--blue);border-color:var(--blue)}
+.tl-item[data-kind="milestone"]::before{content:"★";color:var(--gold);border-color:var(--gold);font-size:10.5px}
+.tl-item[data-kind="caution"]::before{content:"!";color:#5c5546;border-color:var(--grey)}
 .tl-item[hidden]{display:none}
 .tl-card{
   display:block;color:inherit;text-decoration:none;
@@ -202,12 +205,12 @@ footer a:hover{color:var(--accent);border-color:var(--accent)}
 .tag.human{background:var(--green-soft);color:var(--green)}
 .tag.ai{background:var(--blue-soft);color:var(--blue)}
 .tag.hybrid{background:#efe3f5;color:#6e3f8f}
-.tl-item[data-who="human"]::before{border-color:var(--green)}
-.tl-item[data-who="human"][data-kind="solved"]::before{background:var(--green)}
-.tl-item[data-who="hybrid"]::before{border-color:#6e3f8f}
-.tl-item[data-who="hybrid"][data-kind="solved"]::before{background:#6e3f8f}
 div.tl-card .tl-more{display:inline-block;margin-top:2px;text-decoration:none;border-bottom:1px dashed #b6c3da}
 div.tl-card .tl-more:hover{color:var(--accent);border-color:var(--accent)}
 .filters + .filters{margin-top:0}
 .tag.org{white-space:normal;line-height:1.5}
 @media (max-width:520px){.tl-title small{white-space:normal;display:block;margin-left:0}}
+#tl .tag.solved::before,.legend .tag.solved::before{content:"✓ "}
+#tl .tag.progress::before,.legend .tag.progress::before{content:"↑ "}
+#tl .tag.milestone::before,.legend .tag.milestone::before{content:"★ "}
+#tl .tag.caution::before,.legend .tag.caution::before{content:"! "}
