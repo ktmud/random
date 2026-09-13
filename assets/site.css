@@ -197,3 +197,17 @@ footer li{margin:7px 0;line-height:1.7}
 footer a{color:var(--blue);text-decoration:none;border-bottom:1px dashed #b6c3da}
 footer a:hover{color:var(--accent);border-color:var(--accent)}
 .disclaim{margin-top:22px;font-size:12.5px;line-height:1.8}
+
+/* ---------- 解决者标签 ---------- */
+.tag.human{background:var(--green-soft);color:var(--green)}
+.tag.ai{background:var(--blue-soft);color:var(--blue)}
+.tag.hybrid{background:#efe3f5;color:#6e3f8f}
+.tl-item[data-who="human"]::before{border-color:var(--green)}
+.tl-item[data-who="human"][data-kind="solved"]::before{background:var(--green)}
+.tl-item[data-who="hybrid"]::before{border-color:#6e3f8f}
+.tl-item[data-who="hybrid"][data-kind="solved"]::before{background:#6e3f8f}
+div.tl-card .tl-more{display:inline-block;margin-top:2px;text-decoration:none;border-bottom:1px dashed #b6c3da}
+div.tl-card .tl-more:hover{color:var(--accent);border-color:var(--accent)}
+.filters + .filters{margin-top:0}
+.tag.org{white-space:normal;line-height:1.5}
+@media (max-width:520px){.tl-title small{white-space:normal;display:block;margin-left:0}}
