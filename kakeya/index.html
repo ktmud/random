@@ -235,8 +235,8 @@
     <canvas id="hero" class="hero-canvas" aria-label="三尖摆线内旋转的针(动画)"></canvas>
     <div class="kicker">1917 — 2026</div>
     <h1>一根针的百年难题</h1>
-    <p class="subtitle">看懂<b>挂谷猜想</b>(Kakeya Conjecture)——<br>一个从「调头要多大地方」开始的故事</p>
-    <p class="hero-note">往下滑,亲手转一转这根针<span class="down">↓</span></p>
+    <p class="subtitle">看懂<b>挂谷猜想</b>（Kakeya Conjecture）——<br>一个从「调头要多大地方」开始的故事</p>
+    <p class="hero-note">往下滑，亲手转一转这根针<span class="down">↓</span></p>
   </div>
 </header>
 
@@ -245,15 +245,15 @@
 <section id="ch1">
   <div class="wrap">
     <div class="chapnum">第 一 章</div>
-    <h2>转针问题:调头最少要多大地方?</h2>
-    <p class="lead">1917 年,日本数学家<b>挂谷宗一</b>提出了一个看似儿戏的问题:</p>
-    <p class="lead">平面上有一根长度为 1 的针——一条<em class="hl">粗细为零</em>的线段。要让它<em class="hl">原地调头</em>(转过 180°),它扫过的「场地」面积,最小可以是多少?</p>
-    <p>最老实的做法:让针绕中心转一圈,场地是个圆。聪明一点,可以借助各种巧妙的形状,让场地一步步变小。点击下面的形状,看针是怎么转的:</p>
+    <h2>转针问题：调头最少要多大地方？</h2>
+    <p class="lead">1917 年，日本数学家<b>挂谷宗一</b>提出了一个看似儿戏的问题：</p>
+    <p class="lead">平面上有一根长度为 1 的针——一条<em class="hl">粗细为零</em>的线段。要让它<em class="hl">原地调头</em>（转过 180°），它扫过的「场地」面积，最小可以是多少？</p>
+    <p>最老实的做法：让针绕中心转一圈，场地是个圆。聪明一点，可以借助各种巧妙的形状，让场地一步步变小。点击下面的形状，看针是怎么转的：</p>
   </div>
   <div class="wide">
     <div class="demo">
-      <div class="demo-title"><span class="tag">动手玩</span><span class="name">四块场地,同一根针</span></div>
-      <div class="demo-sub">针的两端<b style="color:var(--gold)">一金</b><b style="color:var(--accent)">一红</b>:完整调头(180°)后,两端恰好互换位置——然后停顿一下,继续下一轮。红色阴影是针已经扫过的地方,「扫过」面积实时逐像素累计。四个图形按同一比例绘制。</div>
+      <div class="demo-title"><span class="tag">动手玩</span><span class="name">四块场地，同一根针</span></div>
+      <div class="demo-sub">针的两端<b style="color:var(--gold)">一金</b><b style="color:var(--accent)">一红</b>：完整调头（180°）后，两端恰好互换位置——然后停顿一下，继续下一轮。红色阴影是针已经扫过的地方，「扫过」面积实时逐像素累计。四个图形按同一比例绘制。</div>
       <div class="tabs" id="shapeTabs" role="tablist"></div>
       <canvas id="shapes" class="viz" data-aspect="0.62" aria-label="针在所选形状内旋转的动画"></canvas>
       <div class="controls">
@@ -262,12 +262,12 @@
         <span class="readout">扫过 <b id="shapesSwept">0.000</b><span class="mut" id="shapesTotal"> / 0.785</span></span>
       </div>
       <div class="bars" id="areaBars" aria-label="各形状面积对比"></div>
-      <div class="fineprint">面积以针长为单位(针长 = 1)。等边三角形是<b>凸形</b>里的最优解(帕尔,1921);三尖摆线一度被认为就是最终答案。</div>
+      <div class="fineprint">面积以针长为单位（针长 = 1）。等边三角形是<b>凸形</b>里的最优解（帕尔，1921）；三尖摆线一度被认为就是最终答案。</div>
     </div>
   </div>
   <div class="wrap">
-    <p>从圆的 <b>0.785</b>,到三尖摆线的 <b>0.393</b>——面积砍掉了一半。二十世纪初的数学家大多以为,故事到这里就该结束了:总该有一个「最小面积」吧?</p>
-    <div class="takeaway"><span class="tk">悬 念</span>还能更小吗?最小的场地究竟是多大?</div>
+    <p>从圆的 <b>0.785</b>，到三尖摆线的 <b>0.393</b>——面积砍掉了一半。二十世纪初的数学家大多以为，故事到这里就该结束了：总该有一个「最小面积」吧？</p>
+    <div class="takeaway"><span class="tk">悬 念</span>还能更小吗？最小的场地究竟是多大？</div>
   </div>
 </section>
 
@@ -277,15 +277,15 @@
 <section id="ch2">
   <div class="wrap">
     <div class="chapnum">第 二 章</div>
-    <h2>惊人的答案:面积可以任意小</h2>
-    <p class="lead">1928 年,俄裔数学家<b>贝西科维奇</b>(A. S. Besicovitch)给出了一个颠覆直觉的回答:</p>
-    <p class="lead"><em class="hl">这个问题没有最小值。</em>只要你愿意,调头的场地可以比一粒尘埃小,比一个原子小——任意小。</p>
-    <p>他的魔法分两步。<b>第一步:切碎再叠起来。</b>把一个三角形沿底边切成许多细条,每根细条都还「装得下」一批方向的针;然后把细条平移、互相叠放。<em class="hl">平移不改变方向</em>——能容纳的针的方向一个不少,占用的面积却越来越小。这套构造被称为「佩龙树」(Perron tree):</p>
+    <h2>惊人的答案：面积可以任意小</h2>
+    <p class="lead">1928 年，俄裔数学家<b>贝西科维奇</b>（A. S. Besicovitch）给出了一个颠覆直觉的回答：</p>
+    <p class="lead"><em class="hl">这个问题没有最小值。</em>只要你愿意，调头的场地可以比一粒尘埃小，比一个原子小——任意小。</p>
+    <p>他的魔法分两步。<b>第一步：切碎再叠起来。</b>把一个三角形沿底边切成许多细条，每根细条都还「装得下」一批方向的针；然后把细条平移、互相叠放。<em class="hl">平移不改变方向</em>——能容纳的针的方向一个不少，占用的面积却越来越小。这套构造被称为「佩龙树」（Perron tree）：</p>
   </div>
   <div class="wide">
     <div class="demo">
-      <div class="demo-title"><span class="tag">动手玩</span><span class="name">佩龙树:切碎、平移、叠放</span></div>
-      <div class="demo-sub">拖动「切分次数」,看面积如何被「折叠」掉;拖动「针的方向」,验证任何方向的针都还躺在图形里;再试试「三角形顶角」——<b>树能装下的方向范围,恰好就是初始三角形的顶角</b>。</div>
+      <div class="demo-title"><span class="tag">动手玩</span><span class="name">佩龙树：切碎、平移、叠放</span></div>
+      <div class="demo-sub">拖动「切分次数」，看面积如何被「折叠」掉；拖动「针的方向」，验证任何方向的针都还躺在图形里；再试试「三角形顶角」——<b>树能装下的方向范围，恰好就是初始三角形的顶角</b>。</div>
       <canvas id="perron" class="viz" data-aspect="0.56" aria-label="佩龙树构造动画"></canvas>
       <div class="controls">
         <label>切分次数
@@ -303,68 +303,68 @@
         <span class="readout">面积 = 初始的 <b id="perronArea">100%</b></span>
       </div>
       <div class="bars" id="perronBars" aria-label="面积随切分次数的变化"></div>
-      <div class="fineprint">面积由页面实时逐像素测量,不是预设数字。这里演示的是简化版构造:每一层都把右半部分向左平移固定比例。真正的佩龙树在每一层用更精细的重叠方案,可以证明:<b>切分足够多次后,面积能小于任何给定的正数</b>。它缩小得很慢——这份「顽固」恰恰是挂谷问题深刻的伏笔。</div>
+      <div class="fineprint">面积由页面实时逐像素测量，不是预设数字。这里演示的是简化版构造：每一层都把右半部分向左平移固定比例。真正的佩龙树在每一层用更精细的重叠方案，可以证明：<b>切分足够多次后，面积能小于任何给定的正数</b>。它缩小得很慢——这份「顽固」恰恰是挂谷问题深刻的伏笔。</div>
     </div>
   </div>
   <div class="wrap">
-    <p><b>第二步:平移几乎是免费的。</b>碎片之间隔着距离,针怎么从一片挪到另一片?贝西科维奇借用了匈牙利数学家帕尔的妙招:针沿<em class="hl">自己的方向</em>滑动时,扫过的面积是零(线段滑过自己所在的直线,没有宽度)。于是「横着挪」可以这样偷懒——</p>
+    <p><b>第二步：平移几乎是免费的。</b>碎片之间隔着距离，针怎么从一片挪到另一片？贝西科维奇借用了匈牙利数学家帕尔的妙招：针沿<em class="hl">自己的方向</em>滑动时，扫过的面积是零（线段滑过自己所在的直线，没有宽度）。于是「横着挪」可以这样偷懒——</p>
   </div>
   <div class="wide">
     <div class="demo">
-      <div class="demo-title"><span class="tag">动手玩</span><span class="name">帕尔的戏法:斜一点,绕远路</span></div>
-      <div class="demo-sub">要把针挪到上面那条虚线上。直接横移要扫过一整个平行四边形;但「先偏转一个小角度 → 顺着滑过去 → 再摆正 → 滑回来」,只需扫过两个小扇形(红色)。</div>
+      <div class="demo-title"><span class="tag">动手玩</span><span class="name">帕尔的戏法：斜一点，绕远路</span></div>
+      <div class="demo-sub">要把针挪到上面那条虚线上。直接横移要扫过一整个平行四边形；但「先偏转一个小角度 → 顺着滑过去 → 再摆正 → 滑回来」，只需扫过两个小扇形（红色）。</div>
       <canvas id="pal" class="viz" data-aspect="0.42" aria-label="帕尔平移技巧动画"></canvas>
       <div class="controls">
         <button class="btn" id="palPlay" aria-pressed="true">⏸ 暂停</button>
-        <label>偏转角度(大→小)
+        <label>偏转角度（大→小）
           <input type="range" id="palDelta" min="0.5" max="10" step="0.5" value="2.5" aria-label="偏转角度(度),向右变小">
           <span class="readout"><b id="palDeltaV">8°</b></span>
         </label>
-        <span class="readout">扫过 <b id="palArea">0.070</b> ,是直接横移的 <b id="palRatio">1/5</b></span>
+        <span class="readout">扫过 <b id="palArea">0.070</b> ，是直接横移的 <b id="palRatio">1/5</b></span>
       </div>
-      <div class="fineprint">偏转角越小越省面积,代价是绕行的路越长(画面会自动缩放——注意针变得多小)。绕路不花面积,只花「地方」;而挂谷问题只关心面积。</div>
+      <div class="fineprint">偏转角越小越省面积，代价是绕行的路越长（画面会自动缩放——注意针变得多小）。绕路不花面积，只花「地方」；而挂谷问题只关心面积。</div>
     </div>
   </div>
   <div class="wrap">
-    <p>把两步合起来,就是针的完整调头「接力」:在一根细条里转完自己那份角度,「斜一点、绕出去」平移到下一根细条,接着转——</p>
+    <p>把两步合起来，就是针的完整调头「接力」：在一根细条里转完自己那份角度，「斜一点、绕出去」平移到下一根细条，接着转——</p>
   </div>
   <div class="wide">
     <div class="demo">
-      <div class="demo-title"><span class="tag">动手玩</span><span class="name">合体:在佩龙树里接力调头</span></div>
-      <div class="demo-sub">8 根细条接力,走完整个扇区:条内旋转(小扇形)→ 帕尔机动平移到下一条(绕路免费,只付两个 δ 小扇形)→ 继续旋转。红色阴影是针扫过的全部区域(并集,实时逐像素累计)。</div>
+      <div class="demo-title"><span class="tag">动手玩</span><span class="name">合体：在佩龙树里接力调头</span></div>
+      <div class="demo-sub">8 根细条接力，走完整个扇区：条内旋转（小扇形）→ 帕尔机动平移到下一条（绕路免费，只付两个 δ 小扇形）→ 继续旋转。红色阴影是针扫过的全部区域（并集，实时逐像素累计）。</div>
       <canvas id="relay" class="viz" data-aspect="0.62" aria-label="佩龙树内针的接力调头动画"></canvas>
       <div class="controls">
         <button class="btn" id="relayPlay" aria-pressed="true">⏸ 暂停</button>
-        <label>接力偏角 δ(大→小)
+        <label>接力偏角 δ（大→小）
           <input type="range" id="relayDelta" min="2" max="12" step="0.5" value="4" aria-label="接力偏角(度),向右变小">
           <span class="readout"><b id="relayDeltaV">10°</b></span>
         </label>
         <span class="readout">第 <b id="relayStep">1</b>/8 条 · 已转 <b id="relayAngle">0°</b></span>
         <span class="readout">扫过 <b id="relayArea">0.000</b></span>
       </div>
-      <div class="fineprint">为了看清接力,这里固定切 8 条、只走完约 53° 的扇区(180° 的其余部分怎么办?往下看)。试着调小偏角 δ:接力的小扇形更省,代价是绕行更远(画面会自动缩小)。只切 8 条当然还省不了多少——但趋势已在眼前:真实构造中,切分数趋于无穷、δ 趋于零,总面积便可小于任何给定的数。</div>
+      <div class="fineprint">为了看清接力，这里固定切 8 条、只走完约 53° 的扇区（180° 的其余部分怎么办？往下看）。试着调小偏角 δ：接力的小扇形更省，代价是绕行更远（画面会自动缩小）。只切 8 条当然还省不了多少——但趋势已在眼前：真实构造中，切分数趋于无穷、δ 趋于零，总面积便可小于任何给定的数。</div>
     </div>
   </div>
   <div class="wrap">
-    <p>旋转只发生在细条内部和接力的小扇形里,长途跋涉全靠<em class="hl">免费的滑行</em>。只剩最后一个疑问:一棵树的细条都大致「朝下」,只装得下约 53° 范围的方向——剩下的 127° 怎么办?答案朴素得可爱:<b>多复印几份,转个角度</b>。</p>
+    <p>旋转只发生在细条内部和接力的小扇形里，长途跋涉全靠<em class="hl">免费的滑行</em>。只剩最后一个疑问：一棵树的细条都大致「朝下」，只装得下约 53° 范围的方向——剩下的 127° 怎么办？答案朴素得可爱：<b>多复印几份，转个角度</b>。</p>
   </div>
   <div class="wide">
     <div class="demo">
-      <div class="demo-title"><span class="tag">看明白</span><span class="name">最后一步:四份拷贝,拼满 180°</span></div>
-      <div class="demo-sub">把整棵佩龙树旋转到四个不同的角度,得到四份拷贝,每份负责 180° 中的一段(树能装 53°,比每段的 45° 宽,绰绰有余)。看方向表盘:针的方向转到哪一段,哪份拷贝就「值班」亮起——针就躺在它的某根细条里。份与份之间的衔接,照旧是帕尔机动。</div>
+      <div class="demo-title"><span class="tag">看明白</span><span class="name">最后一步：四份拷贝，拼满 180°</span></div>
+      <div class="demo-sub">把整棵佩龙树旋转到四个不同的角度，得到四份拷贝，每份负责 180° 中的一段（树能装 53°，比每段的 45° 宽，绰绰有余）。看方向表盘：针的方向转到哪一段，哪份拷贝就「值班」亮起——针就躺在它的某根细条里。份与份之间的衔接，照旧是帕尔机动。</div>
       <canvas id="copies" class="viz" data-aspect="0.5" aria-label="四份旋转拷贝覆盖 180 度方向的演示"></canvas>
       <div class="controls">
         <button class="btn" id="copiesPlay" aria-pressed="true">⏸ 暂停</button>
         <span class="readout">方向 <b id="copiesAngle">0°</b> · 第 <b id="copiesN">1</b> 份值班</span>
       </div>
-      <div class="fineprint">「53°」就是佩龙树初始三角形的顶角(底 1、高 1 ⇒ 2·arctan(½) ≈ 53°)——回到上面的佩龙树演示,拖动「三角形顶角」滑块即可亲自验证:能装的方向范围恰好随顶角变化。但无论把三角形做多宽,都到不了 180°(那需要无限宽的底)——所以旋转拷贝不可省,只是份数可多可少。四份拷贝的总面积至多是单份的四倍——任意小的四倍,依旧任意小。至此,调头的完整路线凑齐:条内旋转 + 条间接力 + 份间轮换。</div>
+      <div class="fineprint">「53°」就是佩龙树初始三角形的顶角（底 1、高 1 ⇒ 2·arctan(½) ≈ 53°）——回到上面的佩龙树演示，拖动「三角形顶角」滑块即可亲自验证：能装的方向范围恰好随顶角变化。但无论把三角形做多宽，都到不了 180°（那需要无限宽的底）——所以旋转拷贝不可省，只是份数可多可少。四份拷贝的总面积至多是单份的四倍——任意小的四倍，依旧任意小。至此，调头的完整路线凑齐：条内旋转 + 条间接力 + 份间轮换。</div>
     </div>
   </div>
   <div class="wrap">
-    <p>切得更细、偏角更小,总面积就能压到任意小——挂谷的问题就此有了答案,却是一个没有终点的答案。</p>
+    <p>切得更细、偏角更小，总面积就能压到任意小——挂谷的问题就此有了答案，却是一个没有终点的答案。</p>
     <div class="takeaway"><span class="tk">结 论</span>
-      连续调头:面积可以<b>任意小</b>,但不能恰好为零。<br>
-      若只要求「每个方向都躺着一根完整的针」、不要求转动过程:存在<b>面积恰好为零</b>的集合——数学家称之为<b>贝西科维奇集合</b>(也叫挂谷集合)。
+      连续调头：面积可以<b>任意小</b>，但不能恰好为零。<br>
+      若只要求「每个方向都躺着一根完整的针」、不要求转动过程：存在<b>面积恰好为零</b>的集合——数学家称之为<b>贝西科维奇集合</b>（也叫挂谷集合）。
     </div>
   </div>
 </section>
@@ -375,14 +375,14 @@
 <section id="ch3">
   <div class="wrap">
     <div class="chapnum">第 三 章</div>
-    <h2>面积为零,却「瘦」不下去</h2>
-    <p class="lead">面积为零,听上去像是「什么都不剩」。但数学家有更精细的尺子:<b>维度</b>。</p>
-    <p>量法很朴素:用越来越小的方格去覆盖一个图形,数一数需要多少格。<b>把方格边长缩小一半</b>:盖一条曲线,格子数大约变成原来的 <b>2 倍</b>——它是 1 维的;盖一块实心区域,格子数变成原来的 <b>4 倍</b>——它是 2 维的。增长的倍率介于两者之间,就是介于 1 和 2 之间的「分数维」。</p>
+    <h2>面积为零，却「瘦」不下去</h2>
+    <p class="lead">面积为零，听上去像是「什么都不剩」。但数学家有更精细的尺子：<b>维度</b>。</p>
+    <p>量法很朴素：用越来越小的方格去覆盖一个图形，数一数需要多少格。<b>把方格边长缩小一半</b>：盖一条曲线，格子数大约变成原来的 <b>2 倍</b>——它是 1 维的；盖一块实心区域，格子数变成原来的 <b>4 倍</b>——它是 2 维的。增长的倍率介于两者之间，就是介于 1 和 2 之间的「分数维」。</p>
   </div>
   <div class="wide">
     <div class="demo">
-      <div class="demo-title"><span class="tag">动手玩</span><span class="name">数格子,量维度</span></div>
-      <div class="demo-sub">拖动滑块细化网格,数一数每个图形占了多少格(高亮显示)。每个面板下方列出<b>粗细两档网格</b>的格子数:格子边长减半时,格子数变成几倍,维度就是几(×2 ⇒ 1 维,×4 ⇒ 2 维)。注意「贝西科维奇式集合」那一格:面积一直在流失,格子数的增长倍率却和实心方块几乎一样。</div>
+      <div class="demo-title"><span class="tag">动手玩</span><span class="name">数格子，量维度</span></div>
+      <div class="demo-sub">拖动滑块细化网格，数一数每个图形占了多少格（高亮显示）。每个面板下方列出<b>粗细两档网格</b>的格子数：格子边长减半时，格子数变成几倍，维度就是几（×2 ⇒ 1 维，×4 ⇒ 2 维）。注意「贝西科维奇式集合」那一格：面积一直在流失，格子数的增长倍率却和实心方块几乎一样。</div>
       <div class="controls" id="boxControls">
         <label>网格精细度
           <input type="range" id="boxM" min="0" max="3" step="1" value="1" aria-label="网格精细度">
@@ -390,20 +390,20 @@
         </label>
       </div>
       <div class="boxgrid" id="boxGrid"></div>
-      <div class="fineprint">「维度 ≈ log₂(倍率)」:×2 ⇒ 1.00,×4 ⇒ 2.00,介于其间就是分数维。对比档取的是格子边长放大一倍的网格(如当前 16×16,则对比 8×8)。真正的维度定义在无限细分的极限下;「贝西科维奇式集合」取的是第二章佩龙树的有限步构造,故估值略低于 2。</div>
+      <div class="fineprint">「维度 ≈ log₂（倍率）」：×2 ⇒ 1.00，×4 ⇒ 2.00，介于其间就是分数维。对比档取的是格子边长放大一倍的网格（如当前 16×16，则对比 8×8）。真正的维度定义在无限细分的极限下；「贝西科维奇式集合」取的是第二章佩龙树的有限步构造，故估值略低于 2。</div>
     </div>
   </div>
   <div class="wrap">
-    <p>这正是整件事最微妙的地方:贝西科维奇集合的面积是零,可它依然「密不透风」——无论网格多细,它占据格子的速度都追着实心区域跑。它是一个<em class="hl">零面积、却满维度</em>的幽灵。</p>
-    <p>于是,现代版的猜想登场了。它究竟「猜」的是什么?这一次,把话说准——</p>
+    <p>这正是整件事最微妙的地方：贝西科维奇集合的面积是零，可它依然「密不透风」——无论网格多细，它占据格子的速度都追着实心区域跑。它是一个<em class="hl">零面积、却满维度</em>的幽灵。</p>
+    <p>于是，现代版的猜想登场了。它究竟「猜」的是什么？这一次，把话说准——</p>
     <div class="defbox" id="defn">
       <div class="def-head">挂谷猜想 · 准确版</div>
-      <div class="def-row"><span class="def-k">对象</span><div><b>挂谷集合</b>(也叫贝西科维奇集合):一个点集,要求<b>每一个方向上,都完整地躺着一根那个方向的、长度为 1 的线段</b>。在平面上,「每一个方向」指 0° 到 180° 之间的所有角度;在三维空间里,则是所有的空间方向。</div></div>
-      <div class="def-row"><span class="def-k">已知</span><div>这样的集合,面积(三维及以上是体积)<b>可以恰好等于零</b>——这正是第二章贝西科维奇构造的结论。所以「它能有多小」,按面积问已经问到了头。</div></div>
-      <div class="def-row key"><span class="def-k">猜想</span><div><b>在 n 维空间中,任何挂谷集合的(豪斯多夫)维数都必须恰好等于 n。</b>直观地说:用小格子去覆盖它,所需的格子数必须和覆盖一块实心区域增长得一样快——面积可以被压成零,<b>维度却一格都压不掉</b>。猜的就是这件事:挂谷集合没有任何「降维」的余地。<div class="mutline">豪斯多夫维数:上面「数格子」维度的精细化版本,允许用大小不一的小块来覆盖。它与「n 维空间」的「维」在英文里是同一个词(dimension),但分工不同:空间的维数是「定位一个点需要几个坐标」,恒为整数;集合的豪斯多夫维数是它的推广,可取分数,对曲线、平面这类规整对象两者数值一致,且永远不超过所在空间的 n。猜想比较的正是这两个数:集合的维度必须顶格追上空间的维数。</div></div></div>
-      <div class="def-row"><span class="def-k">进展</span><div>2 维:已证(戴维斯,1971)。3 维:已证(王虹 & Zahl,2025)。<b>4 维及以上:至今仍是猜想。</b></div></div>
+      <div class="def-row"><span class="def-k">对象</span><div><b>挂谷集合</b>（也叫贝西科维奇集合）：一个点集，要求<b>每一个方向上，都完整地躺着一根那个方向的、长度为 1 的线段</b>。在平面上，「每一个方向」指 0° 到 180° 之间的所有角度；在三维空间里，则是所有的空间方向。</div></div>
+      <div class="def-row"><span class="def-k">已知</span><div>这样的集合，面积（三维及以上是体积）<b>可以恰好等于零</b>——这正是第二章贝西科维奇构造的结论。所以「它能有多小」，按面积问已经问到了头。</div></div>
+      <div class="def-row key"><span class="def-k">猜想</span><div><b>在 n 维空间中，任何挂谷集合的（豪斯多夫）维数都必须恰好等于 n。</b>直观地说：用小格子去覆盖它，所需的格子数必须和覆盖一块实心区域增长得一样快——面积可以被压成零，<b>维度却一格都压不掉</b>。猜的就是这件事：挂谷集合没有任何「降维」的余地。<div class="mutline">豪斯多夫维数：上面「数格子」维度的精细化版本，允许用大小不一的小块来覆盖。它与「n 维空间」的「维」在英文里是同一个词（dimension），但分工不同：空间的维数是「定位一个点需要几个坐标」，恒为整数；集合的豪斯多夫维数是它的推广，可取分数，对曲线、平面这类规整对象两者数值一致，且永远不超过所在空间的 n。猜想比较的正是这两个数：集合的维度必须顶格追上空间的维数。</div></div></div>
+      <div class="def-row"><span class="def-k">进展</span><div>2 维：已证（戴维斯，1971）。3 维：已证（王虹 & Zahl，2025）。<b>4 维及以上：至今仍是猜想。</b></div></div>
     </div>
-    <p>注意提问方式的变化:1917 年挂谷宗一问的是<em class="hl">面积</em>,那个问题已被贝西科维奇终结;今天数学家说「挂谷猜想」,猜的是<em class="hl">维度</em>。就是这个看似几何小品的命题,从 3 维开始挡住了几代最强的数学家——因为它连着现代分析学的地基(第五章见)。</p>
+    <p>注意提问方式的变化：1917 年挂谷宗一问的是<em class="hl">面积</em>，那个问题已被贝西科维奇终结；今天数学家说「挂谷猜想」，猜的是<em class="hl">维度</em>。就是这个看似几何小品的命题，从 3 维开始挡住了几代最强的数学家——因为它连着现代分析学的地基（第五章见）。</p>
   </div>
 </section>
 
@@ -414,12 +414,12 @@
   <div class="wrap">
     <div class="chapnum">第 四 章</div>
     <h2>三维空间的胜利</h2>
-    <p class="lead">在三维空间里,「每个方向一根针」长这样——</p>
+    <p class="lead">在三维空间里，「每个方向一根针」长这样——</p>
   </div>
   <div class="wide">
     <div class="demo">
       <div class="demo-title"><span class="tag">动手玩</span><span class="name">三维的针丛</span></div>
-      <div class="demo-sub">每根线段代表一个方向的针(红色那根正在遍历各个方向)。拖动可旋转视角。三维挂谷猜想:这样的集合,维度必须是整整 3。</div>
+      <div class="demo-sub">每根线段代表一个方向的针（红色那根正在遍历各个方向）。拖动可旋转视角。三维挂谷猜想：这样的集合，维度必须是整整 3。</div>
       <canvas id="cloud" class="viz" data-aspect="0.62" aria-label="三维针丛(可拖动旋转)"></canvas>
       <div class="controls">
         <button class="btn" id="cloudPlay" aria-pressed="true">⏸ 暂停</button>
@@ -428,17 +428,17 @@
     </div>
   </div>
   <div class="wrap">
-    <p class="lead">三维为什么难了一百年?先看二维为什么「相对简单」。</p>
-    <p>平面上,两条方向不同的直线<em class="hl">必定相交</em>——纸面就这么大,谁也躲不开谁。所以平面挂谷集里,不同方向的针被迫互相穿插、共享地盘;这种「被迫的重叠」给了数学家结实的抓手,戴维斯 1971 年的证明正是踩着它完成的。</p>
-    <p>而三维空间多出来的那一个维度,恰好是给针用来<em class="hl">躲</em>的:</p>
+    <p class="lead">三维为什么难了一百年？先看二维为什么「相对简单」。</p>
+    <p>平面上，两条方向不同的直线<em class="hl">必定相交</em>——纸面就这么大，谁也躲不开谁。所以平面挂谷集里，不同方向的针被迫互相穿插、共享地盘；这种「被迫的重叠」给了数学家结实的抓手，戴维斯 1971 年的证明正是踩着它完成的。</p>
+    <p>而三维空间多出来的那一个维度，恰好是给针用来<em class="hl">躲</em>的：</p>
   </div>
   <div class="wide">
     <div class="demo">
-      <div class="demo-title"><span class="tag">看明白</span><span class="name">躲不开,与躲得开</span></div>
-      <div class="demo-sub">「平面」一图:两条方向不同的直线,无论怎么转,<b>交点</b>(红点)都躲不掉。「三维」一图:两条方向不同的直线可以一上一下地「异面」错开——虚线是两者的最近距离,<b>始终大于零</b>;用手指或鼠标拖动它,可以换个视角确认。</div>
+      <div class="demo-title"><span class="tag">看明白</span><span class="name">躲不开，与躲得开</span></div>
+      <div class="demo-sub">「平面」一图：两条方向不同的直线，无论怎么转，<b>交点</b>（红点）都躲不掉。「三维」一图：两条方向不同的直线可以一上一下地「异面」错开——虚线是两者的最近距离，<b>始终大于零</b>；用手指或鼠标拖动它，可以换个视角确认。</div>
       <div class="duo">
-        <div class="boxcell"><canvas id="skew2d" class="viz" data-aspect="0.8" aria-label="平面上两条直线必然相交的动画"></canvas><div class="cap"><b>平面</b>:方向不同 ⇒ <b style="color:var(--accent)">必然相交</b></div></div>
-        <div class="boxcell"><canvas id="skew3d" class="viz" data-aspect="0.8" aria-label="三维中两条异面直线擦肩而过(可拖动)"></canvas><div class="cap"><b>三维</b>:可以「异面」——<b style="color:var(--blue)">擦肩而过,永不接触</b></div></div>
+        <div class="boxcell"><canvas id="skew2d" class="viz" data-aspect="0.8" aria-label="平面上两条直线必然相交的动画"></canvas><div class="cap"><b>平面</b>：方向不同 ⇒ <b style="color:var(--accent)">必然相交</b></div></div>
+        <div class="boxcell"><canvas id="skew3d" class="viz" data-aspect="0.8" aria-label="三维中两条异面直线擦肩而过(可拖动)"></canvas><div class="cap"><b>三维</b>：可以「异面」——<b style="color:var(--blue)">擦肩而过，永不接触</b></div></div>
       </div>
       <div class="controls">
         <button class="btn" id="skewPlay" aria-pressed="true">⏸ 暂停</button>
@@ -447,35 +447,35 @@
     </div>
   </div>
   <div class="wrap">
-    <p>于是三维挂谷集里的细针获得了避让的自由,可以精巧地编排出各种「互不打扰」的方案。要证明的却是反过来的事:<b>躲得再巧,也躲不干净</b>——这正是三维挂谷猜想的难点。</p>
-    <p>数学家的每一寸进展,都用「维度」丈量。把上一章的数格子游戏搬进三维(小方格换成小方块):边长减半后,块数 ×2 的是线、×4 的是面、<b>×8 的才是「体」</b>。沃尔夫 1995 年证明:三维挂谷集的块数至少按 ×5.66(= 2<sup>2.5</sup>,也就是「2.5 维」)的速度增长——比任何曲面都「厚」,可离满满的 3 维还差着最后的 0.5。此后三十年,全世界的调和分析学家就悬在这半个维度上,每前进 0.1 维都要发明全新的工具:</p>
+    <p>于是三维挂谷集里的细针获得了避让的自由，可以精巧地编排出各种「互不打扰」的方案。要证明的却是反过来的事：<b>躲得再巧，也躲不干净</b>——这正是三维挂谷猜想的难点。</p>
+    <p>数学家的每一寸进展，都用「维度」丈量。把上一章的数格子游戏搬进三维（小方格换成小方块）：边长减半后，块数 ×2 的是线、×4 的是面、<b>×8 的才是「体」</b>。沃尔夫 1995 年证明：三维挂谷集的块数至少按 ×5.66（= 2<sup>2.5</sup>，也就是「2.5 维」）的速度增长——比任何曲面都「厚」，可离满满的 3 维还差着最后的 0.5。此后三十年，全世界的调和分析学家就悬在这半个维度上，每前进 0.1 维都要发明全新的工具：</p>
     <div class="timeline">
       <div class="tl-item"><div class="tl-year">1917</div><p>挂谷宗一提出转针问题。</p></div>
-      <div class="tl-item"><div class="tl-year">1928</div><p>贝西科维奇:面积可以任意小;存在零面积的挂谷集合。</p></div>
-      <div class="tl-item"><div class="tl-year">1971</div><p>戴维斯证明平面挂谷猜想:2 维情形成立。</p></div>
-      <div class="tl-item"><div class="tl-year">1995</div><p>沃尔夫(T. Wolff):三维挂谷集合维度至少 2.5。此后二十余年,人类被卡在 2.5 附近。</p></div>
-      <div class="tl-item"><div class="tl-year">1999</div><p>卡茨、瓦巴、陶哲轩:把下界(按「数格子」意义下的维度)推进到 2.5000000001——每一位小数都是一场战役。</p></div>
-      <div class="tl-item"><div class="tl-year">2014</div><p>卡茨与陶哲轩提出「黏性」挂谷猜想——先攻克一类跨尺度自我复制的特殊情形(何为「黏性」,下文详解)——画出一张通往全面解决的路线图。</p></div>
+      <div class="tl-item"><div class="tl-year">1928</div><p>贝西科维奇：面积可以任意小；存在零面积的挂谷集合。</p></div>
+      <div class="tl-item"><div class="tl-year">1971</div><p>戴维斯证明平面挂谷猜想：2 维情形成立。</p></div>
+      <div class="tl-item"><div class="tl-year">1995</div><p>沃尔夫（T. Wolff）：三维挂谷集合维度至少 2.5。此后二十余年，人类被卡在 2.5 附近。</p></div>
+      <div class="tl-item"><div class="tl-year">1999</div><p>卡茨、瓦巴、陶哲轩：把下界（按「数格子」意义下的维度）推进到 2.5000000001——每一位小数都是一场战役。</p></div>
+      <div class="tl-item"><div class="tl-year">2014</div><p>卡茨与陶哲轩提出「黏性」挂谷猜想——先攻克一类跨尺度自我复制的特殊情形（何为「黏性」，下文详解）——画出一张通往全面解决的路线图。</p></div>
       <div class="tl-item"><div class="tl-year">2022</div><p>王虹与 Zahl 联手证明「黏性」挂谷猜想——路线图上决定性的一步。</p></div>
-      <div class="tl-item major"><div class="tl-year">2025 年 2 月</div><p><b>王虹</b>(时任纽约大学库朗研究所教授)与 <b>Joshua Zahl</b>(英属哥伦比亚大学)发布 127 页论文:三维挂谷猜想<b>成立</b>。陶哲轩当天撰长文解读,称之为几何测度论的「惊人进展」(spectacular progress);《量子杂志》的标题是——<b>「百年一遇的证明」</b>。</p></div>
+      <div class="tl-item major"><div class="tl-year">2025 年 2 月</div><p><b>王虹</b>（时任纽约大学库朗研究所教授）与 <b>Joshua Zahl</b>（英属哥伦比亚大学）发布 127 页论文：三维挂谷猜想<b>成立</b>。陶哲轩当天撰长文解读，称之为几何测度论的「惊人进展」（spectacular progress）；《量子杂志》的标题是——<b>「百年一遇的证明」</b>。</p></div>
       <div class="tl-item gold"><div class="tl-year">2026 年 7 月</div><p>王虹在费城国际数学家大会上获<b>菲尔兹奖</b>。</p></div>
     </div>
 
-    <h3>他们究竟是怎么证的?(听得懂的版本)</h3>
-    <p>127 页的证明无法在这里复原,但作战思路可以讲清楚——那是一场跨越所有尺度的<em class="hl">排除法</em>:</p>
+    <h3>他们究竟是怎么证的？（听得懂的版本）</h3>
+    <p>127 页的证明无法在这里复原，但作战思路可以讲清楚——那是一场跨越所有尺度的<em class="hl">排除法</em>：</p>
     <div class="defbox">
-      <div class="def-row"><span class="def-k">换问法</span><div><b>把针换成面条。</b>无限细的针没有体积可谈,数学家改问:给每个方向配一根粗细为 δ 的细管,所有细管叠在一起,总体积最小是多少?挂谷猜想等价于:无论 δ 多细,总体积都不能太小。想省体积,唯一的办法就是让细管们<b>疯狂重叠</b>——所以真正要证明的是:重叠不可能狠到那个程度。</div></div>
-      <div class="def-row"><span class="def-k">画像</span><div><b>给「想变小的集合」画像。</b>王虹与 Zahl 证明了一个结构定理:假如真存在异常小的挂谷集合,用「望远镜」在一层层尺度上看,它绝不能是随意的——细管必须一束束<b>抱团</b>,凝聚成颗粒与薄板;而且粗尺度上的抱团方式,必须在更细的尺度上<b>自我复制</b>。这种跨尺度自我复制的结构,行话叫「黏性」(sticky)。</div></div>
-      <div class="def-row"><span class="def-k">两头堵</span><div>2022 年,他们已经证明:<b>黏性的挂谷集合不可能小</b>(时间线上那决定性的一步)。2025 年的新武器——一整套关于「凸体并集的体积估计」的定理(论文标题正来自于此)——把另一头也堵死:<b>任何想变小的集合,都会被逼进黏性结构</b>。</div></div>
-      <div class="def-row key"><span class="def-k">将军</span><div>想变小 ⟹ 必须黏性;黏性 ⟹ 不可能小。<b>矛盾。</b>所以异常小的三维挂谷集合根本不存在——维度必须是整整 3。像一场排除法审讯:先证明嫌疑人必须长成某个样子,再证明长成那样的人并不存在。</div></div>
+      <div class="def-row"><span class="def-k">换问法</span><div><b>把针换成面条。</b>无限细的针没有体积可谈，数学家改问：给每个方向配一根粗细为 δ 的细管，所有细管叠在一起，总体积最小是多少？挂谷猜想等价于：无论 δ 多细，总体积都不能太小。想省体积，唯一的办法就是让细管们<b>疯狂重叠</b>——所以真正要证明的是：重叠不可能狠到那个程度。</div></div>
+      <div class="def-row"><span class="def-k">画像</span><div><b>给「想变小的集合」画像。</b>王虹与 Zahl 证明了一个结构定理：假如真存在异常小的挂谷集合，用「望远镜」在一层层尺度上看，它绝不能是随意的——细管必须一束束<b>抱团</b>，凝聚成颗粒与薄板；而且粗尺度上的抱团方式，必须在更细的尺度上<b>自我复制</b>。这种跨尺度自我复制的结构，行话叫「黏性」（sticky）。</div></div>
+      <div class="def-row"><span class="def-k">两头堵</span><div>2022 年，他们已经证明：<b>黏性的挂谷集合不可能小</b>（时间线上那决定性的一步）。2025 年的新武器——一整套关于「凸体并集的体积估计」的定理（论文标题正来自于此）——把另一头也堵死：<b>任何想变小的集合，都会被逼进黏性结构</b>。</div></div>
+      <div class="def-row key"><span class="def-k">将军</span><div>想变小 ⟹ 必须黏性；黏性 ⟹ 不可能小。<b>矛盾。</b>所以异常小的三维挂谷集合根本不存在——维度必须是整整 3。像一场排除法审讯：先证明嫌疑人必须长成某个样子，再证明长成那样的人并不存在。</div></div>
     </div>
-    <p>整个论证要在无穷多个尺度层级上做归纳,每一层都不能让体积「漏走」——这正是之前一百年里所有尝试倒下的地方,也是这个证明被称为「百年一遇」的原因。</p>
+    <p>整个论证要在无穷多个尺度层级上做归纳，每一层都不能让体积「漏走」——这正是之前一百年里所有尝试倒下的地方，也是这个证明被称为「百年一遇」的原因。</p>
 
     <div class="fields">
       <div class="medal">🏅</div>
       <h3>2026 年 7 月 23 日 · 费城</h3>
-      <p><b>王虹</b>(1991 年生于广西桂林,北京大学数学系毕业,现为法国高等科学研究所终身教授)因「对调和分析与几何测度论的贡献,尤其是证明三维挂谷猜想」获得<b>菲尔兹奖</b>——数学界的最高荣誉,90 年历史上<b>第三位女性得主</b>。</p>
-      <p>一根 1917 年的针,在 2026 年别上了金质奖章。</p>
+      <p><b>王虹</b>（1991 年生于广西桂林，北京大学数学系毕业，现为法国高等科学研究所终身教授）因「对调和分析与几何测度论的贡献，尤其是证明三维挂谷猜想」获得<b>菲尔兹奖</b>——数学界的最高荣誉，90 年历史上<b>第三位女性得主</b>。</p>
+      <p>一根 1917 年的针，在 2026 年别上了金质奖章。</p>
     </div>
   </div>
 </section>
@@ -486,15 +486,15 @@
 <section id="ch5">
   <div class="wrap">
     <div class="chapnum">第 五 章</div>
-    <h2>为什么一根针如此重要?</h2>
-    <p class="lead">挂谷猜想从来不只是智力游戏。「针」的数学化身是<b>方向</b>——而「所有方向上的直线如何交叠」,恰好是现代分析学多个重大问题共同的地基。</p>
+    <h2>为什么一根针如此重要？</h2>
+    <p class="lead">挂谷猜想从来不只是智力游戏。「针」的数学化身是<b>方向</b>——而「所有方向上的直线如何交叠」，恰好是现代分析学多个重大问题共同的地基。</p>
     <div class="cards">
-      <div class="card"><div class="ic">🌊</div><h4>波的聚焦</h4><p>声波、光波、水波都能分解成沿各个方向行进的平面波(傅里叶分析)。不同方向的波能不能「合谋」,把能量集中到一个极小的区域?这个问题的几何骨架正是挂谷集合。限制性猜想、波动方程的局部光滑性猜想……一整座「猜想之塔」都建立在挂谷猜想这块基石之上。</p></div>
-      <div class="card"><div class="ic">🩻</div><h4>沿直线看世界</h4><p>CT 扫描用无数条直线穿过人体,再从「每条线上的读数」重建断层图像。这类「沿直线取样」的数学(X 射线变换、拉东变换)与挂谷问题同根同源:直线的交叠方式,决定了信息能不能被完整还原。</p></div>
-      <div class="card"><div class="ic">🎲</div><h4>意外的分支</h4><p>2008 年,德维尔(Zeev Dvir)用短短两页纸解决了「有限域版」挂谷问题,震动学界。这套多项式方法随即进入理论计算机科学,被用于构造「随机性提取器」——从劣质随机源中提纯真随机数的工具。</p></div>
-      <div class="card"><div class="ic">🧗</div><h4>未完待续</h4><p>王虹与 Zahl 的证明解决了 3 维,而 4 维及以上的挂谷猜想至今悬而未决。新证明带来的「粒度分解」等工具,正被寄望于攻向更高维度——这根针的故事,还在继续。</p></div>
+      <div class="card"><div class="ic">🌊</div><h4>波的聚焦</h4><p>声波、光波、水波都能分解成沿各个方向行进的平面波（傅里叶分析）。不同方向的波能不能「合谋」，把能量集中到一个极小的区域？这个问题的几何骨架正是挂谷集合。限制性猜想、波动方程的局部光滑性猜想……一整座「猜想之塔」都建立在挂谷猜想这块基石之上。</p></div>
+      <div class="card"><div class="ic">🩻</div><h4>沿直线看世界</h4><p>CT 扫描用无数条直线穿过人体，再从「每条线上的读数」重建断层图像。这类「沿直线取样」的数学（X 射线变换、拉东变换）与挂谷问题同根同源：直线的交叠方式，决定了信息能不能被完整还原。</p></div>
+      <div class="card"><div class="ic">🎲</div><h4>意外的分支</h4><p>2008 年，德维尔（Zeev Dvir）用短短两页纸解决了「有限域版」挂谷问题，震动学界。这套多项式方法随即进入理论计算机科学，被用于构造「随机性提取器」——从劣质随机源中提纯真随机数的工具。</p></div>
+      <div class="card"><div class="ic">🧗</div><h4>未完待续</h4><p>王虹与 Zahl 的证明解决了 3 维，而 4 维及以上的挂谷猜想至今悬而未决。新证明带来的「粒度分解」等工具，正被寄望于攻向更高维度——这根针的故事，还在继续。</p></div>
     </div>
-    <p class="epigraph">「好的数学问题就像一根针:<br>本身很小,却能刺穿一整个世纪。」<small>—— 谨以此页,致每一位转动过这根针的人</small></p>
+    <p class="epigraph">「好的数学问题就像一根针：<br>本身很小，却能刺穿一整个世纪。」<small>—— 谨以此页，致每一位转动过这根针的人</small></p>
   </div>
 </section>
 </main>
@@ -503,12 +503,12 @@
   <div class="wrap">
     <h4>延伸阅读</h4>
     <ul>
-      <li>王虹 & Joshua Zahl 的原始论文:<a href="https://arxiv.org/abs/2502.17655" target="_blank" rel="noopener">Volume estimates for unions of convex sets, and the Kakeya set conjecture in three dimensions (arXiv:2502.17655)</a></li>
-      <li>陶哲轩的解读博文:<a href="https://terrytao.wordpress.com/2025/02/25/the-three-dimensional-kakeya-conjecture-after-wang-and-zahl/" target="_blank" rel="noopener">The three-dimensional Kakeya conjecture, after Wang and Zahl</a></li>
-      <li>《量子杂志》报道:<a href="https://www.quantamagazine.org/once-in-a-century-proof-settles-maths-kakeya-conjecture-20250314/" target="_blank" rel="noopener">“Once in a Century” Proof Settles Math’s Kakeya Conjecture</a></li>
-      <li>菲尔兹奖报道:<a href="https://www.quantamagazine.org/hong-wang-wins-2026-fields-medal-the-third-woman-ever-20260723/" target="_blank" rel="noopener">Hong Wang Wins 2026 Fields Medal (Quanta)</a> · <a href="https://www.ihes.fr/en/hong-wang2026-fields-medal/" target="_blank" rel="noopener">IHES 公告</a></li>
+      <li>王虹 & Joshua Zahl 的原始论文：<a href="https://arxiv.org/abs/2502.17655" target="_blank" rel="noopener">Volume estimates for unions of convex sets, and the Kakeya set conjecture in three dimensions （arXiv:2502.17655）</a></li>
+      <li>陶哲轩的解读博文：<a href="https://terrytao.wordpress.com/2025/02/25/the-three-dimensional-kakeya-conjecture-after-wang-and-zahl/" target="_blank" rel="noopener">The three-dimensional Kakeya conjecture, after Wang and Zahl</a></li>
+      <li>《量子杂志》报道：<a href="https://www.quantamagazine.org/once-in-a-century-proof-settles-maths-kakeya-conjecture-20250314/" target="_blank" rel="noopener">“Once in a Century” Proof Settles Math’s Kakeya Conjecture</a></li>
+      <li>菲尔兹奖报道：<a href="https://www.quantamagazine.org/hong-wang-wins-2026-fields-medal-the-third-woman-ever-20260723/" target="_blank" rel="noopener">Hong Wang Wins 2026 Fields Medal （Quanta）</a> · <a href="https://www.ihes.fr/en/hong-wang2026-fields-medal/" target="_blank" rel="noopener">IHES 公告</a></li>
     </ul>
-    <p class="disclaim">本页所有动画为示意性简化,但均建立在真实的数学构造之上:三尖摆线中针的运动采用精确的切线弦参数化;佩龙树的面积为实时逐像素测量;等边三角形的高恰为针长,是帕尔定理的临界情形。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+    <p class="disclaim">本页所有动画为示意性简化，但均建立在真实的数学构造之上：三尖摆线中针的运动采用精确的切线弦参数化；佩龙树的面积为实时逐像素测量；等边三角形的高恰为针长，是帕尔定理的临界情形。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
   </div>
 </footer>
 
@@ -521,7 +521,7 @@ const $ = (id) => document.getElementById(id);
 const TAU = Math.PI * 2;
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// 高分屏适配:canvas 逻辑坐标 = CSS 像素
+// 高分屏适配：canvas 逻辑坐标 = CSS 像素
 function fitCanvas(cv) {
   const dpr = window.devicePixelRatio || 1;
   const w = cv.clientWidth;
@@ -536,7 +536,7 @@ function fitCanvas(cv) {
   return { ctx, w, h };
 }
 
-// 动画调度:仅在视口内运行;RM(减少动态)时默认暂停
+// 动画调度：仅在视口内运行；RM(减少动态)时默认暂停
 const animators = [];
 function makeAnim(cv, render, { autoplay = true } = {}) {
   const a = {
@@ -647,7 +647,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
 }
 
 /* ============================================================
-   第一章:四块场地
+   第一章：四块场地
 ============================================================ */
 {
   const cv = $("shapes");
@@ -661,14 +661,14 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   const PERIOD = 8000;          // 一次 180° 调头的毫秒数
   const HOLD = 1500;            // 调头完成后的停顿
   const TOTAL = PERIOD + HOLD;
-  // 扫过区域缓冲(逐帧累积针掠过的四边形,逐像素测面积)
+  // 扫过区域缓冲(逐帧累积针掠过的四边形，逐像素测面积)
   const sw = {
     buf: document.createElement("canvas"),
     bc: null, shape: -1, cycle: -1, w: 0, h: 0, prev: null, frames: 0,
   };
   sw.bc = sw.buf.getContext("2d", { willReadFrequently: true });
 
-  // —— 各形状:给定进度 τ∈[0,1) 返回针的两端(单位坐标)与已转角度(弧度)——
+  // —— 各形状：给定进度 τ∈[0,1) 返回针的两端(单位坐标)与已转角度(弧度)——
   const dir = (a) => [Math.cos(a), Math.sin(a)];
   const add = (p, q, s = 1) => [p[0] + q[0] * s, p[1] + q[1] * s];
 
@@ -681,7 +681,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     const h = Math.sqrt(3) / 2, cy = h / 3;
     return { V: [[-0.5, -cy], [0.5, -cy], [0, h - cy]] };
   })();
-  // A/B 两端在各阶段保持物理连续:轴心在 A 端与 B 端之间交替
+  // A/B 两端在各阶段保持物理连续：轴心在 A 端与 B 端之间交替
   function reuleauxNeedle(tau) {
     const th = tau * Math.PI;
     const k = Math.min(2, Math.floor(th / (Math.PI / 3)));
@@ -698,8 +698,8 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   function triangleNeedle(tau) {
     const { A, B, Cv, slide } = TRI;
     const d60 = dir(Math.PI / 3), d300 = dir(-Math.PI / 3);
-    // 时间分配:三段旋转各 .28,三段滑动各 .0533
-    // 轴心交替落在 A、B 两端,保证端点物理连续(颜色不跳):A→(C=B端)→(B=A端)
+    // 时间分配：三段旋转各 .28,三段滑动各 .0533
+    // 轴心交替落在 A、B 两端，保证端点物理连续(颜色不跳):A→(C=B端)→(B=A端)
     const seg = [
       { len: .28, f: (u) => { const ray = u * Math.PI / 3; return { A: A, B: add(A, dir(ray)), rot: ray }; } },
       { len: .0533, f: (u) => { const o = add(A, d60, u * slide); return { A: o, B: add(o, d60), rot: Math.PI / 3 }; } },
@@ -727,7 +727,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       ctx.arc(cx, cy, 0.5 * unit, 0, TAU);
     } else if (cur === 1) {
       const V = RLX.V.map(p => [cx + p[0] * unit, cy - p[1] * unit]);
-      // 三段圆弧,半径 = 1(针长)。屏幕 y 向下,数学角 θ 映射为画布角 −θ,逆时针(true)遍历
+      // 三段圆弧，半径 = 1(针长)。屏幕 y 向下，数学角 θ 映射为画布角 −θ,逆时针(true)遍历
       ctx.arc(V[0][0], V[0][1], unit, 0, -Math.PI / 3, true);                    // 心 V0:V1(0°) → V2(60°)
       ctx.arc(V[1][0], V[1][1], unit, -Math.PI * 2 / 3, -Math.PI, true);         // 心 V1:V2(120°) → V0(180°)
       ctx.arc(V[2][0], V[2][1], unit, -Math.PI * 4 / 3, -Math.PI * 5 / 3, true); // 心 V2:V0(240°) → V1(300°)
@@ -748,7 +748,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     const cx = w / 2, cy = h / 2 + (cur === 2 ? h * 0.02 : 0);
     const cycle = Math.floor(t / TOTAL);
     const tau = Math.min((t % TOTAL) / PERIOD, 1); // 转满 180° 后停顿 HOLD 毫秒
-    const flip = cycle % 2 === 1;                  // 每轮结束两端互换,颜色跟随物理端点
+    const flip = cycle % 2 === 1;                  // 每轮结束两端互换，颜色跟随物理端点
 
     if (sw.shape !== cur || sw.cycle !== cycle) {
       sw.shape = cur; sw.cycle = cycle; sw.w = w; sw.h = h;
@@ -757,7 +757,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       sw.prev = null; sw.frames = 0; sw.final = false;
       $("shapesSwept").textContent = "0.000";
     } else if (sw.w !== w || sw.h !== h) {
-      // 转屏/缩放:把已扫过的区域等比迁移到新尺寸,计数不清零
+      // 转屏/缩放：把已扫过的区域等比迁移到新尺寸，计数不清零
       const tmp = document.createElement("canvas");
       tmp.width = sw.buf.width; tmp.height = sw.buf.height;
       tmp.getContext("2d").drawImage(sw.buf, 0, 0);
@@ -780,7 +780,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     const ax = cx + n.A[0] * unit, ay = cy - n.A[1] * unit;
     const bx = cx + n.B[0] * unit, by = cy - n.B[1] * unit;
 
-    // 相邻两帧针位置围成的四边形累积进缓冲(绕轴旋转时为蝶形,nonzero 填充两瓣都覆盖)
+    // 相邻两帧针位置围成的四边形累积进缓冲(绕轴旋转时为蝶形，nonzero 填充两瓣都覆盖)
     if (sw.prev) {
       sw.bc.fillStyle = "#bc3f1e";
       sw.bc.beginPath();
@@ -808,7 +808,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   });
   bindPlayBtn($("shapesPlay"), anim);
 
-  // 形状选项卡 + 面积条(条同样可点:前四条切换形状,悬念条跳到第二章)
+  // 形状选项卡 + 面积条(条同样可点：前四条切换形状，悬念条跳到第二章)
   // 图标描边用 currentColor:未选中为墨色、悬停变红、选中(深底)自动变白
   const ICONS = [
     '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>',
@@ -860,7 +860,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     mkRow("bar-row tease",
       `<span>还能更小…?</span><div class="track"><div class="fill" style="width:14%"></div></div><span class="val">→ 0 ?</span>`,
       () => $("ch2").scrollIntoView({ behavior: RM ? "auto" : "smooth" }),
-      "跳到第二章:面积可以任意小");
+      "跳到第二章：面积可以任意小");
   }
   renderTabs(); renderBars();
 }
@@ -923,7 +923,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     const data = c.getImageData(0, 0, W, H).data;
     let n = 0;
     for (let i = 3; i < data.length; i += 4) if (data[i] > 127) n++;
-    const val = n / (sc * sc); // 单位:初始三角形高=1 的坐标系
+    const val = n / (sc * sc); // 单位：初始三角形高=1 的坐标系
     areaCache.set(key, val);
     return val;
   }
@@ -937,7 +937,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       if (animU >= 1) { animating = false; anim.userPaused = true; }
     }
     const eased = 1 - Math.pow(1 - animU, 3);
-    // 视口按最终形态(u=1)+ 原三角形 [0,B] 取包围盒,动画过程中不晃动
+    // 视口按最终形态(u=1)+ 原三角形 [0,B] 取包围盒，动画过程中不晃动
     let bx0 = 0, bx1 = B;
     for (const T of triangles(k, 1)) for (const p of T) { bx0 = Math.min(bx0, p[0]); bx1 = Math.max(bx1, p[0]); }
     const pad = 22, unit = Math.min((w - pad * 2) / (bx1 - bx0), (h - pad * 2 - 14));
@@ -963,7 +963,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       if (strokeToo) { ctx.strokeStyle = "rgba(255,255,255,.75)"; ctx.lineWidth = 1; ctx.stroke(); }
     }
 
-    // 方向针:φ ∈ [−顶角/2, +顶角/2],落在覆盖该方向的细条里
+    // 方向针：φ ∈ [−顶角/2, +顶角/2],落在覆盖该方向的细条里
     const phi = parseFloat(dirInput.value) * Math.PI / 180;
     const N = 1 << k;
     const xb = B / 2 + Math.tan(phi);
@@ -979,7 +979,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     ctx.closePath(); ctx.fill();
     needleStroke(ctx, X(apex[0]), Y(apex[1]), X(apex[0] + dvec[0]), Y(apex[1] + dvec[1]), 2.6);
   }, { autoplay: false });
-  anim.userPaused = true; // 平时静止,交互时短暂播放
+  anim.userPaused = true; // 平时静止，交互时短暂播放
 
   function refresh(playAnim) {
     k = parseInt(kInput.value, 10);
@@ -1032,7 +1032,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     anim.drawOnce();
   });
   applyApex();
-  // 逐像素测量延迟到浏览器空闲期,不阻塞首屏
+  // 逐像素测量延迟到浏览器空闲期，不阻塞首屏
   (window.requestIdleCallback || ((fn) => setTimeout(fn, 200)))(() => refresh(false), { timeout: 600 });
 }
 
@@ -1044,7 +1044,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   const D = 0.35; // 目标平行线距离(针长单位)
   const deltaInput = $("palDelta");
   const PERIOD = 7000;
-  // 滑块从大到小:显示值 = min+max − 原始值(向右滑 = 偏角变小)
+  // 滑块从大到小：显示值 = min+max − 原始值(向右滑 = 偏角变小)
   const palDeg = () => 10.5 - parseFloat(deltaInput.value);
 
   function params() {
@@ -1054,7 +1054,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   }
   function updateReadout() {
     const { delta } = params();
-    const swept = delta; // 两个扇形:2 × δ/2 × 1²
+    const swept = delta; // 两个扇形：2 × δ/2 × 1²
     $("palDeltaV").textContent = palDeg().toFixed(1).replace(/\.0$/, "") + "°";
     deltaInput.setAttribute("aria-valuetext", palDeg() + "度");
     $("palArea").textContent = swept.toFixed(3);
@@ -1082,7 +1082,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     ctx.fillStyle = C.muted; ctx.font = "12px " + getComputedStyle(document.body).fontFamily;
     ctx.fillText("目标位置", X(0) + 4, Y(D) - 6);
 
-    // 阶段:0-.18 旋转δ | .18-.5 滑出 | .5-.68 旋回 | .68-.95 滑回 | .95-1 停
+    // 阶段：0-.18 旋转δ | .18-.5 滑出 | .5-.68 旋回 | .68-.95 滑回 | .95-1 停
     let a1 = 0, a2 = 0, slide = 0, back = 0;
     if (tau < .18) a1 = tau / .18;
     else if (tau < .5) { a1 = 1; slide = (tau - .18) / .32; }
@@ -1100,7 +1100,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       ctx.arc(X(F[0]), Y(F[1]), unit, -delta, -delta * (1 - a2), false); ctx.closePath(); ctx.fill();
     }
 
-    // 幽灵:起始位置
+    // 幽灵：起始位置
     ctx.strokeStyle = "#cfc6b2"; ctx.lineWidth = 2; ctx.lineCap = "round";
     ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(1), Y(0)); ctx.stroke();
 
@@ -1109,7 +1109,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     if (back === 0) {
       const along = slide * L;
       ang = delta * a1 - delta * a2;
-      // 支点:滑动前是原点端;旋回阶段支点在远端
+      // 支点：滑动前是原点端；旋回阶段支点在远端
       if (a2 === 0) p0 = [along * Math.cos(delta), along * Math.sin(delta)];
       else p0 = [L * Math.cos(delta), D];
       if (a2 === 0) {
@@ -1130,9 +1130,9 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
 
 /* ============================================================
    第二章 C:合体——在佩龙树里接力调头
-   针在细条 i 内绕顶点旋转过自己的角度区间,再用帕尔机动
+   针在细条 i 内绕顶点旋转过自己的角度区间，再用帕尔机动
    (倾斜 δ → 沿针方向长滑 → 摆正 → 沿针方向归位)平移到细条 i+1。
-   平移位移分解:D = a·u + b·n(u 为针方向,n 为垂直方向),
+   平移位移分解：D = a·u + b·n(u 为针方向，n 为垂直方向),
    倾斜 σδ(σ=sign(b))后滑行 L = |b|/sinδ,恰好补上垂直分量。
 ============================================================ */
 {
@@ -1153,7 +1153,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   const uDir = (phi) => [Math.sin(phi), -Math.cos(phi)];
   const HOLD = 2000, FAN_T = 700, TILT_T = 280, SLIDE_T = 470, HOME_T = 300;
   const deltaInput = $("relayDelta");
-  // 滑块从大到小:显示值 = min+max − 原始值(向右滑 = 偏角变小)
+  // 滑块从大到小：显示值 = min+max − 原始值(向右滑 = 偏角变小)
   const relDeg = () => 14 - (+deltaInput.value);
   const ease = (u) => u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
 
@@ -1225,7 +1225,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       sw.prev = null; sw.frames = 0;
       $("relayArea").textContent = "0.000";
     } else if (sw.w !== w || sw.h !== h) {
-      // 转屏/缩放:迁移已扫过区域,计数不清零
+      // 转屏/缩放：迁移已扫过区域，计数不清零
       const tmp = document.createElement("canvas");
       tmp.width = sw.buf.width; tmp.height = sw.buf.height;
       tmp.getContext("2d").drawImage(sw.buf, 0, 0);
@@ -1322,7 +1322,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
   const copies = [];
   for (let j = 0; j < 4; j++) {
     const thc = (22.5 + 45 * j) * Math.PI / 180; // 该份负责的方向段中心
-    const rho = thc + Math.PI / 2;               // 旋转量:细条「朝下」→ 指向 thc
+    const rho = thc + Math.PI / 2;               // 旋转量：细条「朝下」→ 指向 thc
     const ps = polys.map(T => T.map(p => rotP(p, tc, rho)));
     let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
     for (const T of ps) for (const p of T) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); }
@@ -1340,7 +1340,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     const j = Math.min(3, Math.floor(th / (Math.PI / 4)));
     const fontBase = getComputedStyle(document.body).fontFamily;
 
-    // —— 方向表盘(上半圆):宽屏在左,窄屏在上 ——
+    // —— 方向表盘(上半圆):宽屏在左，窄屏在上 ——
     const R = narrow ? Math.min(w * 0.34, h * 0.24) : Math.min(w * 0.22, h * 0.55);
     const cx = narrow ? w / 2 : w * 0.245;
     const cy = narrow ? h * 0.28 : h * 0.68;
@@ -1358,13 +1358,13 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     ctx.fillText("0°", cx + R, cy + 14);
     ctx.fillText("90°", cx, cy - R - 6);
     ctx.fillText("180°", cx - R, cy + 14);
-    // 指针:表示针当前的方向
+    // 指针：表示针当前的方向
     const ux = Math.cos(th), uy = Math.sin(th);
     needleStroke(ctx, cx - ux * R * 0.22, cy + uy * R * 0.22, cx + ux * R * 0.92, cy - uy * R * 0.92, 2.6);
     ctx.fillStyle = C.muted; ctx.font = "12px " + fontBase;
     ctx.fillText("针的方向", cx, cy + 30);
 
-    // —— 2×2 网格,四份旋转拷贝:宽屏在右,窄屏在下 ——
+    // —— 2×2 网格，四份旋转拷贝：宽屏在右，窄屏在下 ——
     const gx = narrow ? w * 0.02 : w * 0.47;
     const gtop = narrow ? h * 0.42 : 0;
     const gw = narrow ? w * 0.96 : w * 0.52;
@@ -1385,7 +1385,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
         ctx.closePath(); ctx.fill();
       }
       if (active) {
-        // 该方向的针,躺在值班拷贝对应的细条里
+        // 该方向的针，躺在值班拷贝对应的细条里
         const phi = th - cpy.thc;
         const xb = 0.5 + Math.tan(phi);
         const i = Math.min(N - 1, Math.max(0, Math.floor(xb * N)));
@@ -1408,7 +1408,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
 }
 
 /* ============================================================
-   第三章:数格子量维度
+   第三章：数格子量维度
 ============================================================ */
 {
   const grid = $("boxGrid");
@@ -1418,7 +1418,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     { name: "实心方块", note: "2 维", kind: "square" },
     { name: "贝西科维奇式集合", note: "面积→0,维度→?", kind: "kakeya" },
   ];
-  // 佩龙树 k=6 的多边形,归一化到 [0,1]²
+  // 佩龙树 k=6 的多边形，归一化到 [0,1]²
   const ALPHA = 0.42, K6 = 6;
   const kTris = (() => {
     const N = 1 << K6, out = [];
@@ -1532,7 +1532,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
 {
   const cv2 = $("skew2d"), cv3 = $("skew3d");
 
-  // 平面:两条方向不同的直线,交点用克莱姆法则实时求解
+  // 平面：两条方向不同的直线，交点用克莱姆法则实时求解
   const anim2d = makeAnim(cv2, (t) => {
     const { ctx, w, h } = fitCanvas(cv2);
     ctx.clearRect(0, 0, w, h);
@@ -1553,7 +1553,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     ctx.strokeStyle = C.gold;
     ctx.beginPath(); ctx.moveTo(X([Bp[0] - db[0] * 3, Bp[1] - db[1] * 3]), Y([Bp[0] - db[0] * 3, Bp[1] - db[1] * 3]));
     ctx.lineTo(X([Bp[0] + db[0] * 3, Bp[1] + db[1] * 3]), Y([Bp[0] + db[0] * 3, Bp[1] + db[1] * 3])); ctx.stroke();
-    // 交点:脉冲红点
+    // 交点：脉冲红点
     const r = 4.5 + 1.5 * Math.sin(t * 0.006);
     ctx.fillStyle = C.accent;
     ctx.beginPath(); ctx.arc(X(P), Y(P), r, 0, TAU); ctx.fill();
@@ -1561,7 +1561,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
     ctx.beginPath(); ctx.arc(X(P), Y(P), r + 5, 0, TAU); ctx.stroke();
   });
 
-  // 三维:异面直线,虚线为公垂线段(最近距离)
+  // 三维：异面直线，虚线为公垂线段(最近距离)
   let yaw3 = 0.7, pitch3 = 0.35, drag3 = null, last3 = 0;
   cv3.addEventListener("pointerdown", (e) => { drag3 = [e.clientX, e.clientY]; cv3.setPointerCapture(e.pointerId); });
   cv3.addEventListener("pointermove", (e) => {
@@ -1586,7 +1586,7 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
       return [cx + x1 * unit, cy - y2 * unit];
     };
     ctx.lineCap = "round";
-    // 蓝线:沿 x 方向,悬在 z=+0.28;金线:沿 y 方向,沉在 z=−0.28
+    // 蓝线：沿 x 方向，悬在 z=+0.28;金线：沿 y 方向，沉在 z=−0.28
     const a0 = proj([-0.85, 0, 0.28]), a1 = proj([0.85, 0, 0.28]);
     const b0 = proj([0, -0.85, -0.28]), b1 = proj([0, 0.85, -0.28]);
     ctx.strokeStyle = C.gold; ctx.lineWidth = 2.6;
@@ -1620,12 +1620,12 @@ function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueF
 }
 
 /* ============================================================
-   第四章:三维针丛
+   第四章：三维针丛
 ============================================================ */
 {
   const cv = $("cloud");
   const N = 170;
-  // 斐波那契半球:每个方向一根针;确定性偏移
+  // 斐波那契半球：每个方向一根针；确定性偏移
   let seed = 20260723;
   const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
   const needles = [];

@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>P 与 NP 问题 · 千禧年难题</title>
-<meta name="description" content="P 与 NP 问题通俗讲解:什么是多项式时间、NP 问题为什么「验证容易寻找难」、NP 完全问题、如果 P = NP 世界会怎样,以及为什么六十年来毫无进展。含可交互的增长率对比。">
+<meta name="description" content="P 与 NP 问题通俗讲解：什么是多项式时间、NP 问题为什么「验证容易寻找难」、NP 完全问题、如果 P = NP 世界会怎样，以及为什么六十年来毫无进展。含可交互的增长率对比。">
 <meta property="og:title" content="P 与 NP 问题">
-<meta property="og:description" content="P 与 NP 问题通俗讲解:什么是多项式时间、NP 问题为什么「验证容易寻找难」、NP 完全问题、如果 P = NP 世界会怎样,以及为什么六十年来毫无进展。含可交互的增长率对比。">
+<meta property="og:description" content="P 与 NP 问题通俗讲解：什么是多项式时间、NP 问题为什么「验证容易寻找难」、NP 完全问题、如果 P = NP 世界会怎样，以及为什么六十年来毫无进展。含可交互的增长率对比。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
 <link rel="stylesheet" href="../assets/site.css">
 </head>
@@ -22,15 +22,15 @@
 <header class="article">
   <div class="wrap">
     <div class="kicker">千禧年难题 · 理论计算机科学 · 1971 年提出</div>
-    <h1>P 与 NP:<br>答案容易检查,是否就容易找到?</h1>
-    <p class="subtitle">唯一一个关于「计算」的千禧年难题,也是对日常生活影响最直接的一个</p>
+    <h1>P 与 NP：<br>答案容易检查，是否就容易找到？</h1>
+    <p class="subtitle">唯一一个关于「计算」的千禧年难题，也是对日常生活影响最直接的一个</p>
     <div class="facts">
-      <div class="fact">提出<b>Stephen Cook 1971 年 · Leonid Levin 1973 年(哥德尔 1956 年的一封信已提出雏形)</b></div>
+      <div class="fact">提出<b>Stephen Cook 1971 年 · Leonid Levin 1973 年（哥德尔 1956 年的一封信已提出雏形）</b></div>
       <div class="fact">领域<b>计算复杂性理论</b></div>
-      <div class="fact">一句话<b>每个「答案能被快速验证」的问题,是否都「能被快速解决」?</b></div>
-      <div class="fact">状态<b>🔓 公开 · 绝大多数专家相信 P ≠ NP,但没有证明</b></div>
+      <div class="fact">一句话<b>每个「答案能被快速验证」的问题，是否都「能被快速解决」？</b></div>
+      <div class="fact">状态<b>🔓 公开 · 绝大多数专家相信 P ≠ NP，但没有证明</b></div>
       <div class="fact">典型例子<b>数独、旅行商、蛋白质折叠、密码破解、排课表……上千个问题互相等价</b></div>
-      <div class="fact">若 P = NP<b>现代密码学崩塌;同时,几乎所有优化问题与「找证明」本身都变得容易</b></div>
+      <div class="fact">若 P = NP<b>现代密码学崩塌；同时，几乎所有优化问题与「找证明」本身都变得容易</b></div>
     </div>
   </div>
 </header>
@@ -40,12 +40,12 @@
   <div class="wrap">
     <div class="chapnum">问 题</div>
     <h2>拼图与数独教给我们的事</h2>
-    <p class="lead">给你一个填好的数独,检查它对不对只要几秒钟:每行、每列、每宫看一遍。但给你一个空的数独让你填,可能要苦思半天。<em class="hl">检查答案容易,找到答案难</em>——这似乎是常识。</p>
-    <p>计算机科学家把它精确化了:</p>
+    <p class="lead">给你一个填好的数独，检查它对不对只要几秒钟：每行、每列、每宫看一遍。但给你一个空的数独让你填，可能要苦思半天。<em class="hl">检查答案容易，找到答案难</em>——这似乎是常识。</p>
+    <p>计算机科学家把它精确化了：</p>
     <div class="defbox">
-      <div class="def-row"><span class="def-k">P</span><div>那些「能被快速解决」的问题。「快速」的精确含义是:所需步数随问题规模 n 的增长不超过某个<b>多项式</b>(n²、n³……)。排序、查找最短路径、判断一个数是不是素数,都在 P 里。</div></div>
-      <div class="def-row"><span class="def-k">NP</span><div>那些「答案能被快速<b>验证</b>」的问题。给你一个候选答案,你能在多项式时间内确认它对不对。数独、拼图、旅行商问题(找最短的环游路线)都在 NP 里。</div></div>
-      <div class="def-row key"><span class="def-k">P = NP?</span><div>显然 P 里的问题都在 NP 里(能解决当然能验证)。反过来呢?<b>每个能快速验证的问题,是否也都能快速解决?</b>换句话说:寻找答案,是否和检查答案一样容易?</div></div>
+      <div class="def-row"><span class="def-k">P</span><div>那些「能被快速解决」的问题。「快速」的精确含义是：所需步数随问题规模 n 的增长不超过某个<b>多项式</b>（n²、n³……）。排序、查找最短路径、判断一个数是不是素数，都在 P 里。</div></div>
+      <div class="def-row"><span class="def-k">NP</span><div>那些「答案能被快速<b>验证</b>」的问题。给你一个候选答案，你能在多项式时间内确认它对不对。数独、拼图、旅行商问题（找最短的环游路线）都在 NP 里。</div></div>
+      <div class="def-row key"><span class="def-k">P = NP？</span><div>显然 P 里的问题都在 NP 里（能解决当然能验证）。反过来呢？<b>每个能快速验证的问题，是否也都能快速解决？</b>换句话说：寻找答案，是否和检查答案一样容易？</div></div>
     </div>
   </div>
 </section>
@@ -56,11 +56,11 @@
   <div class="wrap">
     <div class="chapnum">看 一 看</div>
     <h2>「多项式」与「指数」的鸿沟</h2>
-    <p>为什么以「多项式」为界?因为多项式与指数之间的差距是天文级的。假设一台电脑每秒做 10 亿步,拖动滑块看看问题规模 n 增大时,各种算法要跑多久:</p>
+    <p>为什么以「多项式」为界？因为多项式与指数之间的差距是天文级的。假设一台电脑每秒做 10 亿步，拖动滑块看看问题规模 n 增大时，各种算法要跑多久：</p>
   </div>
   <div class="wide">
     <div class="figure" style="max-width:720px">
-      <div class="tl-meta"><span class="tag solved">动手玩</span><span>每秒 10 亿步的电脑,要跑多久?</span></div>
+      <div class="tl-meta"><span class="tag solved">动手玩</span><span>每秒 10 亿步的电脑，要跑多久？</span></div>
       <canvas id="growth" style="height:280px" aria-label="不同增长率下运行时间随 n 的变化(对数坐标)"></canvas>
       <div class="controls">
         <label>问题规模 n <input type="range" id="growthN" min="2" max="80" value="20"></label>
@@ -70,7 +70,7 @@
     </div>
   </div>
   <div class="wrap">
-    <p>n² 和 n³ 这样的多项式,即便 n 到了几千几万也能很快跑完;2<sup>n</sup>(逐个尝试每种「是/否」组合)和 n!(逐个尝试每种排列)在 n 稍大时就要跑到宇宙热寂。对 NP 里的难题,人类目前知道的最好算法本质上都是后面这种——「聪明一点的穷举」。</p>
+    <p>n² 和 n³ 这样的多项式，即便 n 到了几千几万也能很快跑完；2<sup>n</sup>（逐个尝试每种「是/否」组合）和 n！（逐个尝试每种排列）在 n 稍大时就要跑到宇宙热寂。对 NP 里的难题，人类目前知道的最好算法本质上都是后面这种——「聪明一点的穷举」。</p>
   </div>
 </section>
 
@@ -79,12 +79,12 @@
 <section>
   <div class="wrap">
     <div class="chapnum">为 什 么 是 一 个 问 题</div>
-    <h2>NP 完全:一题通,题题通</h2>
-    <p class="lead">1971 年,Stephen Cook 证明了一件奇妙的事:NP 里存在一些「最难」的问题,叫 <b>NP 完全</b>问题——<em class="hl">只要其中任何一个能被快速解决,NP 里所有问题就都能被快速解决</em>。</p>
-    <p>第二年,Richard Karp 列出了 21 个 NP 完全问题;今天已知的有几千个,来自逻辑、图论、排程、生物、经济学……它们表面上毫不相干,骨子里却是同一个问题的不同化身。数独是 NP 完全的,旅行商是 NP 完全的,蛋白质折叠的某些模型也是。所以 P 与 NP 不是一个问题,而是几千个问题绑在一起的命运。</p>
+    <h2>NP 完全：一题通，题题通</h2>
+    <p class="lead">1971 年，Stephen Cook 证明了一件奇妙的事：NP 里存在一些「最难」的问题，叫 <b>NP 完全</b>问题——<em class="hl">只要其中任何一个能被快速解决，NP 里所有问题就都能被快速解决</em>。</p>
+    <p>第二年，Richard Karp 列出了 21 个 NP 完全问题；今天已知的有几千个，来自逻辑、图论、排程、生物、经济学……它们表面上毫不相干，骨子里却是同一个问题的不同化身。数独是 NP 完全的，旅行商是 NP 完全的，蛋白质折叠的某些模型也是。所以 P 与 NP 不是一个问题，而是几千个问题绑在一起的命运。</p>
     <div class="grid2">
-      <div class="card"><div class="ic">🔓</div><h4>如果 P = NP</h4><p>现代密码学建立在「某些问题难解」之上——它会整体崩塌。但同时,物流、排程、芯片设计、药物发现的优化问题全部变得容易;更惊人的是,「寻找数学证明」本身也在 NP 里,数学研究将被自动化。</p></div>
-      <div class="card"><div class="ic">🔒</div><h4>如果 P ≠ NP</h4><p>世界就是我们现在看到的样子:有些问题就是没有捷径,创造力(找答案)与鉴赏力(验答案)是本质不同的能力。绝大多数专家相信这才是真相——只是没人证得出来。</p></div>
+      <div class="card"><div class="ic">🔓</div><h4>如果 P = NP</h4><p>现代密码学建立在「某些问题难解」之上——它会整体崩塌。但同时，物流、排程、芯片设计、药物发现的优化问题全部变得容易；更惊人的是，「寻找数学证明」本身也在 NP 里，数学研究将被自动化。</p></div>
+      <div class="card"><div class="ic">🔒</div><h4>如果 P ≠ NP</h4><p>世界就是我们现在看到的样子：有些问题就是没有捷径，创造力（找答案）与鉴赏力（验答案）是本质不同的能力。绝大多数专家相信这才是真相——只是没人证得出来。</p></div>
     </div>
   </div>
 </section>
@@ -95,15 +95,15 @@
   <div class="wrap">
     <div class="chapnum">进 展 与 状 态</div>
     <h2>我们甚至证明了「现有方法证不出来」</h2>
-    <p>这是千禧年难题中最令人沮丧的一个:半个多世纪里,朝着证明前进的实质进展<b>几乎为零</b>。更奇特的是,人们证明了好几条「此路不通」的定理:</p>
+    <p>这是千禧年难题中最令人沮丧的一个：半个多世纪里，朝着证明前进的实质进展<b>几乎为零</b>。更奇特的是，人们证明了好几条「此路不通」的定理：</p>
     <ul class="plain">
-      <li><b>相对化障碍(1975):</b>任何把计算机当作黑盒来对待的证明方法都不可能解决它。</li>
-      <li><b>自然证明障碍(1994):</b>一大类「自然」的电路下界方法,若能成功,反而会与密码学的基本假设矛盾。</li>
-      <li><b>代数化障碍(2008):</b>连绕开前两者的代数技巧也被证明不够用。</li>
+      <li><b>相对化障碍（1975）：</b>任何把计算机当作黑盒来对待的证明方法都不可能解决它。</li>
+      <li><b>自然证明障碍（1994）：</b>一大类「自然」的电路下界方法，若能成功，反而会与密码学的基本假设矛盾。</li>
+      <li><b>代数化障碍（2008）：</b>连绕开前两者的代数技巧也被证明不够用。</li>
     </ul>
-    <p>换句话说,我们知道解决 P 与 NP 需要一种<em class="hl">目前不存在</em>的证明技术。这使它在 2026 年的 AI 浪潮中成了最「安静」的千禧年难题:没有实验室宣称接近它,专家共识依旧是 P ≠ NP,但连一个像样的攻击路线都没有。</p>
-    <div class="aside"><b>一个有趣的自指:</b>如果 P = NP,那么「为一个定理找到证明」和「检查证明是否正确」一样容易——AI 数学家将不需要任何巧思。2026 年的 AI 能解决纳维–斯托克斯,却仍然要靠一万个智能体跑 88 小时,这本身就是 P ≠ NP 的一个软证据。</div>
-    <div class="takeaway"><span class="tk">一句话</span>P 与 NP 问的是:发现是否可以被归约为核对?六十年来的全部证据都说「不能」,而证明「不能」的方法本身还没有被发现。</div>
+    <p>换句话说，我们知道解决 P 与 NP 需要一种<em class="hl">目前不存在</em>的证明技术。这使它在 2026 年的 AI 浪潮中成了最「安静」的千禧年难题：没有实验室宣称接近它，专家共识依旧是 P ≠ NP，但连一个像样的攻击路线都没有。</p>
+    <div class="aside"><b>一个有趣的自指：</b>如果 P = NP，那么「为一个定理找到证明」和「检查证明是否正确」一样容易——AI 数学家将不需要任何巧思。2026 年的 AI 能解决纳维–斯托克斯，却仍然要靠一万个智能体跑 88 小时，这本身就是 P ≠ NP 的一个软证据。</div>
+    <div class="takeaway"><span class="tk">一句话</span>P 与 NP 问的是：发现是否可以被归约为核对？六十年来的全部证据都说「不能」，而证明「不能」的方法本身还没有被发现。</div>
   </div>
 </section>
 <script>
@@ -131,7 +131,7 @@
     if (y < 1.38e10) return y.toExponential(1).replace("e+", "×10^") + " 年";
     return (y / 1.38e10).toExponential(1).replace("e+", "×10^") + " 倍宇宙年龄";
   };
-  const NMAX = 80, LMAX = 120; // 纵轴:log10(步数) 0..120
+  const NMAX = 80, LMAX = 120; // 纵轴：log10(步数) 0..120
   const draw = () => {
     const n = +sl.value;
     const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
@@ -142,7 +142,7 @@
     ctx.clearRect(0, 0, W, H);
     ctx.strokeStyle = "#e6dfd0"; ctx.lineWidth = 1; ctx.fillStyle = "#6f6553"; ctx.font = "11px sans-serif"; ctx.textAlign = "right";
     for (let l = 0; l <= LMAX; l += 20) { ctx.beginPath(); ctx.moveTo(pad.l, Y(l)); ctx.lineTo(W - pad.r, Y(l)); ctx.stroke(); ctx.fillText("10^" + l, pad.l - 5, Y(l) + 4); }
-    // 参考线:一秒 / 一年 / 宇宙年龄(步数)
+    // 参考线：一秒 / 一年 / 宇宙年龄(步数)
     const refs = [[9, "1 秒"], [Math.log10(31557600e9), "1 年"], [Math.log10(1.38e10 * 31557600e9), "宇宙年龄"]];
     ctx.setLineDash([3, 4]); ctx.textAlign = "left"; ctx.fillStyle = "#8a8272";
     for (const [l, t] of refs) { ctx.strokeStyle = "#c9bfa8"; ctx.beginPath(); ctx.moveTo(pad.l, Y(l)); ctx.lineTo(W - pad.r, Y(l)); ctx.stroke(); ctx.fillText(t, pad.l + 4, Y(l) - 3); }
@@ -167,8 +167,8 @@
 
 <div class="wrap">
   <div class="pager">
-    <a class="prev" href="riemann.html"><small>← 上一篇 · 千禧年难题 · 数论 · 1859 年提出</small>黎曼猜想:素数的乐谱</a>
-    <a class="next" href="navier-stokes.html"><small>下一篇 · 千禧年难题 · 偏微分方程 · 方程 1822 年写下 · 2026 年 AI 声称解决 →</small>纳维–斯托克斯:流体会不会「爆破」</a>
+    <a class="prev" href="riemann.html"><small>← 上一篇 · 千禧年难题 · 数论 · 1859 年提出</small>黎曼猜想：素数的乐谱</a>
+    <a class="next" href="navier-stokes.html"><small>下一篇 · 千禧年难题 · 偏微分方程 · 方程 1822 年写下 · 2026 年 AI 声称解决 →</small>纳维–斯托克斯：流体会不会「爆破」</a>
   </div>
 </div>
 
@@ -176,11 +176,11 @@
   <div class="wrap">
     <h4>延伸阅读</h4>
     <ul>
-      <li>克雷研究所:<a href="https://www.claymath.org/millennium/p-vs-np/" target="_blank" rel="noopener">P vs NP Problem(官方题目,Stephen Cook 撰写)</a></li>
-      <li>Scott Aaronson:<a href="https://www.scottaaronson.com/papers/pnp.pdf" target="_blank" rel="noopener">P vs. NP(综述,2016)</a></li>
-      <li>书:<a href="https://en.wikipedia.org/wiki/The_Golden_Ticket" target="_blank" rel="noopener">Lance Fortnow,《可能与不可能的边界:P/NP 问题趣史》(The Golden Ticket)</a></li>
+      <li>克雷研究所：<a href="https://www.claymath.org/millennium/p-vs-np/" target="_blank" rel="noopener">P vs NP Problem（官方题目，Stephen Cook 撰写）</a></li>
+      <li>Scott Aaronson：<a href="https://www.scottaaronson.com/papers/pnp.pdf" target="_blank" rel="noopener">P vs. NP（综述，2016）</a></li>
+      <li>书：<a href="https://en.wikipedia.org/wiki/The_Golden_Ticket" target="_blank" rel="noopener">Lance Fortnow，《可能与不可能的边界：P/NP 问题趣史》（The Golden Ticket）</a></li>
     </ul>
-    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+    <p class="disclaim">本页为通俗科普，数学陈述均经简化；涉及署名与数据使用的争议，仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
   </div>
 </footer>
 

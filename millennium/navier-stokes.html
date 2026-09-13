@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>纳维–斯托克斯方程 · 千禧年难题</title>
-<meta name="description" content="纳维–斯托克斯方程通俗讲解:方程说的是什么、粘性与湍流、「有限时间爆破」是什么意思、千禧年题目的四种表述,以及 2026 年 9 月 AI 给出的爆破证明与人类铺路者。含可交互的涡旋粒子动画。">
+<meta name="description" content="纳维–斯托克斯方程通俗讲解：方程说的是什么、粘性与湍流、「有限时间爆破」是什么意思、千禧年题目的四种表述，以及 2026 年 9 月 AI 给出的爆破证明与人类铺路者。含可交互的涡旋粒子动画。">
 <meta property="og:title" content="纳维–斯托克斯方程">
-<meta property="og:description" content="纳维–斯托克斯方程通俗讲解:方程说的是什么、粘性与湍流、「有限时间爆破」是什么意思、千禧年题目的四种表述,以及 2026 年 9 月 AI 给出的爆破证明与人类铺路者。含可交互的涡旋粒子动画。">
+<meta property="og:description" content="纳维–斯托克斯方程通俗讲解：方程说的是什么、粘性与湍流、「有限时间爆破」是什么意思、千禧年题目的四种表述，以及 2026 年 9 月 AI 给出的爆破证明与人类铺路者。含可交互的涡旋粒子动画。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
 <link rel="stylesheet" href="../assets/site.css">
 </head>
@@ -22,15 +22,15 @@
 <header class="article">
   <div class="wrap">
     <div class="kicker">千禧年难题 · 偏微分方程 · 方程 1822 年写下 · 2026 年 AI 声称解决</div>
-    <h1>纳维–斯托克斯方程:<br>水会不会在有限时间内「发疯」?</h1>
-    <p class="subtitle">描述一切流体的方程,两百年来没人知道它的解是否永远存在——直到 2026 年 9 月</p>
+    <h1>纳维–斯托克斯方程：<br>水会不会在有限时间内「发疯」？</h1>
+    <p class="subtitle">描述一切流体的方程，两百年来没人知道它的解是否永远存在——直到 2026 年 9 月</p>
     <div class="facts">
-      <div class="fact">提出<b>方程:Navier 1822 · Stokes 1845;千禧年题目:Charles Fefferman 撰写,2000 年</b></div>
+      <div class="fact">提出<b>方程：Navier 1822 · Stokes 1845；千禧年题目：Charles Fefferman 撰写，2000 年</b></div>
       <div class="fact">领域<b>偏微分方程 · 流体力学</b></div>
-      <div class="fact">一句话<b>三维流体的光滑解是否永远存在?还是可能在有限时间内出现无穷大的速度?</b></div>
-      <div class="fact">状态<b>⚠️ AI 声称已解决(2026 年 9 月 8 日,有限时间爆破)· 待同行评审 · 克雷研究所尚未认定</b></div>
-      <div class="fact">铺路者<b>Córdoba 与 Martínez-Zoroa(2023–25)· Buckmaster 与 Alpöge(欧拉方程,2026 年 8 月)</b></div>
-      <div class="fact">仍未解决<b>外力为零时会不会爆破;二维情形早已证明永远光滑</b></div>
+      <div class="fact">一句话<b>三维流体的光滑解是否永远存在？还是可能在有限时间内出现无穷大的速度？</b></div>
+      <div class="fact">状态<b>⚠️ AI 声称已解决（2026 年 9 月 8 日，有限时间爆破）· 待同行评审 · 克雷研究所尚未认定</b></div>
+      <div class="fact">铺路者<b>Córdoba 与 Martínez-Zoroa（2023–25）· Buckmaster 与 Alpöge（欧拉方程，2026 年 8 月）</b></div>
+      <div class="fact">仍未解决<b>外力为零时会不会爆破；二维情形早已证明永远光滑</b></div>
     </div>
   </div>
 </header>
@@ -39,11 +39,11 @@
 <section>
   <div class="wrap">
     <div class="chapnum">问 题</div>
-    <h2>牛顿定律,写给一杯水</h2>
-    <p class="lead">把一杯水想成无数个小水块。每个小水块都遵守牛顿第二定律:<b>加速度 = 受力 ÷ 质量</b>。它受的力有三种:周围压力的差、邻居的粘性摩擦、以及外力(重力、搅拌的勺子)。把这句话写成数学,就是纳维–斯托克斯方程。</p>
-    <p>这个方程管着天气预报、飞机设计、血液流动、咖啡里的奶纹。工程师每天在计算机上解它,解得很好。问题出在数学家这边:<em class="hl">我们不知道这个方程的解是否总是「讲道理」</em>。</p>
-    <div class="takeaway"><span class="tk">千禧年题目</span>给定任意光滑的初始状态,三维流体的解是否永远存在、永远光滑?或者,是否可能在有限时间内出现一个点,那里的速度变成<b>无穷大</b>——数学家叫它「<b>爆破</b>」(blowup)?</div>
-    <p>克雷研究所的官方题目给了两条路,证明任何一条都算:(A)证明永远光滑;(B)构造一个光滑初始状态与一个<b>光滑的外力</b>,让解在有限时间内爆破。二维的情形早在 1960 年代就被证明永远光滑;三维多出的那个维度,让涡旋可以被拉伸、放大,一切都变了。</p>
+    <h2>牛顿定律，写给一杯水</h2>
+    <p class="lead">把一杯水想成无数个小水块。每个小水块都遵守牛顿第二定律：<b>加速度 = 受力 ÷ 质量</b>。它受的力有三种：周围压力的差、邻居的粘性摩擦、以及外力（重力、搅拌的勺子）。把这句话写成数学，就是纳维–斯托克斯方程。</p>
+    <p>这个方程管着天气预报、飞机设计、血液流动、咖啡里的奶纹。工程师每天在计算机上解它，解得很好。问题出在数学家这边：<em class="hl">我们不知道这个方程的解是否总是「讲道理」</em>。</p>
+    <div class="takeaway"><span class="tk">千禧年题目</span>给定任意光滑的初始状态，三维流体的解是否永远存在、永远光滑？或者，是否可能在有限时间内出现一个点，那里的速度变成<b>无穷大</b>——数学家叫它「<b>爆破</b>」（blowup）？</div>
+    <p>克雷研究所的官方题目给了两条路，证明任何一条都算：（A）证明永远光滑；（B）构造一个光滑初始状态与一个<b>光滑的外力</b>，让解在有限时间内爆破。二维的情形早在 1960 年代就被证明永远光滑；三维多出的那个维度，让涡旋可以被拉伸、放大，一切都变了。</p>
   </div>
 </section>
 
@@ -52,8 +52,8 @@
 <section>
   <div class="wrap">
     <div class="chapnum">看 一 看</div>
-    <h2>粘性:抹平一切的力量</h2>
-    <p>下面是一片二维流体里的粒子,被四个涡旋推着走。粘性会让涡旋慢慢衰减。拖动滑块改变粘性:粘性越大,涡旋消失得越快;粘性趋于零,就是「欧拉方程」——理想流体,没有摩擦。</p>
+    <h2>粘性：抹平一切的力量</h2>
+    <p>下面是一片二维流体里的粒子，被四个涡旋推着走。粘性会让涡旋慢慢衰减。拖动滑块改变粘性：粘性越大，涡旋消失得越快；粘性趋于零，就是「欧拉方程」——理想流体，没有摩擦。</p>
   </div>
   <div class="wide">
     <div class="figure" style="max-width:640px">
@@ -64,11 +64,11 @@
         <button class="btn" id="flowReset">重置</button>
         <span class="readout" id="flowOut"></span>
       </div>
-      <div class="cap">这是一个「Taylor–Green 涡」的示意:速度场随时间按 e<sup>−2νt</sup> 衰减,能量被粘性耗散成热。真实的三维流体里,大涡会把小涡拉长、加速,能量从大尺度向小尺度<b>级联</b>——粘性能不能在小尺度上及时抹平它们,正是爆破问题的核心。</div>
+      <div class="cap">这是一个「Taylor–Green 涡」的示意：速度场随时间按 e<sup>−2νt</sup> 衰减，能量被粘性耗散成热。真实的三维流体里，大涡会把小涡拉长、加速，能量从大尺度向小尺度<b>级联</b>——粘性能不能在小尺度上及时抹平它们，正是爆破问题的核心。</div>
     </div>
   </div>
   <div class="wrap">
-    <p>直觉上,粘性像刹车:尺度越小,刹车越狠(耗散正比于尺度的平方分之一)。所以很多人曾相信三维流体永远不会爆破——小涡还没来得及变成奇点,就被粘性抹掉了。2013 年侯一钊与罗果的数值实验第一次动摇了这个信念:在没有粘性的欧拉方程里,他们看到了奇点的迹象。此后,领域的风向逐渐转向「方向 B」。</p>
+    <p>直觉上，粘性像刹车：尺度越小，刹车越狠（耗散正比于尺度的平方分之一）。所以很多人曾相信三维流体永远不会爆破——小涡还没来得及变成奇点，就被粘性抹掉了。2013 年侯一钊与罗果的数值实验第一次动摇了这个信念：在没有粘性的欧拉方程里，他们看到了奇点的迹象。此后，领域的风向逐渐转向「方向 B」。</p>
   </div>
 </section>
 
@@ -77,18 +77,18 @@
 <section>
   <div class="wrap">
     <div class="chapnum">进 展 与 状 态</div>
-    <h2>2026 年 9 月:一场被抢跑的冲线</h2>
-    <p class="lead">这是七个千禧年难题里,唯一在 2026 年发生了决定性事件的一个。</p>
+    <h2>2026 年 9 月：一场被抢跑的冲线</h2>
+    <p class="lead">这是七个千禧年难题里，唯一在 2026 年发生了决定性事件的一个。</p>
     <div class="mini-tl">
-      <div class="row"><span class="d">2013</span>侯一钊与罗果:欧拉方程奇点的数值证据。</div>
-      <div class="row major"><span class="d">2023–25</span>马德里的 Córdoba 与 Martínez-Zoroa 发展出「跨尺度放大」策略:大尺度的背景流放大小尺度的涡,小尺度不反作用于大尺度,一层套一层,无穷多层的爆破时刻收敛到同一个有限时间。他们在允许不那么光滑的外力时做出了欧拉方程的爆破。</div>
-      <div class="row major"><span class="d">2026 年 8 月</span>纽约大学的 Buckmaster 与 Anthropic 的 Alpöge 在<b>光滑外力</b>下证明了欧拉方程与两个相关方程的爆破,并通过 Lean 核验。陶哲轩:「了不起的成就」,方法看起来可以推到纳维–斯托克斯。</div>
-      <div class="row major"><span class="d">2026 年 9 月 8 日</span>OpenAI 宣布:约一万个智能体运行 88 小时,给出三维纳维–斯托克斯方程在光滑外力下有限时间爆破的 166 页证明,附 Lean 形式化。这满足官方题目的「方向 B」。</div>
-      <div class="row grey"><span class="d">随后</span>Buckmaster 指控 OpenAI 沿着他们的路线抢跑、并施压删去合作者署名;25 位菲尔兹奖得主联名发声;克雷研究所表示评审「刻意不急」,按规则需正式发表并经两年检验。OpenAI 表示不打算申领奖金。</div>
+      <div class="row"><span class="d">2013</span>侯一钊与罗果：欧拉方程奇点的数值证据。</div>
+      <div class="row major"><span class="d">2023–25</span>马德里的 Córdoba 与 Martínez-Zoroa 发展出「跨尺度放大」策略：大尺度的背景流放大小尺度的涡，小尺度不反作用于大尺度，一层套一层，无穷多层的爆破时刻收敛到同一个有限时间。他们在允许不那么光滑的外力时做出了欧拉方程的爆破。</div>
+      <div class="row major"><span class="d">2026 年 8 月</span>纽约大学的 Buckmaster 与 Anthropic 的 Alpöge 在<b>光滑外力</b>下证明了欧拉方程与两个相关方程的爆破，并通过 Lean 核验。陶哲轩：「了不起的成就」，方法看起来可以推到纳维–斯托克斯。</div>
+      <div class="row major"><span class="d">2026 年 9 月 8 日</span>OpenAI 宣布：约一万个智能体运行 88 小时，给出三维纳维–斯托克斯方程在光滑外力下有限时间爆破的 166 页证明，附 Lean 形式化。这满足官方题目的「方向 B」。</div>
+      <div class="row grey"><span class="d">随后</span>Buckmaster 指控 OpenAI 沿着他们的路线抢跑、并施压删去合作者署名；25 位菲尔兹奖得主联名发声；克雷研究所表示评审「刻意不急」，按规则需正式发表并经两年检验。OpenAI 表示不打算申领奖金。</div>
     </div>
-    <p>完整的证明思路(「大带小、不回头、无穷层、外力光滑」)和整场风波的逐日记录,见本站时间线的<a href="../problems/navier-stokes.html">详解页</a>。</p>
-    <div class="aside"><b>「解决」了什么,没「解决」什么?</b> 如果证明经受住检验,官方题目的方向 B 成立,千禧年难题按规则可以颁奖。但它说的是:<em class="hl">在一个温和的外力持续作用下</em>,流体可以爆破。「不加任何外力、只靠初始状态会不会爆破」仍然是公开问题。至于真实的水:方程在分子尺度上本来就不再适用,水龙头不会喷出无穷大的速度——被推翻的是数学模型的完美性,不是物理世界。</div>
-    <div class="takeaway"><span class="tk">一句话</span>纳维–斯托克斯方程的问题是「模型会不会在有限时间内崩溃」;2026 年的答案是「会」——路是三代人铺的,最后一公里是机器跑的,而谁该站在领奖台上,还没有定论。</div>
+    <p>完整的证明思路（「大带小、不回头、无穷层、外力光滑」）和整场风波的逐日记录，见本站时间线的<a href="../problems/navier-stokes.html">详解页</a>。</p>
+    <div class="aside"><b>「解决」了什么，没「解决」什么？</b> 如果证明经受住检验，官方题目的方向 B 成立，千禧年难题按规则可以颁奖。但它说的是：<em class="hl">在一个温和的外力持续作用下</em>，流体可以爆破。「不加任何外力、只靠初始状态会不会爆破」仍然是公开问题。至于真实的水：方程在分子尺度上本来就不再适用，水龙头不会喷出无穷大的速度——被推翻的是数学模型的完美性，不是物理世界。</div>
+    <div class="takeaway"><span class="tk">一句话</span>纳维–斯托克斯方程的问题是「模型会不会在有限时间内崩溃」；2026 年的答案是「会」——路是三代人铺的，最后一公里是机器跑的，而谁该站在领奖台上，还没有定论。</div>
   </div>
 </section>
 <script>
@@ -129,8 +129,8 @@
 
 <div class="wrap">
   <div class="pager">
-    <a class="prev" href="p-vs-np.html"><small>← 上一篇 · 千禧年难题 · 理论计算机科学 · 1971 年提出</small>P 与 NP:验证容易,寻找就一定容易吗</a>
-    <a class="next" href="yang-mills.html"><small>下一篇 · 千禧年难题 · 数学物理 · 1954 年理论提出 · 2000 年列为难题 →</small>杨–米尔斯:为什么核力有「质量」</a>
+    <a class="prev" href="p-vs-np.html"><small>← 上一篇 · 千禧年难题 · 理论计算机科学 · 1971 年提出</small>P 与 NP：验证容易，寻找就一定容易吗</a>
+    <a class="next" href="yang-mills.html"><small>下一篇 · 千禧年难题 · 数学物理 · 1954 年理论提出 · 2000 年列为难题 →</small>杨–米尔斯：为什么核力有「质量」</a>
   </div>
 </div>
 
@@ -138,12 +138,12 @@
   <div class="wrap">
     <h4>延伸阅读</h4>
     <ul>
-      <li>克雷研究所:<a href="https://www.claymath.org/millennium/navier-stokes-equation/" target="_blank" rel="noopener">Navier–Stokes Equation(官方题目,Fefferman 撰写)</a></li>
-      <li>克雷研究所:<a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener">Navier–Stokes Announcement(2026 年 9 月声明)</a></li>
-      <li>《量子杂志》:<a href="https://www.quantamagazine.org/ai-has-solved-one-of-maths-1-million-millennium-prize-problems-20260908/" target="_blank" rel="noopener">AI Has Solved One of Math&#x27;s $1 Million Millennium Prize Problems</a></li>
-      <li>本站:<a href="../problems/navier-stokes.html" target="_blank" rel="noopener">时间线详解:证明思路与署名风波全纪录</a></li>
+      <li>克雷研究所：<a href="https://www.claymath.org/millennium/navier-stokes-equation/" target="_blank" rel="noopener">Navier–Stokes Equation（官方题目，Fefferman 撰写）</a></li>
+      <li>克雷研究所：<a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener">Navier–Stokes Announcement（2026 年 9 月声明）</a></li>
+      <li>《量子杂志》：<a href="https://www.quantamagazine.org/ai-has-solved-one-of-maths-1-million-millennium-prize-problems-20260908/" target="_blank" rel="noopener">AI Has Solved One of Math&#x27;s $1 Million Millennium Prize Problems</a></li>
+      <li>本站：<a href="../problems/navier-stokes.html" target="_blank" rel="noopener">时间线详解：证明思路与署名风波全纪录</a></li>
     </ul>
-    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+    <p class="disclaim">本页为通俗科普，数学陈述均经简化；涉及署名与数据使用的争议，仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
   </div>
 </footer>
 

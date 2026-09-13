@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AlphaEvolve:矩阵乘法与亲吻数 · 数学难题时间线</title>
-<meta name="description" content="AlphaEvolve 如何打破 Strassen 1969 年的 4×4 矩阵乘法纪录、把 11 维亲吻数推到 593、改进 Erdős 最小重叠问题:问题背景与进化式搜索原理。">
-<meta property="og:title" content="AlphaEvolve:矩阵乘法与亲吻数">
-<meta property="og:description" content="AlphaEvolve 如何打破 Strassen 1969 年的 4×4 矩阵乘法纪录、把 11 维亲吻数推到 593、改进 Erdős 最小重叠问题:问题背景与进化式搜索原理。">
+<title>AlphaEvolve：矩阵乘法与亲吻数 · 数学难题时间线</title>
+<meta name="description" content="AlphaEvolve 如何打破 Strassen 1969 年的 4×4 矩阵乘法纪录、把 11 维亲吻数推到 593、改进 Erdős 最小重叠问题：问题背景与进化式搜索原理。">
+<meta property="og:title" content="AlphaEvolve：矩阵乘法与亲吻数">
+<meta property="og:description" content="AlphaEvolve 如何打破 Strassen 1969 年的 4×4 矩阵乘法纪录、把 11 维亲吻数推到 593、改进 Erdős 最小重叠问题：问题背景与进化式搜索原理。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">
 <link rel="stylesheet" href="../assets/site.css">
 </head>
@@ -22,15 +22,15 @@
 <header class="article">
   <div class="wrap">
     <div class="kicker">2025 年 5 月 · Google DeepMind</div>
-    <h1>AlphaEvolve:<br>56 年来第一次,4×4 矩阵少乘一次</h1>
-    <p class="subtitle">一个「让代码进化」的智能体,在 50 多个公开问题上刷出一串新纪录</p>
+    <h1>AlphaEvolve：<br>56 年来第一次，4×4 矩阵少乘一次</h1>
+    <p class="subtitle">一个「让代码进化」的智能体，在 50 多个公开问题上刷出一串新纪录</p>
     <div class="facts">
-      <div class="fact">系统<b>AlphaEvolve(Gemini Flash + Pro + 自动评估 + 进化)</b></div>
-      <div class="fact">矩阵乘法<b>4×4 复矩阵:49 次乘法 → 48 次(Strassen 纪录保持自 1969 年)</b></div>
-      <div class="fact">亲吻数<b>11 维下界:592 → 593</b></div>
-      <div class="fact">Erdős 最小重叠<b>上界 0.380927 → 0.380924(2016 年以来首次)</b></div>
-      <div class="fact">覆盖<b>50 余个公开问题;约 75% 追平人类纪录,约 20% 超越</b></div>
-      <div class="fact">发布<b>2025 年 5 月 14 日;论文 arXiv:2506.13131</b></div>
+      <div class="fact">系统<b>AlphaEvolve（Gemini Flash + Pro + 自动评估 + 进化）</b></div>
+      <div class="fact">矩阵乘法<b>4×4 复矩阵：49 次乘法 → 48 次（Strassen 纪录保持自 1969 年）</b></div>
+      <div class="fact">亲吻数<b>11 维下界：592 → 593</b></div>
+      <div class="fact">Erdős 最小重叠<b>上界 0.380927 → 0.380924（2016 年以来首次）</b></div>
+      <div class="fact">覆盖<b>50 余个公开问题；约 75% 追平人类纪录，约 20% 超越</b></div>
+      <div class="fact">发布<b>2025 年 5 月 14 日；论文 arXiv:2506.13131</b></div>
     </div>
   </div>
 </header>
@@ -40,28 +40,28 @@
   <div class="wrap">
     <div class="chapnum">问 题</div>
     <h2>三个听起来毫不相干的老问题</h2>
-    <p class="lead">AlphaEvolve 不是为某一个问题设计的,它是一台<em class="hl">通用的构造机器</em>。下面三个问题,是它最出名的三个战果。</p>
+    <p class="lead">AlphaEvolve 不是为某一个问题设计的，它是一台<em class="hl">通用的构造机器</em>。下面三个问题，是它最出名的三个战果。</p>
 
-    <h3>① 两个矩阵相乘,最少要乘几次?</h3>
-    <p>按课本方法,两个 2×2 矩阵相乘要做 8 次数字乘法。1969 年,德国数学家 <b>Volker Strassen</b> 发现只需 7 次——这个看似微小的省略,递归起来能让大矩阵的乘法快得多,是整个「快速矩阵乘法」领域的起点。对于 4×4 矩阵,Strassen 的方法给出 49 次,此后 56 年无人改进。</p>
-    <p>2025 年 5 月,AlphaEvolve 给出了一个 <b>48 次</b>乘法的算法(适用于复数矩阵)。少一次,听起来微不足道,但这是半个多世纪里对这一具体纪录的第一次突破。</p>
+    <h3>① 两个矩阵相乘，最少要乘几次？</h3>
+    <p>按课本方法，两个 2×2 矩阵相乘要做 8 次数字乘法。1969 年，德国数学家 <b>Volker Strassen</b> 发现只需 7 次——这个看似微小的省略，递归起来能让大矩阵的乘法快得多，是整个「快速矩阵乘法」领域的起点。对于 4×4 矩阵，Strassen 的方法给出 49 次，此后 56 年无人改进。</p>
+    <p>2025 年 5 月，AlphaEvolve 给出了一个 <b>48 次</b>乘法的算法（适用于复数矩阵）。少一次，听起来微不足道，但这是半个多世纪里对这一具体纪录的第一次突破。</p>
 
-      <h3>② 一个球最多能被多少个同样大的球「亲吻」?</h3>
-    <p>三维空间里,一个球最多能同时和 12 个同样大的球相切——牛顿与 Gregory 在 1694 年为此争论,直到 1953 年才被证明。高维空间里的「亲吻数」大多数至今未知,只有上下界。AlphaEvolve 在 11 维找到了一个 <b>593 个球</b>的排列,把下界从 592 推进了 1。</p>
+      <h3>② 一个球最多能被多少个同样大的球「亲吻」？</h3>
+    <p>三维空间里，一个球最多能同时和 12 个同样大的球相切——牛顿与 Gregory 在 1694 年为此争论，直到 1953 年才被证明。高维空间里的「亲吻数」大多数至今未知，只有上下界。AlphaEvolve 在 11 维找到了一个 <b>593 个球</b>的排列，把下界从 592 推进了 1。</p>
   </div>
   <div class="wide">
     <div class="figure" style="max-width:520px">
       <div class="tl-meta"><span class="tag solved">动手玩</span><span>二维的亲吻数</span></div>
       <canvas id="kiss" style="height:300px" aria-label="围绕中央圆摆放相同大小的圆,超过 6 个就会重叠"></canvas>
       <div class="controls"><label>圆的个数 <input type="range" id="kissN" min="1" max="8" value="6"></label><span class="readout" id="kissOut"></span></div>
-      <div class="cap">平面上,一枚硬币周围最多贴 6 枚同样的硬币——第 7 枚一定会和邻居重叠(红色)。三维是 12,四维是 24,八维是 240,二十四维是 196560;其余维度都只知道范围。AlphaEvolve 做的就是在 11 维里多塞进一个球。</div>
+      <div class="cap">平面上，一枚硬币周围最多贴 6 枚同样的硬币——第 7 枚一定会和邻居重叠（红色）。三维是 12，四维是 24，八维是 240，二十四维是 196560；其余维度都只知道范围。AlphaEvolve 做的就是在 11 维里多塞进一个球。</div>
     </div>
   </div>
   <div class="wrap">
 
 
     <h3>③ Erdős 的「最小重叠」问题</h3>
-    <p>把 1 到 2n 的数分成两组各 n 个,再把其中一组整体平移,两组「重叠」的元素最少有几个?Erdős 在 1955 年提出的这个问题,答案的常数至今只知道夹在 0.379 与 0.381 之间。AlphaEvolve 把上界从 0.380927 推到 <b>0.380924</b>——这是 2016 年以来的第一次进展。</p>
+    <p>把 1 到 2n 的数分成两组各 n 个，再把其中一组整体平移，两组「重叠」的元素最少有几个？Erdős 在 1955 年提出的这个问题，答案的常数至今只知道夹在 0.379 与 0.381 之间。AlphaEvolve 把上界从 0.380927 推到 <b>0.380924</b>——这是 2016 年以来的第一次进展。</p>
   </div>
 
 <script>
@@ -82,7 +82,7 @@
       ctx.fillStyle = bad ? "rgba(188,63,30,.55)" : "rgba(168,128,31,.55)"; ctx.strokeStyle = bad ? "#bc3f1e" : "#a8801f"; ctx.lineWidth = 1.5;
       ctx.beginPath(); ctx.arc(pts[i][0], pts[i][1], R, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
     }
-    out.innerHTML = overlaps ? `${n} 个:有 <b>${overlaps}</b> 个重叠,不合法` : `${n} 个:都只与中心相切,合法${n === 6 ? " · 已是极限" : ""}`;
+    out.innerHTML = overlaps ? `${n} 个：有 <b>${overlaps}</b> 个重叠，不合法` : `${n} 个：都只与中心相切，合法${n === 6 ? " · 已是极限" : ""}`;
   };
   sl.addEventListener("input", draw); addEventListener("resize", draw); draw();
 })();
@@ -94,15 +94,15 @@
 <section>
   <div class="wrap">
     <div class="chapnum">AI 做了什么</div>
-    <h2>FunSearch 的升级版:整个程序都可以进化</h2>
-    <p class="lead">AlphaEvolve 是 <a href="cap-set.html">FunSearch</a> 的直系后代,骨架一样:<em class="hl">模型写代码 → 自动评估打分 → 好代码繁衍、坏代码淘汰</em>。区别在规模与自由度。</p>
+    <h2>FunSearch 的升级版：整个程序都可以进化</h2>
+    <p class="lead">AlphaEvolve 是 <a href="cap-set.html">FunSearch</a> 的直系后代，骨架一样：<em class="hl">模型写代码 → 自动评估打分 → 好代码繁衍、坏代码淘汰</em>。区别在规模与自由度。</p>
     <div class="defbox">
-      <div class="def-row"><span class="def-k">自由度</span><div>FunSearch 只允许模型改一个函数;AlphaEvolve 允许改<b>整个程序</b>,几百行也可以。模型输出的是「补丁」(diff),像程序员提交代码一样。</div></div>
-      <div class="def-row"><span class="def-k">双模型</span><div>用快而便宜的 Gemini Flash 大量生成候选,用慢而强的 Gemini Pro 偶尔做深度改进——广度与深度兼顾。</div></div>
-      <div class="def-row"><span class="def-k">评估</span><div>每个候选程序都被真正运行:矩阵算法是否正确、球是否重叠、集合是否合法——全由机器判定,模型无法「说服」评估器。</div></div>
-      <div class="def-row key"><span class="def-k">结果</span><div>在 50 多个公开问题上跑一遍:约 <b>75%</b> 重新发现了人类已知的最优构造,约 <b>20%</b> 给出了更好的构造。矩阵乘法、亲吻数、最小重叠,都在这 20% 里。</div></div>
+      <div class="def-row"><span class="def-k">自由度</span><div>FunSearch 只允许模型改一个函数；AlphaEvolve 允许改<b>整个程序</b>，几百行也可以。模型输出的是「补丁」（diff），像程序员提交代码一样。</div></div>
+      <div class="def-row"><span class="def-k">双模型</span><div>用快而便宜的 Gemini Flash 大量生成候选，用慢而强的 Gemini Pro 偶尔做深度改进——广度与深度兼顾。</div></div>
+      <div class="def-row"><span class="def-k">评估</span><div>每个候选程序都被真正运行：矩阵算法是否正确、球是否重叠、集合是否合法——全由机器判定，模型无法「说服」评估器。</div></div>
+      <div class="def-row key"><span class="def-k">结果</span><div>在 50 多个公开问题上跑一遍：约 <b>75%</b> 重新发现了人类已知的最优构造，约 <b>20%</b> 给出了更好的构造。矩阵乘法、亲吻数、最小重叠，都在这 20% 里。</div></div>
     </div>
-    <p>这套系统同时也在 Google 内部干活:它优化了数据中心的调度算法(省下约 0.7% 的全球算力),还把训练 Gemini 用的一个关键计算核加速了 23%。数学纪录和工程收益来自同一台机器,这在 AI 数学史上是第一次。</p>
+    <p>这套系统同时也在 Google 内部干活：它优化了数据中心的调度算法（省下约 0.7% 的全球算力），还把训练 Gemini 用的一个关键计算核加速了 23%。数学纪录和工程收益来自同一台机器，这在 AI 数学史上是第一次。</p>
   </div>
 </section>
 
@@ -111,17 +111,17 @@
 <section>
   <div class="wrap">
     <div class="chapnum">意 义 与 局 限</div>
-    <h2>它擅长「找东西」,而不是「证明没有东西」</h2>
-    <p>AlphaEvolve 的所有战果都属于同一类:<b>构造</b>——找到一个更好的算法、一个更密的排列、一个更巧的集合。这类结果的好处是可以直接验证;局限是它<em class="hl">回答不了「最优是多少」</em>。48 次乘法是极限吗?593 个球是极限吗?那需要证明「不存在更好的」,而这是完全不同的能力。</p>
-    <p>2025 年 11 月,陶哲轩与 DeepMind 合作发表论文,把 AlphaEvolve 用在 67 个问题上,结论类似:它是一个「高效的实验数学助手」,在人类给出好的问题表述时,能快速探索构造空间;但问题的选择与意义的判断,仍然是人的工作。</p>
-    <div class="takeaway"><span class="tk">一句话</span>AlphaEvolve 让「猜构造」这件事工业化了。真正的证明,要等到半年后的 Lean 系统登场。</div>
+    <h2>它擅长「找东西」，而不是「证明没有东西」</h2>
+    <p>AlphaEvolve 的所有战果都属于同一类：<b>构造</b>——找到一个更好的算法、一个更密的排列、一个更巧的集合。这类结果的好处是可以直接验证；局限是它<em class="hl">回答不了「最优是多少」</em>。48 次乘法是极限吗？593 个球是极限吗？那需要证明「不存在更好的」，而这是完全不同的能力。</p>
+    <p>2025 年 11 月，陶哲轩与 DeepMind 合作发表论文，把 AlphaEvolve 用在 67 个问题上，结论类似：它是一个「高效的实验数学助手」，在人类给出好的问题表述时，能快速探索构造空间；但问题的选择与意义的判断，仍然是人的工作。</p>
+    <div class="takeaway"><span class="tk">一句话</span>AlphaEvolve 让「猜构造」这件事工业化了。真正的证明，要等到半年后的 Lean 系统登场。</div>
   </div>
 </section>
 </main>
 
 <div class="wrap">
   <div class="pager">
-    <a class="prev" href="imo.html"><small>← 上一篇 · 2024 年 7 月 → 2025 年 7 月 · Google DeepMind · OpenAI</small>国际数学奥林匹克:AI 从银牌到金牌</a>
+    <a class="prev" href="imo.html"><small>← 上一篇 · 2024 年 7 月 → 2025 年 7 月 · Google DeepMind · OpenAI</small>国际数学奥林匹克：AI 从银牌到金牌</a>
     <a class="next" href="erdos-literature.html"><small>下一篇 · 2025 年 8 – 10 月 · OpenAI →</small>「解决十个 Erdős 问题」——其实是查到了文献</a>
   </div>
 </div>
@@ -130,11 +130,11 @@
   <div class="wrap">
     <h4>延伸阅读</h4>
     <ul>
-      <li>论文:<a href="https://arxiv.org/abs/2506.13131" target="_blank" rel="noopener">AlphaEvolve: A coding agent for scientific and algorithmic discovery</a></li>
-      <li>MIT 科技评论:<a href="https://www.technologyreview.com/2025/05/14/1116438/google-deepminds-new-ai-uses-large-language-models-to-crack-real-world-problems/" target="_blank" rel="noopener">Google DeepMind&#x27;s new AI agent cracks real-world problems better than humans can</a></li>
-      <li>IEEE Spectrum:<a href="https://spectrum.ieee.org/deepmind-alphaevolve" target="_blank" rel="noopener">AlphaEvolve Tackles Kissing Problem &amp; More</a></li>
+      <li>论文：<a href="https://arxiv.org/abs/2506.13131" target="_blank" rel="noopener">AlphaEvolve： A coding agent for scientific and algorithmic discovery</a></li>
+      <li>MIT 科技评论：<a href="https://www.technologyreview.com/2025/05/14/1116438/google-deepminds-new-ai-uses-large-language-models-to-crack-real-world-problems/" target="_blank" rel="noopener">Google DeepMind&#x27;s new AI agent cracks real-world problems better than humans can</a></li>
+      <li>IEEE Spectrum：<a href="https://spectrum.ieee.org/deepmind-alphaevolve" target="_blank" rel="noopener">AlphaEvolve Tackles Kissing Problem &amp; More</a></li>
     </ul>
-    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+    <p class="disclaim">本页为通俗科普，数学陈述均经简化；涉及署名与数据使用的争议，仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
   </div>
 </footer>
 

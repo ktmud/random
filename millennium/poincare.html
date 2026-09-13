@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>庞加莱猜想 · 千禧年难题</title>
-<meta name="description" content="庞加莱猜想通俗讲解:单连通、三维球面、为什么三维最难、佩雷尔曼如何用里奇流证明它,以及他为什么拒绝菲尔兹奖与百万美元。含可交互动画。">
+<meta name="description" content="庞加莱猜想通俗讲解：单连通、三维球面、为什么三维最难、佩雷尔曼如何用里奇流证明它，以及他为什么拒绝菲尔兹奖与百万美元。含可交互动画。">
 <meta property="og:title" content="庞加莱猜想">
-<meta property="og:description" content="庞加莱猜想通俗讲解:单连通、三维球面、为什么三维最难、佩雷尔曼如何用里奇流证明它,以及他为什么拒绝菲尔兹奖与百万美元。含可交互动画。">
+<meta property="og:description" content="庞加莱猜想通俗讲解：单连通、三维球面、为什么三维最难、佩雷尔曼如何用里奇流证明它，以及他为什么拒绝菲尔兹奖与百万美元。含可交互动画。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎈</text></svg>">
 <link rel="stylesheet" href="../assets/site.css">
 </head>
@@ -22,15 +22,15 @@
 <header class="article">
   <div class="wrap">
     <div class="kicker">千禧年难题 · 拓扑学 · 1904 年提出 · 2003 年解决</div>
-    <h1>庞加莱猜想:<br>没有洞的三维空间,只有一种</h1>
+    <h1>庞加莱猜想：<br>没有洞的三维空间，只有一种</h1>
     <p class="subtitle">唯一已被解决的千禧年难题——以及一位拒绝了一百万美元的隐士</p>
     <div class="facts">
-      <div class="fact">提出<b>亨利·庞加莱,1904 年</b></div>
-      <div class="fact">领域<b>拓扑学(研究「形状」在连续变形下不变的性质)</b></div>
-      <div class="fact">一句话<b>任何「没有洞」的封闭三维空间,都只能是三维球面</b></div>
-      <div class="fact">状态<b>✅ 已解决 · 格里戈里·佩雷尔曼,2002–2003 年</b></div>
-      <div class="fact">奖项<b>2006 年菲尔兹奖(拒领)· 2010 年千禧年大奖(拒领)</b></div>
-      <div class="fact">工具<b>里奇流(Ricci flow),由理查德·汉密尔顿于 1982 年开创</b></div>
+      <div class="fact">提出<b>亨利·庞加莱，1904 年</b></div>
+      <div class="fact">领域<b>拓扑学（研究「形状」在连续变形下不变的性质）</b></div>
+      <div class="fact">一句话<b>任何「没有洞」的封闭三维空间，都只能是三维球面</b></div>
+      <div class="fact">状态<b>✅ 已解决 · 格里戈里·佩雷尔曼，2002–2003 年</b></div>
+      <div class="fact">奖项<b>2006 年菲尔兹奖（拒领）· 2010 年千禧年大奖（拒领）</b></div>
+      <div class="fact">工具<b>里奇流（Ricci flow），由理查德·汉密尔顿于 1982 年开创</b></div>
     </div>
   </div>
 </header>
@@ -40,21 +40,21 @@
   <div class="wrap">
     <div class="chapnum">问 题</div>
     <h2>用一根橡皮筋判断你住在什么形状的宇宙里</h2>
-    <p class="lead">想象一只蚂蚁生活在一个球面上。它拿一根橡皮筋,在球面上绕一圈,然后慢慢收紧——不论怎么绕,橡皮筋最终都能<em class="hl">缩成一个点</em>。</p>
-    <p>再想象蚂蚁生活在一个甜甜圈(环面)上。如果橡皮筋绕过了中间的洞,它就再也缩不回去了——洞挡着它。</p>
-    <p>数学家把「任何闭合曲线都能缩成一点」的性质叫作<b>单连通</b>。19 世纪末人们已经知道:在二维,封闭、有限、单连通的曲面<b>只有球面一种</b>。庞加莱 1904 年问的是三维的版本:</p>
-    <div class="takeaway"><span class="tk">庞加莱猜想</span>一个封闭、有限、<b>没有洞</b>(单连通)的三维空间,是否一定就是三维球面?</div>
+    <p class="lead">想象一只蚂蚁生活在一个球面上。它拿一根橡皮筋，在球面上绕一圈，然后慢慢收紧——不论怎么绕，橡皮筋最终都能<em class="hl">缩成一个点</em>。</p>
+    <p>再想象蚂蚁生活在一个甜甜圈（环面）上。如果橡皮筋绕过了中间的洞，它就再也缩不回去了——洞挡着它。</p>
+    <p>数学家把「任何闭合曲线都能缩成一点」的性质叫作<b>单连通</b>。19 世纪末人们已经知道：在二维，封闭、有限、单连通的曲面<b>只有球面一种</b>。庞加莱 1904 年问的是三维的版本：</p>
+    <div class="takeaway"><span class="tk">庞加莱猜想</span>一个封闭、有限、<b>没有洞</b>（单连通）的三维空间，是否一定就是三维球面？</div>
   </div>
   <div class="wide">
     <div class="figure" style="max-width:640px">
       <div class="tl-meta"><span class="tag solved">动画</span><span>橡皮筋能不能缩成一点</span></div>
       <canvas id="loops" style="height:280px" aria-label="左:球面上的环收缩成一点;右:环面上绕洞的环收不回去(动画)"></canvas>
       <div class="controls"><button class="btn" id="loopsPlay" aria-pressed="true">⏸ 暂停</button><span class="readout" id="loopsOut"></span></div>
-      <div class="cap">左边球面上的环(红)每次都能收缩到一个点;右边环面上绕着洞的环(红)收到最紧也还是一个圈——洞把它卡住了。「单连通」说的就是左边这种情况。</div>
+      <div class="cap">左边球面上的环（红）每次都能收缩到一个点；右边环面上绕着洞的环（红）收到最紧也还是一个圈——洞把它卡住了。「单连通」说的就是左边这种情况。</div>
     </div>
   </div>
   <div class="wrap">
-    <p>「三维球面」不是我们熟悉的那个球的表面(那是二维球面),而是它的高一维版本:就像二维球面是三维空间里到原点距离为 1 的点集,三维球面是<b>四维空间</b>里到原点距离为 1 的点集。我们没法直接看见它,但能在数学上精确地描述它。</p>
+    <p>「三维球面」不是我们熟悉的那个球的表面（那是二维球面），而是它的高一维版本：就像二维球面是三维空间里到原点距离为 1 的点集，三维球面是<b>四维空间</b>里到原点距离为 1 的点集。我们没法直接看见它，但能在数学上精确地描述它。</p>
   </div>
 </section>
 
@@ -64,8 +64,8 @@
   <div class="wrap">
     <div class="chapnum">为 什 么 难</div>
     <h2>三维是最尴尬的维度</h2>
-    <p>奇怪的是,这个猜想的<b>高维版本</b>反而先被解决了:1961 年斯梅尔(Smale)证明了 5 维及以上的情形(获菲尔兹奖),1982 年弗里德曼(Freedman)证明了 4 维(也获菲尔兹奖)。高维空间「地方大」,有足够的空间让数学家做各种手术式的操作;三维空间太挤,那些技巧全都施展不开。</p>
-    <p>整个 20 世纪,无数人宣称证明了它,又无数次被发现漏洞。它成了拓扑学的珠穆朗玛峰。</p>
+    <p>奇怪的是，这个猜想的<b>高维版本</b>反而先被解决了：1961 年斯梅尔（Smale）证明了 5 维及以上的情形（获菲尔兹奖），1982 年弗里德曼（Freedman）证明了 4 维（也获菲尔兹奖）。高维空间「地方大」，有足够的空间让数学家做各种手术式的操作；三维空间太挤，那些技巧全都施展不开。</p>
+    <p>整个 20 世纪，无数人宣称证明了它，又无数次被发现漏洞。它成了拓扑学的珠穆朗玛峰。</p>
   </div>
 </section>
 
@@ -74,15 +74,15 @@
 <section>
   <div class="wrap">
     <div class="chapnum">怎 么 解 的</div>
-    <h2>把形状当作热量,让它自己「流」成球</h2>
-    <p class="lead">突破来自一个完全不同的方向:<b>几何分析</b>。1982 年,理查德·汉密尔顿提出了「里奇流」(Ricci flow)。</p>
+    <h2>把形状当作热量，让它自己「流」成球</h2>
+    <p class="lead">突破来自一个完全不同的方向：<b>几何分析</b>。1982 年，理查德·汉密尔顿提出了「里奇流」（Ricci flow）。</p>
     <div class="defbox">
-      <div class="def-row"><span class="def-k">想法</span><div>热在物体里会自动从热处流向冷处,最后温度变得均匀。里奇流让空间的<b>曲率</b>做同样的事:弯得厉害的地方摊平,凹陷的地方鼓起,整个形状像被「熨烫」一样,越来越圆。</div></div>
-      <div class="def-row"><span class="def-k">目标</span><div>如果一个单连通的三维空间在里奇流下最后能被熨成一个圆滚滚的球,那它一开始就必须是三维球面(拓扑上说)。汉密尔顿证明了曲率一开始就为正的情形。</div></div>
-      <div class="def-row"><span class="def-k">障碍</span><div>一般情形下,熨烫过程中会出现<b>奇点</b>:某些地方被越拉越细,像哑铃中间的细颈,曲率趋于无穷,流动进行不下去。二十年里没人能控制这些奇点。</div></div>
-      <div class="def-row key"><span class="def-k">佩雷尔曼</span><div>2002 年 11 月至 2003 年 7 月,俄罗斯数学家格里戈里·佩雷尔曼在 arXiv 上贴出三篇论文,总共不到 70 页,没有投给任何期刊。他证明了奇点只会以几种可控的方式出现,可以在奇点形成之前<b>动手术</b>——把细颈剪断、用小圆盖封口——然后继续流动;并且手术次数有限。流到最后,剩下的每一块都是标准的几何体。庞加莱猜想只是这个更大结果(瑟斯顿几何化猜想)的推论。</div></div>
+      <div class="def-row"><span class="def-k">想法</span><div>热在物体里会自动从热处流向冷处，最后温度变得均匀。里奇流让空间的<b>曲率</b>做同样的事：弯得厉害的地方摊平，凹陷的地方鼓起，整个形状像被「熨烫」一样，越来越圆。</div></div>
+      <div class="def-row"><span class="def-k">目标</span><div>如果一个单连通的三维空间在里奇流下最后能被熨成一个圆滚滚的球，那它一开始就必须是三维球面（拓扑上说）。汉密尔顿证明了曲率一开始就为正的情形。</div></div>
+      <div class="def-row"><span class="def-k">障碍</span><div>一般情形下，熨烫过程中会出现<b>奇点</b>：某些地方被越拉越细，像哑铃中间的细颈，曲率趋于无穷，流动进行不下去。二十年里没人能控制这些奇点。</div></div>
+      <div class="def-row key"><span class="def-k">佩雷尔曼</span><div>2002 年 11 月至 2003 年 7 月，俄罗斯数学家格里戈里·佩雷尔曼在 arXiv 上贴出三篇论文，总共不到 70 页，没有投给任何期刊。他证明了奇点只会以几种可控的方式出现，可以在奇点形成之前<b>动手术</b>——把细颈剪断、用小圆盖封口——然后继续流动；并且手术次数有限。流到最后，剩下的每一块都是标准的几何体。庞加莱猜想只是这个更大结果（瑟斯顿几何化猜想）的推论。</div></div>
     </div>
-    <p>论文极其简略,全世界几个小组花了三年才把细节补全并确认无误。2006 年,国际数学联盟决定授予佩雷尔曼菲尔兹奖;他拒绝了。2010 年,克雷研究所宣布授予他千禧年大奖;他再次拒绝,理由是汉密尔顿的贡献同样重要,而奖只给了他一个人。他此后几乎从公众视野中消失。</p>
+    <p>论文极其简略，全世界几个小组花了三年才把细节补全并确认无误。2006 年，国际数学联盟决定授予佩雷尔曼菲尔兹奖；他拒绝了。2010 年，克雷研究所宣布授予他千禧年大奖；他再次拒绝，理由是汉密尔顿的贡献同样重要，而奖只给了他一个人。他此后几乎从公众视野中消失。</p>
   </div>
 </section>
 
@@ -92,9 +92,9 @@
   <div class="wrap">
     <div class="chapnum">意 义</div>
     <h2>这对其他六个难题意味着什么</h2>
-    <p>庞加莱猜想的解决示范了千禧年难题被攻克的典型方式:<b>不是在原来的领域里死磕,而是从另一个领域借来一套全新的工具</b>——用分析学解决拓扑学的问题。后来 AI 推翻单位距离猜想时用的类域塔、攻克纳维–斯托克斯时沿用的跨尺度放大,走的都是这条路。</p>
-    <p>它也是唯一一个奖金没有发出去的千禧年难题——这提醒人们,克雷研究所设奖的初衷本来就不是钱,而是让公众知道:数学里还有这样一批问题。</p>
-    <div class="takeaway"><span class="tk">一句话</span>庞加莱猜想说的是「没有洞的三维空间只有一种」;证明它的办法,是让空间自己流成一个球。</div>
+    <p>庞加莱猜想的解决示范了千禧年难题被攻克的典型方式：<b>不是在原来的领域里死磕，而是从另一个领域借来一套全新的工具</b>——用分析学解决拓扑学的问题。后来 AI 推翻单位距离猜想时用的类域塔、攻克纳维–斯托克斯时沿用的跨尺度放大，走的都是这条路。</p>
+    <p>它也是唯一一个奖金没有发出去的千禧年难题——这提醒人们，克雷研究所设奖的初衷本来就不是钱，而是让公众知道：数学里还有这样一批问题。</p>
+    <div class="takeaway"><span class="tk">一句话</span>庞加莱猜想说的是「没有洞的三维空间只有一种」；证明它的办法，是让空间自己流成一个球。</div>
   </div>
 </section>
 <script>
@@ -118,7 +118,7 @@
     ctx.strokeStyle = "#33589b"; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(lx, cy, R, 0, Math.PI * 2); ctx.stroke();
     ctx.strokeStyle = "rgba(51,88,155,.25)"; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.ellipse(lx, cy, R, R * 0.3, 0, 0, Math.PI * 2); ctx.stroke();
-    // 球面上的环:纬度圈从赤道向北极收缩
+    // 球面上的环：纬度圈从赤道向北极收缩
     const lat = shrink * (Math.PI / 2) * 0.98;
     const rr = R * Math.cos(lat), yy = cy - R * Math.sin(lat) * 0.55;
     ctx.strokeStyle = "#bc3f1e"; ctx.lineWidth = 3;
@@ -128,14 +128,14 @@
     ctx.strokeStyle = "#33589b"; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.ellipse(rx, cy, Rt + rt, (Rt + rt) * 0.45, 0, 0, Math.PI * 2); ctx.stroke();
     ctx.beginPath(); ctx.ellipse(rx, cy, Rt - rt, (Rt - rt) * 0.45, 0, 0, Math.PI * 2); ctx.stroke();
-    // 绕洞的环:想收紧,但最小只能贴着洞
+    // 绕洞的环：想收紧，但最小只能贴着洞
     const wob = 1 - 0.12 * Math.sin(tau * Math.PI * 6) * (1 - shrink);
     const ringR = ((Rt - rt) + (2 * rt) * (1 - shrink)) * wob;
     ctx.strokeStyle = "#bc3f1e"; ctx.lineWidth = 3;
     ctx.beginPath(); ctx.ellipse(rx, cy, ringR, ringR * 0.45, 0, 0, Math.PI * 2); ctx.stroke();
     ctx.fillStyle = "#6f6553"; ctx.font = "13px sans-serif"; ctx.textAlign = "center";
-    ctx.fillText("球面:缩得成", lx, H - 8); ctx.fillText("环面:缩不成", rx, H - 8);
-    out.innerHTML = shrink >= 1 ? "左:已缩成一点 · 右:被洞卡住" : `收紧中 … ${(shrink * 100).toFixed(0)}%`;
+    ctx.fillText("球面：缩得成", lx, H - 8); ctx.fillText("环面：缩不成", rx, H - 8);
+    out.innerHTML = shrink >= 1 ? "左：已缩成一点 · 右：被洞卡住" : `收紧中 … ${(shrink * 100).toFixed(0)}%`;
     requestAnimationFrame(draw);
   };
   btn.addEventListener("click", () => { playing = !playing; btn.textContent = playing ? "⏸ 暂停" : "▶ 播放"; btn.setAttribute("aria-pressed", playing); });
@@ -148,7 +148,7 @@
 <div class="wrap">
   <div class="pager">
     <a class="prev" href="./"><small>← 返回</small>千禧年难题总览</a>
-    <a class="next" href="riemann.html"><small>下一篇 · 千禧年难题 · 数论 · 1859 年提出 →</small>黎曼猜想:素数的乐谱</a>
+    <a class="next" href="riemann.html"><small>下一篇 · 千禧年难题 · 数论 · 1859 年提出 →</small>黎曼猜想：素数的乐谱</a>
   </div>
 </div>
 
@@ -156,11 +156,11 @@
   <div class="wrap">
     <h4>延伸阅读</h4>
     <ul>
-      <li>克雷研究所:<a href="https://www.claymath.org/millennium/poincare-conjecture/" target="_blank" rel="noopener">Poincaré Conjecture(官方题目与解决公告)</a></li>
-      <li>佩雷尔曼论文:<a href="https://arxiv.org/abs/math/0211159" target="_blank" rel="noopener">The entropy formula for the Ricci flow and its geometric applications(arXiv:math/0211159)</a></li>
-      <li>《纽约客》:<a href="https://www.newyorker.com/magazine/2006/08/28/manifold-destiny" target="_blank" rel="noopener">Manifold Destiny(佩雷尔曼与证明归属之争的长篇报道,2006)</a></li>
+      <li>克雷研究所：<a href="https://www.claymath.org/millennium/poincare-conjecture/" target="_blank" rel="noopener">Poincaré Conjecture（官方题目与解决公告）</a></li>
+      <li>佩雷尔曼论文：<a href="https://arxiv.org/abs/math/0211159" target="_blank" rel="noopener">The entropy formula for the Ricci flow and its geometric applications(arXiv:math/0211159)</a></li>
+      <li>《纽约客》：<a href="https://www.newyorker.com/magazine/2006/08/28/manifold-destiny" target="_blank" rel="noopener">Manifold Destiny（佩雷尔曼与证明归属之争的长篇报道，2006）</a></li>
     </ul>
-    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+    <p class="disclaim">本页为通俗科普，数学陈述均经简化；涉及署名与数据使用的争议，仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
   </div>
 </footer>
 

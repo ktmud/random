@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>黎曼猜想 · 千禧年难题</title>
-<meta name="description" content="黎曼猜想通俗讲解:素数为什么看似随机、ζ 函数的零点如何像音符一样叠出素数的分布、为什么它是数学中最重要的猜想。含可交互动画:用零点一步步「奏」出素数阶梯。">
+<meta name="description" content="黎曼猜想通俗讲解：素数为什么看似随机、ζ 函数的零点如何像音符一样叠出素数的分布、为什么它是数学中最重要的猜想。含可交互动画：用零点一步步「奏」出素数阶梯。">
 <meta property="og:title" content="黎曼猜想">
-<meta property="og:description" content="黎曼猜想通俗讲解:素数为什么看似随机、ζ 函数的零点如何像音符一样叠出素数的分布、为什么它是数学中最重要的猜想。含可交互动画:用零点一步步「奏」出素数阶梯。">
+<meta property="og:description" content="黎曼猜想通俗讲解：素数为什么看似随机、ζ 函数的零点如何像音符一样叠出素数的分布、为什么它是数学中最重要的猜想。含可交互动画：用零点一步步「奏」出素数阶梯。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎼</text></svg>">
 <link rel="stylesheet" href="../assets/site.css">
 </head>
@@ -22,15 +22,15 @@
 <header class="article">
   <div class="wrap">
     <div class="kicker">千禧年难题 · 数论 · 1859 年提出</div>
-    <h1>黎曼猜想:<br>素数分布里藏着一首乐曲</h1>
+    <h1>黎曼猜想：<br>素数分布里藏着一首乐曲</h1>
     <p class="subtitle">数学中最著名的未解之谜——上千条定理以「假设黎曼猜想成立」开头</p>
     <div class="facts">
-      <div class="fact">提出<b>伯恩哈德·黎曼,1859 年,一篇只有 8 页的论文</b></div>
+      <div class="fact">提出<b>伯恩哈德·黎曼，1859 年，一篇只有 8 页的论文</b></div>
       <div class="fact">领域<b>解析数论</b></div>
       <div class="fact">一句话<b>ζ 函数所有非平凡零点的实部都等于 1/2</b></div>
       <div class="fact">状态<b>🔓 公开 · 已数值验证前 10<sup>13</sup> 个零点全部符合</b></div>
-      <div class="fact">等价说法<b>素数的分布「尽可能地规则」:π(x) 与 Li(x) 的误差不超过 √x·log x 量级</b></div>
-      <div class="fact">部分进展<b>Hardy 1914:无穷多零点在临界线上;Conrey 1989:超过 40%;Guth–Maynard 2024:零点密度估计 84 年来首次改进</b></div>
+      <div class="fact">等价说法<b>素数的分布「尽可能地规则」：π(x) 与 Li(x) 的误差不超过 √x·log x 量级</b></div>
+      <div class="fact">部分进展<b>Hardy 1914：无穷多零点在临界线上；Conrey 1989：超过 40%；Guth–Maynard 2024：零点密度估计 84 年来首次改进</b></div>
     </div>
   </div>
 </header>
@@ -39,12 +39,12 @@
 <section>
   <div class="wrap">
     <div class="chapnum">问 题</div>
-    <h2>素数看起来是随机的——但真的是吗?</h2>
-    <p class="lead">2、3、5、7、11、13、17、19、23、29……素数是只能被 1 和自己整除的数,是所有整数的「原子」。它们的出现毫无规律可循:有时挤在一起(11、13),有时隔着长长的空档。</p>
-    <p>但退远一点看,规律就浮现了。高斯 15 岁时就注意到:小于 x 的素数个数,大约是 x / ln x。这个「素数定理」在 1896 年被严格证明。问题是那个「大约」:<em class="hl">真实的素数个数,围绕这条光滑曲线上下摆动的幅度有多大?</em></p>
-    <p>1859 年,黎曼在一篇 8 页的论文里给出了惊人的答案:素数的分布可以被<b>精确地</b>写成一个公式——一条光滑的主项,加上无穷多个「波」的叠加。每个波由一个复数决定,这些复数是 <b>ζ 函数的零点</b>。素数看起来随机,是因为无穷多个波叠在一起;而每个波本身都是规则的。</p>
+    <h2>素数看起来是随机的——但真的是吗？</h2>
+    <p class="lead">2、3、5、7、11、13、17、19、23、29……素数是只能被 1 和自己整除的数，是所有整数的「原子」。它们的出现毫无规律可循：有时挤在一起（11、13），有时隔着长长的空档。</p>
+    <p>但退远一点看，规律就浮现了。高斯 15 岁时就注意到：小于 x 的素数个数，大约是 x / ln x。这个「素数定理」在 1896 年被严格证明。问题是那个「大约」：<em class="hl">真实的素数个数，围绕这条光滑曲线上下摆动的幅度有多大？</em></p>
+    <p>1859 年，黎曼在一篇 8 页的论文里给出了惊人的答案：素数的分布可以被<b>精确地</b>写成一个公式——一条光滑的主项，加上无穷多个「波」的叠加。每个波由一个复数决定，这些复数是 <b>ζ 函数的零点</b>。素数看起来随机，是因为无穷多个波叠在一起；而每个波本身都是规则的。</p>
     <div class="takeaway"><span class="tk">黎曼猜想</span>所有这些零点都排在一条直线上——复平面上实部等于 1/2 的「临界线」。</div>
-    <p>如果猜想成立,每个波的振幅都是「最小可能」的,素数的分布就是「在允许的范围内最规则」的。如果哪怕一个零点偏离了这条线,素数就会在某个尺度上出现更大的、莫名其妙的起伏。</p>
+    <p>如果猜想成立，每个波的振幅都是「最小可能」的，素数的分布就是「在允许的范围内最规则」的。如果哪怕一个零点偏离了这条线，素数就会在某个尺度上出现更大的、莫名其妙的起伏。</p>
   </div>
 </section>
 
@@ -54,7 +54,7 @@
   <div class="wrap">
     <div class="chapnum">看 一 看</div>
     <h2>用零点「奏」出素数的阶梯</h2>
-    <p>下面这条阶梯是素数的「计数」(严格说是每个素数幂 p<sup>k</sup> 处上一个高为 ln p 的台阶,这是黎曼公式里最自然的计法)。灰线是主项 x。拖动滑块,把 ζ 函数的零点一个一个加进去——每加一个零点,就多叠一个波。</p>
+    <p>下面这条阶梯是素数的「计数」（严格说是每个素数幂 p<sup>k</sup> 处上一个高为 ln p 的台阶，这是黎曼公式里最自然的计法）。灰线是主项 x。拖动滑块，把 ζ 函数的零点一个一个加进去——每加一个零点，就多叠一个波。</p>
   </div>
   <div class="wide">
     <div class="figure" style="max-width:720px">
@@ -64,11 +64,11 @@
         <label>零点个数 <input type="range" id="zetaN" min="0" max="30" value="0"></label>
         <span class="readout" id="zetaOut"></span>
       </div>
-      <div class="cap">红色曲线 = 主项 x − 前 N 个零点对应的波 −(一个小常数修正)。零点越多,曲线越贴合阶梯;用全部无穷多个零点,它就<b>恰好等于</b>阶梯。这就是「素数的乐谱」:每个零点是一个音符。</div>
+      <div class="cap">红色曲线 = 主项 x − 前 N 个零点对应的波 −（一个小常数修正）。零点越多，曲线越贴合阶梯；用全部无穷多个零点，它就<b>恰好等于</b>阶梯。这就是「素数的乐谱」：每个零点是一个音符。</div>
     </div>
   </div>
   <div class="wrap">
-    <p>动画里用的 30 个零点,虚部依次是 14.13、21.02、25.01……它们全在临界线上——这一点已经对前十万亿个零点逐个验证过。但「全部」是无穷多个,验证再多也不是证明。</p>
+    <p>动画里用的 30 个零点，虚部依次是 14.13、21.02、25.01……它们全在临界线上——这一点已经对前十万亿个零点逐个验证过。但「全部」是无穷多个，验证再多也不是证明。</p>
   </div>
 </section>
 
@@ -79,10 +79,10 @@
     <div class="chapnum">为 什 么 重 要</div>
     <h2>上千条定理在等它</h2>
     <div class="grid2">
-      <div class="card"><div class="ic">🧱</div><h4>数论的地基</h4><p>大量关于素数、整数、方程的定理都是「假设黎曼猜想成立,则……」。它一旦被证明,这些结果同时变成定理;一旦被推翻,它们全部作废。</p></div>
-      <div class="card"><div class="ic">🔐</div><h4>与密码学的关系</h4><p>常见的说法「证明黎曼猜想会破解 RSA」是误传。它会加深对素数的理解,但不提供分解大整数的算法。</p></div>
-      <div class="card"><div class="ic">⚛️</div><h4>与物理的神秘联系</h4><p>1972 年,Montgomery 与 Dyson 在一次茶歇中发现:零点的间距统计,与重原子核能级的间距统计一模一样(随机矩阵理论)。没有人知道为什么。</p></div>
-      <div class="card"><div class="ic">🏔️</div><h4>希尔伯特的第八问题</h4><p>1900 年希尔伯特把它列入 23 个问题;2000 年克雷研究所再次把它列入 7 个。它是两份名单里唯一都出现的问题。</p></div>
+      <div class="card"><div class="ic">🧱</div><h4>数论的地基</h4><p>大量关于素数、整数、方程的定理都是「假设黎曼猜想成立，则……」。它一旦被证明，这些结果同时变成定理；一旦被推翻，它们全部作废。</p></div>
+      <div class="card"><div class="ic">🔐</div><h4>与密码学的关系</h4><p>常见的说法「证明黎曼猜想会破解 RSA」是误传。它会加深对素数的理解，但不提供分解大整数的算法。</p></div>
+      <div class="card"><div class="ic">⚛️</div><h4>与物理的神秘联系</h4><p>1972 年，Montgomery 与 Dyson 在一次茶歇中发现：零点的间距统计，与重原子核能级的间距统计一模一样（随机矩阵理论）。没有人知道为什么。</p></div>
+      <div class="card"><div class="ic">🏔️</div><h4>希尔伯特的第八问题</h4><p>1900 年希尔伯特把它列入 23 个问题；2000 年克雷研究所再次把它列入 7 个。它是两份名单里唯一都出现的问题。</p></div>
     </div>
   </div>
 </section>
@@ -92,18 +92,18 @@
 <section>
   <div class="wrap">
     <div class="chapnum">进 展 与 状 态</div>
-    <h2>一百六十年,只走了几步</h2>
+    <h2>一百六十年，只走了几步</h2>
     <div class="mini-tl">
-      <div class="row"><span class="d">1859</span>黎曼提出猜想,顺便在论文里手算了前几个零点(他的草稿在 1932 年才被 Siegel 从哥廷根的档案里翻出来)。</div>
+      <div class="row"><span class="d">1859</span>黎曼提出猜想，顺便在论文里手算了前几个零点（他的草稿在 1932 年才被 Siegel 从哥廷根的档案里翻出来）。</div>
       <div class="row"><span class="d">1896</span>Hadamard 与 de la Vallée Poussin 各自证明素数定理——相当于证明零点的实部都<b>小于 1</b>。离 1/2 还差一半。</div>
-      <div class="row"><span class="d">1914</span>Hardy 证明:临界线上有<b>无穷多个</b>零点。但「无穷多」不等于「全部」。</div>
-      <div class="row"><span class="d">1989</span>Conrey 证明:至少 <b>40%</b> 的零点在临界线上(2019 年推进到 41.7%)。</div>
-      <div class="row"><span class="d">2018</span>陶哲轩与 Rodgers 证明 de Bruijn–Newman 常数 Λ ≥ 0:黎曼猜想若成立,则它是「刚好成立」——没有任何余量。</div>
+      <div class="row"><span class="d">1914</span>Hardy 证明：临界线上有<b>无穷多个</b>零点。但「无穷多」不等于「全部」。</div>
+      <div class="row"><span class="d">1989</span>Conrey 证明：至少 <b>40%</b> 的零点在临界线上（2019 年推进到 41.7%）。</div>
+      <div class="row"><span class="d">2018</span>陶哲轩与 Rodgers 证明 de Bruijn–Newman 常数 Λ ≥ 0：黎曼猜想若成立，则它是「刚好成立」——没有任何余量。</div>
       <div class="row major"><span class="d">2024</span>Guth 与 Maynard 改进了 1940 年 Ingham 的零点密度估计——这是限制「离线零点有多少」的关键工具 84 年来的首次进展。《量子杂志》称之为「轰动」。</div>
-      <div class="row grey"><span class="d">2026</span>AI 攻克纳维–斯托克斯方程之后,黎曼猜想成为各家实验室下一个公开瞄准的目标。截至 9 月中旬,没有任何经得起核验的证明。</div>
+      <div class="row grey"><span class="d">2026</span>AI 攻克纳维–斯托克斯方程之后，黎曼猜想成为各家实验室下一个公开瞄准的目标。截至 9 月中旬，没有任何经得起核验的证明。</div>
     </div>
-    <div class="aside"><b>为什么它可能特别难?</b> 与纳维–斯托克斯不同,黎曼猜想是一个「所有零点都……」的全称命题,没有反例可找(如果猜想为真),也没有构造可做。它需要一个真正全新的想法——很多人相信,那个想法目前还不存在于任何文献中。这也是它对「站在文献肩膀上」的 AI 构成真正考验的原因。</div>
-    <div class="takeaway"><span class="tk">一句话</span>黎曼猜想说:素数的乐谱里,每个音符都落在同一条线上。我们已经听了十万亿个音符,没有一个走调;但没有人能证明下一个也不会。</div>
+    <div class="aside"><b>为什么它可能特别难？</b> 与纳维–斯托克斯不同，黎曼猜想是一个「所有零点都……」的全称命题，没有反例可找（如果猜想为真），也没有构造可做。它需要一个真正全新的想法——很多人相信，那个想法目前还不存在于任何文献中。这也是它对「站在文献肩膀上」的 AI 构成真正考验的原因。</div>
+    <div class="takeaway"><span class="tk">一句话</span>黎曼猜想说：素数的乐谱里，每个音符都落在同一条线上。我们已经听了十万亿个音符，没有一个走调；但没有人能证明下一个也不会。</div>
   </div>
 </section>
 <script>
@@ -113,7 +113,7 @@
   const sl = document.getElementById("zetaN"), out = document.getElementById("zetaOut");
   const XMAX = 60;
   const primes = []; for (let n = 2; n <= XMAX; n++) { if (primes.every(p => n % p)) primes.push(n); }
-  // ψ(x) 阶梯:在每个素数幂处上升 ln p
+  // ψ(x) 阶梯：在每个素数幂处上升 ln p
   const steps = []; for (const p of primes) for (let q = p; q <= XMAX; q *= p) steps.push([q, Math.log(p)]);
   steps.sort((a, b) => a[0] - b[0]);
   const psi = (x) => steps.reduce((s, [q, w]) => s + (q <= x ? w : 0), 0);
@@ -151,7 +151,7 @@
     let first = true;
     for (let i = 0; i <= 600; i++) { const x = 1.5 + (XMAX - 1.5) * i / 600; const y = approx(x, N); if (first) { ctx.moveTo(X(x), Y(y)); first = false; } else ctx.lineTo(X(x), Y(y)); }
     ctx.stroke();
-    out.innerHTML = N ? `前 <b>${N}</b> 个零点 · 最后一个的虚部 ${Z[N - 1].toFixed(2)}` : "还没有加入零点:只有光滑的主项";
+    out.innerHTML = N ? `前 <b>${N}</b> 个零点 · 最后一个的虚部 ${Z[N - 1].toFixed(2)}` : "还没有加入零点：只有光滑的主项";
   };
   sl.addEventListener("input", draw); addEventListener("resize", draw); draw();
 })();
@@ -160,8 +160,8 @@
 
 <div class="wrap">
   <div class="pager">
-    <a class="prev" href="poincare.html"><small>← 上一篇 · 千禧年难题 · 拓扑学 · 1904 年提出 · 2003 年解决</small>庞加莱猜想:唯一已被解决的千禧年难题</a>
-    <a class="next" href="p-vs-np.html"><small>下一篇 · 千禧年难题 · 理论计算机科学 · 1971 年提出 →</small>P 与 NP:验证容易,寻找就一定容易吗</a>
+    <a class="prev" href="poincare.html"><small>← 上一篇 · 千禧年难题 · 拓扑学 · 1904 年提出 · 2003 年解决</small>庞加莱猜想：唯一已被解决的千禧年难题</a>
+    <a class="next" href="p-vs-np.html"><small>下一篇 · 千禧年难题 · 理论计算机科学 · 1971 年提出 →</small>P 与 NP：验证容易，寻找就一定容易吗</a>
   </div>
 </div>
 
@@ -169,11 +169,11 @@
   <div class="wrap">
     <h4>延伸阅读</h4>
     <ul>
-      <li>克雷研究所:<a href="https://www.claymath.org/millennium/riemann-hypothesis/" target="_blank" rel="noopener">Riemann Hypothesis(官方题目,Bombieri 撰写)</a></li>
-      <li>《量子杂志》:<a href="https://www.quantamagazine.org/sensational-proof-delivers-new-insights-into-prime-numbers-20240715/" target="_blank" rel="noopener">‘Sensational’ Proof Delivers New Insights Into Prime Numbers(Guth–Maynard,2024)</a></li>
-      <li>书:<a href="https://en.wikipedia.org/wiki/Prime_Obsession" target="_blank" rel="noopener">John Derbyshire,《素数之恋》(Prime Obsession)</a></li>
+      <li>克雷研究所：<a href="https://www.claymath.org/millennium/riemann-hypothesis/" target="_blank" rel="noopener">Riemann Hypothesis（官方题目，Bombieri 撰写）</a></li>
+      <li>《量子杂志》：<a href="https://www.quantamagazine.org/sensational-proof-delivers-new-insights-into-prime-numbers-20240715/" target="_blank" rel="noopener">‘Sensational’ Proof Delivers New Insights Into Prime Numbers(Guth–Maynard，2024)</a></li>
+      <li>书：<a href="https://en.wikipedia.org/wiki/Prime_Obsession" target="_blank" rel="noopener">John Derbyshire，《素数之恋》（Prime Obsession）</a></li>
     </ul>
-    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+    <p class="disclaim">本页为通俗科普，数学陈述均经简化；涉及署名与数据使用的争议，仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
   </div>
 </footer>
 

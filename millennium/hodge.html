@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>霍奇猜想 · 千禧年难题</title>
-<meta name="description" content="霍奇猜想通俗讲解:代数簇是什么、拓扑上的洞与代数曲线的关系、猜想在问什么、已知的正反结果(Lefschetz 定理、Atiyah–Hirzebruch 反例、Voisin 反例)。含可拖动的三维环面示意。">
+<meta name="description" content="霍奇猜想通俗讲解：代数簇是什么、拓扑上的洞与代数曲线的关系、猜想在问什么、已知的正反结果（Lefschetz 定理、Atiyah–Hirzebruch 反例、Voisin 反例）。含可拖动的三维环面示意。">
 <meta property="og:title" content="霍奇猜想">
-<meta property="og:description" content="霍奇猜想通俗讲解:代数簇是什么、拓扑上的洞与代数曲线的关系、猜想在问什么、已知的正反结果(Lefschetz 定理、Atiyah–Hirzebruch 反例、Voisin 反例)。含可拖动的三维环面示意。">
+<meta property="og:description" content="霍奇猜想通俗讲解：代数簇是什么、拓扑上的洞与代数曲线的关系、猜想在问什么、已知的正反结果（Lefschetz 定理、Atiyah–Hirzebruch 反例、Voisin 反例）。含可拖动的三维环面示意。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍩</text></svg>">
 <link rel="stylesheet" href="../assets/site.css">
 </head>
@@ -22,15 +22,15 @@
 <header class="article">
   <div class="wrap">
     <div class="kicker">千禧年难题 · 代数几何 · 1950 年提出</div>
-    <h1>霍奇猜想:<br>形状里的每一个「洞」,都能用方程画出来吗?</h1>
+    <h1>霍奇猜想：<br>形状里的每一个「洞」，都能用方程画出来吗？</h1>
     <p class="subtitle">七个难题里最抽象的一个——连数学家都说「很难向外行解释它在问什么」</p>
     <div class="facts">
-      <div class="fact">提出<b>William Hodge,1950 年国际数学家大会</b></div>
+      <div class="fact">提出<b>William Hodge，1950 年国际数学家大会</b></div>
       <div class="fact">领域<b>代数几何 · 拓扑学</b></div>
-      <div class="fact">一句话<b>在用多项式方程定义的复几何形状上,每一个「看起来像代数子形状」的拓扑类,都真的来自代数子形状(的有理组合)</b></div>
-      <div class="fact">状态<b>🔓 公开 · 低维(复维数 ≤ 3)与「余维数 1」的情形已证</b></div>
-      <div class="fact">已知反例<b>整数版本不成立(Atiyah–Hirzebruch,1961);推广到非代数的 Kähler 流形不成立(Voisin,2002)</b></div>
-      <div class="fact">意义<b>连接「形状」(拓扑)与「方程」(代数)的桥梁是否完整</b></div>
+      <div class="fact">一句话<b>在用多项式方程定义的复几何形状上，每一个「看起来像代数子形状」的拓扑类，都真的来自代数子形状（的有理组合）</b></div>
+      <div class="fact">状态<b>🔓 公开 · 低维（复维数 ≤ 3）与「余维数 1」的情形已证</b></div>
+      <div class="fact">已知反例<b>整数版本不成立（Atiyah–Hirzebruch，1961）；推广到非代数的 Kähler 流形不成立（Voisin，2002）</b></div>
+      <div class="fact">意义<b>连接「形状」（拓扑）与「方程」（代数）的桥梁是否完整</b></div>
     </div>
   </div>
 </header>
@@ -42,12 +42,12 @@
     <h2>两种看形状的方式</h2>
     <p class="lead">数学家有两套截然不同的语言来描述一个形状。</p>
     <div class="grid2">
-      <div class="card"><div class="ic">🧶</div><h4>拓扑:数洞</h4><p>把形状看成橡皮做的,可以随意拉伸。拓扑学家只关心「有几个洞、洞是什么维度的」:球面没有洞,甜甜圈有一个洞,两个甜甜圈粘一起有两个洞。这些「洞」被精确地编码成一组叫<b>上同调</b>的代数对象。</p></div>
-      <div class="card"><div class="ic">📐</div><h4>代数:写方程</h4><p>把形状看成多项式方程的解集——圆是 x² + y² = 1,更复杂的形状用更多变量、更高次数的方程。这样的形状叫<b>代数簇</b>。在代数簇里面,由更多方程定义的子形状叫<b>代数子簇</b>(或代数闭链)。</p></div>
+      <div class="card"><div class="ic">🧶</div><h4>拓扑：数洞</h4><p>把形状看成橡皮做的，可以随意拉伸。拓扑学家只关心「有几个洞、洞是什么维度的」：球面没有洞，甜甜圈有一个洞，两个甜甜圈粘一起有两个洞。这些「洞」被精确地编码成一组叫<b>上同调</b>的代数对象。</p></div>
+      <div class="card"><div class="ic">📐</div><h4>代数：写方程</h4><p>把形状看成多项式方程的解集——圆是 x² + y² = 1，更复杂的形状用更多变量、更高次数的方程。这样的形状叫<b>代数簇</b>。在代数簇里面，由更多方程定义的子形状叫<b>代数子簇</b>（或代数闭链）。</p></div>
     </div>
-    <p>这两套语言之间有一座桥:每个代数子簇都会在拓扑上「占据」一个洞——它定义了一个上同调类。霍奇猜想问的是<em class="hl">这座桥是不是双向的</em>:</p>
-    <div class="takeaway"><span class="tk">霍奇猜想</span>在一个(光滑、射影、复)代数簇上,拓扑上的每一个「有资格来自代数子簇」的类——所谓<b>霍奇类</b>——是否都真的是若干代数子簇的(有理系数)组合?</div>
-    <p>「有资格」是什么意思?Hodge 在 1930–40 年代发现,复代数簇的上同调会按一种叫<b>霍奇分解</b>的方式自动分成若干块,而代数子簇的类只可能落在其中特定的「对角块」里,并且系数是有理数。猜想说:落在那些块里的,就全是代数的。</p>
+    <p>这两套语言之间有一座桥：每个代数子簇都会在拓扑上「占据」一个洞——它定义了一个上同调类。霍奇猜想问的是<em class="hl">这座桥是不是双向的</em>：</p>
+    <div class="takeaway"><span class="tk">霍奇猜想</span>在一个（光滑、射影、复）代数簇上，拓扑上的每一个「有资格来自代数子簇」的类——所谓<b>霍奇类</b>——是否都真的是若干代数子簇的（有理系数）组合？</div>
+    <p>「有资格」是什么意思？Hodge 在 1930–40 年代发现，复代数簇的上同调会按一种叫<b>霍奇分解</b>的方式自动分成若干块，而代数子簇的类只可能落在其中特定的「对角块」里，并且系数是有理数。猜想说：落在那些块里的，就全是代数的。</p>
   </div>
 </section>
 
@@ -57,13 +57,13 @@
   <div class="wrap">
     <div class="chapnum">看 一 看</div>
     <h2>甜甜圈上的两个洞</h2>
-    <p>环面(甜甜圈的表面)有两个独立的「一维洞」:一个绕着管子转(红),一个绕着中心的大洞转(蓝)。任何闭合曲线在拓扑上都是这两个的整数组合——比如那条金色的斜线是「红 + 蓝」。拖动旋转看看。</p>
+    <p>环面（甜甜圈的表面）有两个独立的「一维洞」：一个绕着管子转（红），一个绕着中心的大洞转（蓝）。任何闭合曲线在拓扑上都是这两个的整数组合——比如那条金色的斜线是「红 + 蓝」。拖动旋转看看。</p>
   </div>
   <div class="wide">
     <div class="figure" style="max-width:560px">
       <div class="tl-meta"><span class="tag solved">可拖动</span><span>环面上的闭合曲线</span></div>
       <canvas id="torus" style="height:320px" aria-label="可拖动旋转的环面,标出三条闭合曲线"></canvas>
-      <div class="cap">环面恰好也是一个代数簇——它是<b>椭圆曲线</b>(y² = x³ + ax + b)的复数点集。对这样的一维情形,霍奇猜想是平凡的;对二维(代数曲面)它由 Lefschetz 在 1924 年证明;从复三维起,「洞」的种类变多,哪些洞能用方程画出来,就再也没人知道了。</div>
+      <div class="cap">环面恰好也是一个代数簇——它是<b>椭圆曲线</b>（y² = x³ + ax + b）的复数点集。对这样的一维情形，霍奇猜想是平凡的；对二维（代数曲面）它由 Lefschetz 在 1924 年证明；从复三维起，「洞」的种类变多，哪些洞能用方程画出来，就再也没人知道了。</div>
     </div>
   </div>
 </section>
@@ -74,14 +74,14 @@
   <div class="wrap">
     <div class="chapnum">为 什 么 难</div>
     <h2>我们甚至不知道该往哪个方向猜</h2>
-    <p>与黎曼猜想或 P ≠ NP 不同,数学界对霍奇猜想的真假<b>没有共识</b>。支持它的证据主要是「低维成立」和它与一大批深刻猜想(Tate 猜想、动机理论)的自洽;反对它的直觉来自它的两个「近亲」都被推翻了:</p>
+    <p>与黎曼猜想或 P ≠ NP 不同，数学界对霍奇猜想的真假<b>没有共识</b>。支持它的证据主要是「低维成立」和它与一大批深刻猜想（Tate 猜想、动机理论）的自洽；反对它的直觉来自它的两个「近亲」都被推翻了：</p>
     <div class="mini-tl">
-      <div class="row major"><span class="d">1924</span>Lefschetz (1,1) 定理:「余维数 1」的情形成立——所有该有的超曲面都真的存在。这是猜想成立的最有力证据,也是它的出发点。</div>
-      <div class="row grey"><span class="d">1961</span>Atiyah 与 Hirzebruch:如果把「有理系数」换成「整数系数」,猜想<b>不成立</b>。Hodge 最初的表述正是整数版本,于是被改成了今天的样子。</div>
-      <div class="row grey"><span class="d">2002</span>Voisin:如果把「代数簇」放宽为更一般的 Kähler 流形,猜想也<b>不成立</b>——「代数」这个条件不能少。</div>
+      <div class="row major"><span class="d">1924</span>Lefschetz (1,1) 定理：「余维数 1」的情形成立——所有该有的超曲面都真的存在。这是猜想成立的最有力证据，也是它的出发点。</div>
+      <div class="row grey"><span class="d">1961</span>Atiyah 与 Hirzebruch：如果把「有理系数」换成「整数系数」，猜想<b>不成立</b>。Hodge 最初的表述正是整数版本，于是被改成了今天的样子。</div>
+      <div class="row grey"><span class="d">2002</span>Voisin：如果把「代数簇」放宽为更一般的 Kähler 流形，猜想也<b>不成立</b>——「代数」这个条件不能少。</div>
       <div class="row"><span class="d">至今</span>连最简单的未知情形——某些四维的阿贝尔簇——都没有解决。</div>
     </div>
-    <div class="aside"><b>为什么它在千禧年名单上?</b> 因为它是「代数几何的核心疑问」:方程能表达多少几何?20 世纪的代数几何(Grothendieck 的动机理论)整个建立在「方程能表达所有霍奇类」这类假设之上。它更像一个纲领的检验,而不是一道孤立的题。</div>
+    <div class="aside"><b>为什么它在千禧年名单上？</b> 因为它是「代数几何的核心疑问」：方程能表达多少几何？20 世纪的代数几何（Grothendieck 的动机理论）整个建立在「方程能表达所有霍奇类」这类假设之上。它更像一个纲领的检验，而不是一道孤立的题。</div>
   </div>
 </section>
 
@@ -90,9 +90,9 @@
 <section>
   <div class="wrap">
     <div class="chapnum">状 态</div>
-    <h2>2026 年:AI 浪潮中最安静的角落</h2>
-    <p>霍奇猜想没有数值可以验证,没有反例可以搜索(至少目前不知道怎么搜),也没有一条大家公认的攻击路线。它是 2026 年 AI 数学浪潮中几乎没有被触及的难题——这本身说明了目前 AI 擅长什么:有明确路线、有可计算的验证、有大量文献的地方。</p>
-    <div class="takeaway"><span class="tk">一句话</span>霍奇猜想问「形状里的每个洞是不是都能用方程画出来」;我们既不知道答案,也不知道该怎么找。</div>
+    <h2>2026 年：AI 浪潮中最安静的角落</h2>
+    <p>霍奇猜想没有数值可以验证，没有反例可以搜索（至少目前不知道怎么搜），也没有一条大家公认的攻击路线。它是 2026 年 AI 数学浪潮中几乎没有被触及的难题——这本身说明了目前 AI 擅长什么：有明确路线、有可计算的验证、有大量文献的地方。</p>
+    <div class="takeaway"><span class="tk">一句话</span>霍奇猜想问「形状里的每个洞是不是都能用方程画出来」；我们既不知道答案，也不知道该怎么找。</div>
   </div>
 </section>
 <script>
@@ -140,8 +140,8 @@
 
 <div class="wrap">
   <div class="pager">
-    <a class="prev" href="yang-mills.html"><small>← 上一篇 · 千禧年难题 · 数学物理 · 1954 年理论提出 · 2000 年列为难题</small>杨–米尔斯:为什么核力有「质量」</a>
-    <a class="next" href="bsd.html"><small>下一篇 · 千禧年难题 · 数论 · 1960 年代提出 →</small>BSD 猜想:一条曲线上有多少有理点</a>
+    <a class="prev" href="yang-mills.html"><small>← 上一篇 · 千禧年难题 · 数学物理 · 1954 年理论提出 · 2000 年列为难题</small>杨–米尔斯：为什么核力有「质量」</a>
+    <a class="next" href="bsd.html"><small>下一篇 · 千禧年难题 · 数论 · 1960 年代提出 →</small>BSD 猜想：一条曲线上有多少有理点</a>
   </div>
 </div>
 
@@ -149,11 +149,11 @@
   <div class="wrap">
     <h4>延伸阅读</h4>
     <ul>
-      <li>克雷研究所:<a href="https://www.claymath.org/millennium/hodge-conjecture/" target="_blank" rel="noopener">Hodge Conjecture(官方题目,Pierre Deligne 撰写)</a></li>
-      <li>《量子杂志》:<a href="https://www.quantamagazine.org/tag/hodge-conjecture/" target="_blank" rel="noopener">The Hodge Conjecture(专题页)</a></li>
-      <li>讲座:<a href="https://www.claymath.org/events/the-hodge-conjecture/" target="_blank" rel="noopener">Dan Freed,The Hodge Conjecture(克雷研究所公众讲座录像)</a></li>
+      <li>克雷研究所：<a href="https://www.claymath.org/millennium/hodge-conjecture/" target="_blank" rel="noopener">Hodge Conjecture（官方题目，Pierre Deligne 撰写）</a></li>
+      <li>《量子杂志》：<a href="https://www.quantamagazine.org/tag/hodge-conjecture/" target="_blank" rel="noopener">The Hodge Conjecture（专题页）</a></li>
+      <li>讲座：<a href="https://www.claymath.org/events/the-hodge-conjecture/" target="_blank" rel="noopener">Dan Freed，The Hodge Conjecture（克雷研究所公众讲座录像）</a></li>
     </ul>
-    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+    <p class="disclaim">本页为通俗科普，数学陈述均经简化；涉及署名与数据使用的争议，仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
   </div>
 </footer>
 
