@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlphaProof Nexus:9 个 Erdős 问题与 44 个 OEIS 猜想 · AI 攻克的数学难题</title>
+<meta name="description" content="DeepMind 的 AlphaProof Nexus 如何以每题几百美元的成本,全自动解决 9 个 Erdős 公开问题(含两个悬置 56 年的)和 44 个 OEIS 猜想:系统架构、Lean 验证与局限。">
+<meta property="og:title" content="AlphaProof Nexus:9 个 Erdős 问题与 44 个 OEIS 猜想">
+<meta property="og:description" content="DeepMind 的 AlphaProof Nexus 如何以每题几百美元的成本,全自动解决 9 个 Erdős 公开问题(含两个悬置 56 年的)和 44 个 OEIS 猜想:系统架构、Lean 验证与局限。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../#timeline">← 时间线</a><a href="../kakeya/">一根针的百年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">2026 年 5 月 21 日 · Google DeepMind</div>
+    <h1>AlphaProof Nexus:<br>一口气解决 9 个 Erdős 问题、44 个整数数列猜想</h1>
+    <p class="subtitle">把大语言模型、奥赛级证明器和进化算法接成一台机器,对 353 个问题全自动开工</p>
+    <div class="facts">
+      <div class="fact">系统<b>AlphaProof Nexus(LLM 子智能体 + AlphaProof + 进化协调)</b></div>
+      <div class="fact">Erdős 问题<b>353 个已形式化的公开问题 → 9 个彻底解决(含第 12、26、125、138、152、741、846 号)</b></div>
+      <div class="fact">最老的<b>两个问题悬置 56 年</b></div>
+      <div class="fact">OEIS 猜想<b>492 个 → 44 个证明</b></div>
+      <div class="fact">其他<b>一个 15 年的 Hilbert 函数问题;一个凸优化界的改进</b></div>
+      <div class="fact">成本 / 论文<b>每题几百美元;arXiv:2605.22763,21 位作者</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">背 景</div>
+    <h2>两条路线在这里合流</h2>
+    <p class="lead">到 2026 年春天,AI 做数学有两条成熟的路线:<b>自然语言推理</b>(灵活,但要靠人核对)和 <b>Lean 形式化证明</b>(绝对严格,但笨重)。<a href="erdos-first.html">1 月的 Erdős 问题</a>已经展示了两者接力的威力,只是那时还要靠人在中间传递。</p>
+    <p>DeepMind 的 AlphaProof Nexus 把这个接力<em class="hl">完全自动化</em>了,并且把它从「一次一题」扩展到「一次几百题」。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">AI 做了什么</div>
+    <h2>一台由三种零件组成的机器</h2>
+    <div class="defbox">
+      <div class="def-row"><span class="def-k">大脑</span><div>多个<b>大语言模型子智能体</b>负责读题、想思路、写非正式证明、互相挑错——就像一个研究小组。</div></div>
+      <div class="def-row"><span class="def-k">双手</span><div><b>AlphaProof</b>——2024 年拿到<a href="imo.html">奥赛银牌</a>的那个强化学习证明器——负责把思路变成 Lean 代码。它在形式化世界里搜索,找不到就报告哪一步卡住。</div></div>
+      <div class="def-row"><span class="def-k">教练</span><div>一个<b>进化算法</b>协调整个过程:哪些思路值得继续、哪些子任务该拆分、算力往哪里投。它像 <a href="alphaevolve.html">AlphaEvolve</a> 一样让「解题策略」本身优胜劣汰。</div></div>
+      <div class="def-row key"><span class="def-k">输出</span><div>每一个结果都是一份 <b>Lean 证明</b>——机器逐行核过,零漏洞。论文附带的 GitHub 仓库里放着全部形式化证明,以及部分改写成人类语言的版本。</div></div>
+    </div>
+    <p>他们先从 Erdős 数据库里挑出 <b>353 个</b>已经被翻译成 Lean 陈述的公开问题(只有陈述被形式化了,系统才能自动验证证明),让机器全自动开工。结果:<b>9 个</b>被彻底解决,其中包括第 12、26、125、138、152、741、846 号;两个问题自 1970 年前后就悬而未决,<b>已经 56 年</b>。</p>
+    <p>同一套系统也被投放到「在线整数数列百科」(OEIS)——那里收录着数十万条整数数列,附带大量作者留下的猜想。492 个公开猜想中,<b>44 个</b>被证明。此外它还解决了一个代数几何中关于 Hilbert 函数的 15 年老问题,并改进了一个凸优化的界。</p>
+    <div class="aside"><b>每题几百美元。</b> 论文特别强调成本:平均每个解决的问题只花了几百美元的推理算力。对比四个月后 OpenAI 攻克<a href="navier-stokes.html">纳维–斯托克斯方程</a>时「数百万美元」的电费,可以看到问题的难度与算力的关系是多么陡峭。</div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">意 义 与 局 限</div>
+    <h2>「这还不是 AGI」</h2>
+    <p>DeepMind 的研究者在采访中主动泼冷水:被解决的 9 个问题都属于陶哲轩说的「长尾」——用已有技术能做、但没人去做的那一类;真正核心的、需要新概念的难题,一个也没有。353 个问题里 9 个,成功率不到 3%。他们说:「这还不是 AGI。」</p>
+    <p>但有两件事是新的。第一,<b>全流程无人</b>:从读题到 Lean 证明,中间没有人类传递。第二,<b>可复制</b>:代码开源、成本公开,任何有算力的团队都可以照做。AI 数学从「明星事件」变成了「基础设施」。</p>
+    <div class="takeaway"><span class="tk">一句话</span>AlphaProof Nexus 让「批量、全自动、机器核验」成为常态。此后的问题不再是能不能解,而是哪些问题值得解、谁来读那些没人读得完的证明。</div>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <div class="pager">
+    <a class="prev" href="unit-distance.html"><small>← 上一篇 · 2026 年 5 月 20 日 · OpenAI 内部模型</small>单位距离猜想被推翻:Erdős 1946 年的猜测错了</a>
+    <a class="next" href="non-sofic.html"><small>下一篇 · 2026 年 8 月 1 日 · OpenAI · Astra →</small>Astra:第一个非 sofic 群,以及另外九个公开问题</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>论文:<a href="https://arxiv.org/abs/2605.22763" target="_blank" rel="noopener">Advancing Mathematics Research with AI-Driven Formal Proof Search</a></li>
+      <li>The Decoder:<a href="https://the-decoder.com/google-deepminds-alphaproof-nexus-solves-decades-old-math-problems-for-a-few-hundred-dollars/" target="_blank" rel="noopener">Google DeepMind&#x27;s AlphaProof Nexus solves decades-old math problems for a few hundred dollars</a></li>
+      <li>AlphaProof 原论文:<a href="https://www.nature.com/articles/s41586-025-09833-y" target="_blank" rel="noopener">Olympiad-level formal mathematical reasoning with reinforcement learning(《自然》,2025)</a></li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+
+</body>
+</html>

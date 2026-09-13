@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国际数学奥林匹克:从银牌到金牌 · AI 攻克的数学难题</title>
+<meta name="description" content="AlphaProof 2024 年在 IMO 拿到银牌、2025 年 Gemini Deep Think 与 OpenAI 模型拿到金牌的来龙去脉:形式化证明、Lean 语言、自然语言推理,以及为什么这是 AI 攻克研究级难题的前提。">
+<meta property="og:title" content="国际数学奥林匹克:从银牌到金牌">
+<meta property="og:description" content="AlphaProof 2024 年在 IMO 拿到银牌、2025 年 Gemini Deep Think 与 OpenAI 模型拿到金牌的来龙去脉:形式化证明、Lean 语言、自然语言推理,以及为什么这是 AI 攻克研究级难题的前提。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏅</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../#timeline">← 时间线</a><a href="../kakeya/">一根针的百年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">2024 年 7 月 → 2025 年 7 月 · Google DeepMind · OpenAI</div>
+    <h1>奥林匹克:<br>AI 从银牌到金牌只用了一年</h1>
+    <p class="subtitle">不是公开难题,却是所有后来故事的起点——机器第一次证明自己能写出「严格的证明」</p>
+    <div class="facts">
+      <div class="fact">赛事<b>国际数学奥林匹克(IMO)</b></div>
+      <div class="fact">2024 年<b>AlphaProof + AlphaGeometry 2:28 / 42,银牌线</b></div>
+      <div class="fact">2025 年<b>Gemini Deep Think、OpenAI 实验模型:35 / 42,金牌线</b></div>
+      <div class="fact">关键变化<b>从「先翻译成 Lean」到「直接读题、用自然语言写证明」</b></div>
+      <div class="fact">时限<b>2025 年在正式的两个 4.5 小时内完成</b></div>
+      <div class="fact">论文<b>AlphaProof,《自然》,2025 年 11 月</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">背 景</div>
+    <h2>为什么一场中学生比赛值得放进这条时间线?</h2>
+    <p class="lead">国际数学奥林匹克(IMO)是全世界最难的中学生数学竞赛:6 道题,分两天,每天 4.5 小时。题目不需要高深知识,却需要真正的创造力——而且必须写出<em class="hl">完整、严格的证明</em>,而不只是一个答案。</p>
+    <p>这正是它对 AI 有意义的原因。此前的模型擅长「算出结果」,但证明是另一回事:一步错,全盘皆输;而模型最擅长的,恰恰是写出看起来对、其实有洞的论证。奥赛成了检验「机器能否严格推理」的标准考场。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">2024 · 银 牌</div>
+    <h2>把题目翻译成机器语言,再在里面搜索</h2>
+    <p>2024 年 7 月,DeepMind 的 <b>AlphaProof</b> 与 <b>AlphaGeometry 2</b> 组合解出当年 6 题中的 4 题,得 28 分,恰好是银牌线。它的做法分三步:</p>
+    <div class="steps">
+      <div class="step"><b>翻译。</b>用 Gemini 把自然语言的题目翻译成 <b>Lean</b>——一种「证明编程语言」。在 Lean 里,每一步推理都必须能被计算机核验,写不出来就编译不过。</div>
+      <div class="step"><b>搜索。</b>像 AlphaZero 下棋一样,AlphaProof 在证明的「棋盘」上一步步试探:选一条策略,看 Lean 是否接受,不接受就回退。它事先靠强化学习练了上百万道自动生成的题目。</div>
+      <div class="step"><b>核验。</b>一旦 Lean 接受了完整证明,就没有争议的余地——机器证明在这里意味着「零漏洞」。</div>
+    </div>
+    <p>代价也很明显:第 4 题(几何)AlphaGeometry 2 只用了 19 秒,但有的题 AlphaProof <b>算了三天</b>,远超比赛时限;两道组合题则完全没做出来。</p>
+    <div class="aside"><b>Lean 是什么?</b> 你可以把它想成一门编程语言,只不过它的「程序」是数学证明,「编译成功」等于「证明正确」。它有一个由全球志愿者维护的数学库 Mathlib,收录了几十万条已经形式化的定理。本站标注「Lean 已验证」的结果,都是指证明被这样逐行核过。</div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section id="gold">
+  <div class="wrap">
+    <div class="chapnum">2025 · 金 牌</div>
+    <h2>不再翻译:直接读题,直接写证明</h2>
+    <p class="lead">一年之后的 2025 年 7 月,情况变了:Google 的 <b>Gemini Deep Think</b> 和 OpenAI 的一个<b>实验性推理模型</b>,都在正式比赛时限内解出 6 题中的 5 题,得 35 分,达到金牌线。</p>
+    <p>分数只是一半的新闻。另一半是<em class="hl">方式</em>:两个系统都不再需要先把题目翻译成 Lean,而是直接阅读自然语言题目、用自然语言写出证明,由前奥赛选手和 IMO 协调员按人类选手同样的标准评分。Gemini 的成绩得到 IMO 官方认证;OpenAI 的成绩由前奖牌得主打分,未经官方认证。</p>
+    <div class="grid2">
+      <div class="card"><div class="ic">🐢</div><h4>2024:慢而可靠</h4><p>形式化世界里搜索,证明绝对严格,但翻译会丢信息,速度受限,组合题束手无策。</p></div>
+      <div class="card"><div class="ic">🐇</div><h4>2025:快而灵活</h4><p>自然语言里推理,能做组合题,能在时限内完成,但证明的严格性要靠人或者另一套系统来把关。</p></div>
+    </div>
+    <p>此后一年,这两条路线开始<b>合流</b>:让擅长灵活推理的大模型写「思路」,再由 Lean 系统(如 Harmonic 的 Aristotle、DeepMind 的 AlphaProof)把思路变成机器可核验的证明。这正是 2026 年那一批 Erdős 问题与千禧年难题被攻克时的标准配置。</p>
+    <div class="takeaway"><span class="tk">一句话</span>奥赛金牌本身不是数学突破,它证明的是:机器已经能写出经得起严格评分的证明。从这里到研究级难题,只差「题目变难」。</div>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <div class="pager">
+    <a class="prev" href="cap-set.html"><small>← 上一篇 · 2023 年 12 月 · Google DeepMind</small>帽子集问题:LLM 第一次「发现」新数学</a>
+    <a class="next" href="alphaevolve.html"><small>下一篇 · 2025 年 5 月 · Google DeepMind →</small>AlphaEvolve:4×4 矩阵乘法 48 次、亲吻数 593</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>DeepMind 博客(2024):<a href="https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/" target="_blank" rel="noopener">AI achieves silver-medal standard solving International Mathematical Olympiad problems</a></li>
+      <li>《自然》论文(2025):<a href="https://www.nature.com/articles/s41586-025-09833-y" target="_blank" rel="noopener">Olympiad-level formal mathematical reasoning with reinforcement learning</a></li>
+      <li>DeepMind 博客(2026):<a href="https://deepmind.google/blog/accelerating-mathematical-and-scientific-discovery-with-gemini-deep-think/" target="_blank" rel="noopener">Gemini Deep Think: Redefining the Future of Scientific Research</a></li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+
+</body>
+</html>

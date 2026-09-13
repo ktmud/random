@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astra 与第一个非 sofic 群 · AI 攻克的数学难题</title>
+<meta name="description" content="OpenAI 未发布的 Astra 模型在 2026 年 8 月宣布解决十个公开问题:第一个非 sofic 群的构造、Connes 刚性猜想的反例、Ehrhart 体积猜想等。本文解释什么是 sofic 群、证明依赖的 Kun–Thom 路线,以及 Andreas Thom 对数据使用的质疑。">
+<meta property="og:title" content="Astra 与第一个非 sofic 群">
+<meta property="og:description" content="OpenAI 未发布的 Astra 模型在 2026 年 8 月宣布解决十个公开问题:第一个非 sofic 群的构造、Connes 刚性猜想的反例、Ehrhart 体积猜想等。本文解释什么是 sofic 群、证明依赖的 Kun–Thom 路线,以及 Andreas Thom 对数据使用的质疑。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪢</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../#timeline">← 时间线</a><a href="../kakeya/">一根针的百年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">2026 年 8 月 1 日 · OpenAI · Astra</div>
+    <h1>Astra:<br>第一个「非 sofic 群」,以及另外九个公开问题</h1>
+    <p class="subtitle">Gromov 1999 年的问题悬置 27 年;两千美元的算力、249 页手稿、十份 Lean 证书——以及一场关于「路是谁铺的」的争论</p>
+    <div class="facts">
+      <div class="fact">系统<b>Astra(OpenAI 内部模型族,长时程多智能体)</b></div>
+      <div class="fact">核心结果<b>首个非 sofic 群 · Gromov 1999 年提出 · 悬置 27 年</b></div>
+      <div class="fact">其他结果<b>推翻 Connes 刚性猜想;证明 Ehrhart 体积猜想;Erdős 第 183 号等 3 题;高维球堆积上界 1978 年以来首次改进;量子博弈并行重复定理;积和式的电路下界</b></div>
+      <div class="fact">验证<b>249 页手稿 + Lean 4 证书(GitHub,Apache 2.0)</b></div>
+      <div class="fact">成本<b>约 2000 美元(按 GPT-5.6 API 价格)</b></div>
+      <div class="fact">争议<b>德累斯顿群论学家 Andreas Thom:证明核心是他 2019 年的路线;质疑私人对话被用于训练</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">问 题</div>
+    <h2>什么是「sofic 群」?</h2>
+    <p class="lead"><b>群</b>是数学里描述「对称」的语言:一个正方形的旋转与翻转构成一个群,魔方的所有转法构成一个群,整数的加法也构成一个群。群可以是有限的,也可以是无限的。</p>
+    <p>1999 年,Mikhail Gromov 提出了一个问题。有限群最好懂——它就是有限个东西的排列。那么,一个<em class="hl">无限群</em>能不能被有限的排列「越来越好地模仿」?具体说:能不能对每一个精度要求,都找到一个有限集合上的排列方式,使得群的乘法表在这个精度下几乎被照搬?能做到的群,Benjamin Weiss 在 2000 年命名为 <b>sofic 群</b>(希伯来语「有限」)。</p>
+    <p>接下来 27 年里,人们检查了所有能想到的群:可数群、剩余有限群、顺从群、自由群、它们的各种组合……<b>全都是 sofic 的</b>。同时,一大批著名猜想(Gottschalk 满射猜想、Kaplansky 直接有限猜想等)都被证明对 sofic 群成立。于是一个尖锐的问题浮现:</p>
+    <div class="takeaway"><span class="tk">Gromov 之问</span>是不是<b>所有群</b>都是 sofic 的?如果是,上面那一批猜想就全部成立;如果不是,那个「非 sofic 群」会是什么样子?</div>
+    <p>没有人能造出一个非 sofic 群。它成了几何群论里最著名的公开问题之一。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">AI 做了什么</div>
+    <h2>十个问题,一份 249 页的手稿</h2>
+    <p class="lead">2026 年 8 月 1 日,OpenAI 宣布:一个尚未发布的模型族 <b>Astra</b>——专为「协调多个智能体、长时间运行任务」而设计——解决了十个公开问题,全部附带 Lean 4 机器证书。</p>
+    <div class="tbl-wrap"><table class="tbl">
+      <tr><th>问题</th><th>领域</th><th>结论</th></tr>
+      <tr><td><b>非 sofic 群的存在性</b>(Gromov,1999)</td><td>几何群论</td><td>构造出第一个非 sofic 群。Gromov 之问的答案是「否」。</td></tr>
+      <tr><td><b>Connes 刚性猜想</b></td><td>算子代数</td><td>被推翻:存在无穷多个互不同构、却拥有同一个 von Neumann 代数的性质 (T) 群。</td></tr>
+      <tr><td><b>Ehrhart 体积猜想</b></td><td>凸几何 / 格点</td><td>被证明。</td></tr>
+      <tr><td><b>Erdős 第 183 号</b>及另外两题</td><td>组合 / Ramsey 理论</td><td>多色 Ramsey 数的问题,被解决。</td></tr>
+      <tr><td><b>高维球堆积密度上界</b></td><td>几何</td><td>1978 年 Kabatiansky–Levenshtein 以来对一般上界的首次改进。</td></tr>
+      <tr><td><b>两人量子博弈的并行重复定理</b></td><td>量子信息</td><td>被证明。</td></tr>
+      <tr><td><b>积和式的电路复杂度</b></td><td>理论计算机</td><td>新的下界。</td></tr>
+      <tr><td>其他</td><td>编码理论、最近向量问题、极值图论</td><td>各有一项结果。</td></tr>
+    </table></div>
+    <p>OpenAI 给出的成本数字令人吃惊:按 GPT-5.6 的 API 价格计算,十个问题总共约 <b>2000 美元</b>。手稿由人类研究者整理成可发表的论文;Lean 证书以 Apache 2.0 协议放在 GitHub 上,任何人可以下载核验。Erdős 数据库维护者 Thomas Bloom 称之为「大新闻」,并认为分量超过 5 月的<a href="unit-distance.html">单位距离反例</a>。</p>
+
+    <h3>非 sofic 群是怎么造出来的?(听得懂的版本)</h3>
+    <p>细节需要专业背景,但路线可以讲清楚。要证明一个群<b>不是</b> sofic 的,你需要一个「不可能被有限排列模仿」的障碍。2016 年,Gábor Kun 找到了一类和有限排列的统计性质有关的障碍;2019 年,Kun 与德累斯顿工业大学的 <b>Andreas Thom</b> 把这个想法发展成一套完整的策略——如果能构造出一个群,其乘法关系逼着任何有限模仿都违反这个统计性质,它就是非 sofic 的。剩下的难点是<em class="hl">真的把这样一个群构造出来</em>,并证明它满足所有条件。这一步二十年没人做成,而 Astra 做成了,证明的核心正是沿着 Kun–Thom 的路线。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">争 议</div>
+    <h2>路是谁铺的?模型是从哪里学到这条路的?</h2>
+    <p>9 月,在<a href="navier-stokes.html">纳维–斯托克斯风波</a>爆发之后,Andreas Thom 在社交媒体发表长文,提出一连串疑问:</p>
+    <ul class="plain">
+      <li><b>为什么是这条路?</b> Kun–Thom 路线从来不是攻克非 sofic 问题的热门方向——另一条基于量子博弈的思路当时被认为更有希望。而 Astra 恰恰选了他这条冷门路线。</li>
+      <li><b>模型见过什么?</b> Thom 与 Kun 多年来在 ChatGPT 里讨论过这个课题的细节。他于 6 月 29 日关闭了「用我的对话训练模型」的选项,但这个开关只对未来生效,而且用户无法审计过去。</li>
+      <li><b>OpenAI 的回答够不够?</b> OpenAI 研究员 Mark Sellke 回复他:「没有那回事。」Thom 认为这句话只回答了「解题时有没有直接读你的对话」,没有回答「你的对话有没有进入训练数据」。他要求 OpenAI 说明「去标识化的使用数据」到底包括什么。</li>
+    </ul>
+    <p>Thom 的核心论点值得单独记下:<em class="hl">把聊天记录里的名字去掉,并不等于把数学思想去掉。</em>一个数学家二十年的研究路线,即便匿名,也是可以被认出来的。</p>
+    <p>OpenAI 方面坚持:没有任何人或系统检索过用户数据;模型的能力来自通用训练。截至 9 月中旬,双方各执一词,没有第三方能核实。</p>
+    <div class="aside"><b>更大的背景:</b>2026 年 6 月,国际数学联盟(IMU)签署了《莱顿宣言》,警告 AI 公司「未经同意使用已发表研究、绕过同行评审、威胁证明与署名的完整性」。Astra 的成果发布于宣言之后两个月,几乎立刻成为宣言所指的样本。</div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">意 义</div>
+    <h2>数学上无可争议,伦理上悬而未决</h2>
+    <p>非 sofic 群的存在是一个<b>干净的、机器核验过的、改变领域格局的</b>结果:Gromov 之问有了答案,一批建立在「也许所有群都 sofic」之上的希望需要重新评估,而那个具体的群本身将成为未来几十年的研究对象。这一点没有人质疑——包括 Thom。</p>
+    <p>被质疑的是另一件事:当模型「站在巨人的肩膀上」时,巨人有没有被告知,有没有被署名,有没有被问过愿不愿意。数学界习惯的规则是「引用」;AI 公司习惯的规则是「训练」。两套规则第一次正面相撞,就在这十个问题上。</p>
+    <div class="takeaway"><span class="tk">一句话</span>Astra 证明了机器可以在最抽象的数学领域里完成人类二十年没完成的构造;Thom 的质疑则提醒:这条路线是人铺的,而铺路的人还没拿到应有的名分。</div>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <div class="pager">
+    <a class="prev" href="alphaproof-nexus.html"><small>← 上一篇 · 2026 年 5 月 21 日 · Google DeepMind</small>AlphaProof Nexus:一口气解决 9 个 Erdős 问题</a>
+    <a class="next" href="navier-stokes.html"><small>下一篇 · 2026 年 9 月 8 日 · OpenAI · 约一万个智能体 →</small>纳维–斯托克斯方程:千禧年难题的「有限时间爆破」</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>SiliconANGLE:<a href="https://siliconangle.com/2026/08/02/openais-astra-solves-10-long-open-math-problems-publishes-proofs/" target="_blank" rel="noopener">OpenAI&#x27;s Astra solves 10 long-open math problems and publishes the proofs</a></li>
+      <li>TNW:<a href="https://thenextweb.com/news/openai-astra-model-ten-math-proofs-non-sofic-groups" target="_blank" rel="noopener">OpenAI says its next model, Astra, has solved ten open problems in mathematics</a></li>
+      <li>Cybernews:<a href="https://cybernews.com/ai-news/openai-accused-stealing-another-mathematicians-work/" target="_blank" rel="noopener">OpenAI math controversy deepens after another mathematician speaks out</a></li>
+      <li>Notebookcheck:<a href="https://www.notebookcheck.net/Plainly-dishonest-mathematician-says-OpenAI-lied-to-him-about-training-on-his-private-chats.1395716.0.html" target="_blank" rel="noopener">&quot;Plainly dishonest&quot;: mathematician says OpenAI lied to him about training on his private chats</a></li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+
+</body>
+</html>

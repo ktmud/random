@@ -3,483 +3,188 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>一根针的百年难题 · 看懂挂谷猜想</title>
-<meta name="description" content="从 1917 年『一根针如何调头』的小谜题,到 2026 年的菲尔兹奖:用可交互的动画,通俗地讲清挂谷猜想(Kakeya Conjecture)。">
-<meta property="og:title" content="一根针的百年难题 · 看懂挂谷猜想">
-<meta property="og:description" content="可视化解释挂谷猜想:面积可以任意小,维度却必须拉满。">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪡</text></svg>">
-<style>
-  :root{
-    --paper:#faf6ee;
-    --card:#fffdf9;
-    --line:#e6dfd0;
-    --ink:#2a2418;
-    --muted:#6f6553;
-    --accent:#bc3f1e;      /* 针 · 朱红 */
-    --accent-soft:#f3ddd4;
-    --blue:#33589b;        /* 区域 · 靛蓝 */
-    --blue-soft:#dfe6f2;
-    --gold:#a8801f;        /* 荣誉 · 金 */
-    --gold-soft:#f5ecd7;
-    --serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC","STSong","SimSun",serif;
-    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{
-    background:var(--paper);color:var(--ink);font-family:var(--sans);
-    font-size:17px;line-height:1.9;letter-spacing:.01em;
-    -webkit-font-smoothing:antialiased;
-  }
-  #progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0;z-index:99}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px}
-  .wide{max-width:880px;margin:0 auto;padding:0 20px}
-
-  /* ---------- hero ---------- */
-  header{padding:52px 0 40px;text-align:center;position:relative;overflow:hidden}
-  .hero-canvas{width:min(340px,80vw);height:min(300px,70vw);margin:0 auto;display:block}
-  .kicker{font-size:14px;letter-spacing:.35em;color:var(--muted);margin:26px 0 14px}
-  h1{font-family:var(--serif);font-size:clamp(34px,7vw,54px);font-weight:700;line-height:1.35}
-  .subtitle{font-size:clamp(16px,3vw,20px);color:var(--muted);margin-top:14px}
-  .subtitle b{color:var(--accent);font-weight:600}
-  .hero-note{margin-top:30px;font-size:14px;color:var(--muted)}
-  .hero-note .down{display:block;font-size:20px;margin-top:6px;animation:bob 2s ease-in-out infinite}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
-  @media (prefers-reduced-motion: reduce){.hero-note .down{animation:none}}
-
-  /* ---------- chapters ---------- */
-  section{padding:56px 0 8px}
-  .chapnum{font-family:var(--serif);font-size:15px;letter-spacing:.4em;color:var(--accent);margin-bottom:10px}
-  h2{font-family:var(--serif);font-size:clamp(26px,5vw,36px);font-weight:700;margin-bottom:26px;line-height:1.4}
-  h3{font-family:var(--serif);font-size:21px;margin:38px 0 14px}
-  p{margin:16px 0;color:#3a3426}
-  p b,li b{color:var(--ink)}
-  .lead{font-size:clamp(18px,3.4vw,21px);line-height:2;color:var(--ink)}
-  em.hl{font-style:normal;background:linear-gradient(transparent 62%,var(--accent-soft) 62%);padding:0 2px}
-
-  /* ---------- demo cards ---------- */
-  .demo{
-    background:var(--card);border:1px solid var(--line);border-radius:16px;
-    box-shadow:0 2px 14px rgba(90,75,45,.06);
-    padding:18px;margin:30px auto;
-  }
-  .demo-title{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
-  .demo-title .tag{font-size:12px;color:#fff;background:var(--accent);border-radius:99px;padding:2px 10px;letter-spacing:.1em;flex:none}
-  .demo-title .name{font-weight:600}
-  .demo-sub{font-size:13.5px;color:var(--muted);margin-bottom:12px;line-height:1.7}
-  canvas.viz{width:100%;display:block;touch-action:pan-y}
-  .controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:14px;color:var(--muted)}
-  .controls label{display:flex;align-items:center;gap:8px;flex:1 1 220px;min-width:200px}
-  input[type=range]{flex:1;accent-color:var(--accent);min-width:90px}
-  .btn{
-    font:inherit;font-size:14px;border:1px solid var(--line);background:#fff;color:var(--ink);
-    border-radius:99px;padding:5px 16px;cursor:pointer;flex:none;
-  }
-  .btn:hover{border-color:var(--accent);color:var(--accent)}
-  .btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
-  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-  .tabs .btn{font-size:13.5px;display:inline-flex;align-items:center;gap:5px}
-  .shape-ic{width:14px;height:14px;flex:none;display:block;opacity:.55}
-  @media (max-width:520px){
-    .tabs{gap:5px}
-    .tabs .btn{font-size:11.5px;padding:4px 7px;gap:3px}
-    .shape-ic{width:12px;height:12px}
-  }
-  @media (max-width:390px){
-    .tabs{gap:4px}
-    .tabs .btn{font-size:11px;padding:4px 5px;gap:2px}
-  }
-  .readout{
-    font-variant-numeric:tabular-nums;background:var(--paper);border:1px solid var(--line);
-    border-radius:10px;padding:3px 12px;color:var(--ink);font-size:14px;flex:none;white-space:nowrap;
-  }
-  .readout b{color:var(--accent)}
-  /* 动态数字按最宽值预留宽度,避免动画中胶囊变宽、换行跳动 */
-  #shapesAngle,#perronArea,#perronDirV,#perronApexV,#relayAngle,#copiesAngle{display:inline-block;min-width:2.6em;text-align:right}
-  #shapesSwept,#relayArea{display:inline-block;min-width:2.9em;text-align:right}
-  #palDeltaV,#relayDeltaV{display:inline-block;min-width:2.3em;text-align:right}
-  .readout .mut{color:var(--muted);font-weight:400}
-  #perronN{display:inline-block;min-width:1.9em;text-align:right}
-  @media (max-width:520px){
-    .controls{gap:8px 10px}
-    .readout{font-size:12.5px;padding:3px 9px}
-    .btn{font-size:12.5px;padding:4px 12px}
-    .controls label{flex:1 1 100%;min-width:0}
-  }
-  @media (max-width:380px){
-    #shapesTotal{display:none} /* 总面积在下方面积条中已有 */
-    .controls{gap:8px 6px}
-    .btn{padding:4px 10px}
-  }
-  .fineprint{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.7}
-
-  /* area bars (第一章) */
-  .bars{display:grid;gap:9px;margin-top:14px}
-  .bar-row{display:grid;grid-template-columns:7.5em 1fr 4.5em;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
-  .bar-row .track{background:var(--paper);border-radius:6px;height:18px;overflow:hidden}
-  .bar-row .fill{height:100%;background:var(--blue);border-radius:0 4px 4px 0;opacity:.45;transition:opacity .3s}
-  .bar-row.active{color:var(--ink);font-weight:600}
-  .bar-row.active .fill{background:var(--accent);opacity:1}
-  .bar-row .val{text-align:right;font-variant-numeric:tabular-nums}
-  .bar-row.tease .fill{background:repeating-linear-gradient(90deg,var(--gold),var(--gold) 6px,transparent 6px,transparent 11px);opacity:.8}
-  .bar-row.clickable{cursor:pointer;border-radius:8px;padding:3px 8px;margin:0 -8px;transition:background .15s}
-  .bar-row.clickable:hover{background:rgba(51,88,155,.08)}
-  .bar-row.clickable:hover span:first-child{color:var(--ink)}
-  .bar-row.clickable:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
-  .bar-row.tease.clickable:hover{background:var(--gold-soft)}
-
-  /* takeaway 卡 */
-  .takeaway{
-    border-left:4px solid var(--accent);background:var(--card);border-radius:0 14px 14px 0;
-    padding:18px 22px;margin:30px 0;font-size:16.5px;line-height:1.95;
-    box-shadow:0 2px 10px rgba(90,75,45,.05);
-  }
-  .takeaway .tk{font-size:12.5px;letter-spacing:.3em;color:var(--accent);display:block;margin-bottom:6px}
-
-  /* 准确定义卡 */
-  .defbox{background:var(--card);border:1.5px solid var(--blue);border-radius:16px;padding:6px 22px 8px;margin:30px 0;box-shadow:0 2px 14px rgba(51,88,155,.08)}
-  .def-head{font-family:var(--serif);font-weight:700;font-size:18px;padding:16px 0 10px}
-  .def-row{display:grid;grid-template-columns:3.9em 1fr;gap:14px;padding:13px 0;border-top:1px dashed var(--line);font-size:15.5px;line-height:1.95}
-  .def-k{font-family:var(--serif);font-weight:700;color:var(--blue);letter-spacing:.18em;padding-top:2px}
-  .def-row.key .def-k{color:var(--accent)}
-  .def-row .mutline{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.7}
-  @media (max-width:520px){.def-row{grid-template-columns:1fr;gap:2px;padding:12px 0}}
-
-  /* 盒子计数 */
-  .boxgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
-  .duo{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media (max-width:640px){
-    .duo{grid-template-columns:1fr}
-    .duo canvas.viz{max-width:300px;margin:0 auto}
-  }
-  @media (max-width:640px){
-    .boxgrid{grid-template-columns:1fr;gap:18px}
-    .boxcell canvas.viz{max-width:270px;margin:0 auto}
-    /* 面板纵向很长,滑块吸顶悬浮,滚动时随手可调 */
-    #boxControls{
-      position:sticky;top:8px;z-index:6;margin-top:2px;
-      background:var(--card);border:1px solid var(--line);border-radius:12px;
-      padding:8px 12px;box-shadow:0 3px 14px rgba(90,75,45,.14);
-    }
-  }
-  .boxcell{text-align:center}
-  .boxcell .cap{font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.6}
-  .boxcell .dim{font-size:15px;font-variant-numeric:tabular-nums;margin-top:2px}
-  .boxcell .dim b{color:var(--blue)}
-
-  /* 时间线 */
-  .timeline{margin:36px 0;border-left:2px solid var(--line);padding-left:26px}
-  .tl-item{position:relative;margin-bottom:26px}
-  .tl-item::before{
-    content:"";position:absolute;left:-33px;top:8px;width:12px;height:12px;border-radius:50%;
-    background:var(--paper);border:3px solid var(--blue);
-  }
-  .tl-item.major::before{background:var(--accent);border-color:var(--accent)}
-  .tl-item.gold::before{background:var(--gold);border-color:var(--gold)}
-  .tl-year{font-family:var(--serif);font-weight:700;font-size:18px}
-  .tl-item p{margin:4px 0 0;font-size:15px;line-height:1.8;color:#4a4436}
-
-  /* 菲尔兹奖高亮 */
-  .fields{
-    background:linear-gradient(135deg,var(--gold-soft),#fdf8ea);
-    border:1px solid #e8d9ae;border-radius:16px;padding:26px 26px;margin:32px 0;
-  }
-  .fields .medal{font-size:34px}
-  .fields h3{margin:8px 0 10px;font-size:22px}
-  .fields p{font-size:15.5px;margin:8px 0}
-
-  /* 第五章卡片 */
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0}
-  @media (max-width:640px){.cards{grid-template-columns:1fr}}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
-  .card .ic{font-size:24px}
-  .card h4{font-family:var(--serif);font-size:17.5px;margin:8px 0 6px}
-  .card p{font-size:14.5px;line-height:1.85;margin:0;color:#4a4436}
-
-  .epigraph{
-    text-align:center;font-family:var(--serif);font-size:clamp(19px,3.6vw,24px);
-    line-height:2;margin:60px 0 20px;color:var(--ink);
-  }
-  .epigraph small{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:10px;letter-spacing:.2em}
-
-  footer{border-top:1px solid var(--line);margin-top:64px;padding:36px 0 60px;font-size:14px;color:var(--muted)}
-  footer h4{font-family:var(--serif);color:var(--ink);margin-bottom:12px;font-size:16px}
-  footer ul{list-style:none}
-  footer li{margin:7px 0;line-height:1.7}
-  footer a{color:var(--blue);text-decoration:none;border-bottom:1px dashed #b6c3da}
-  footer a:hover{color:var(--accent);border-color:var(--accent)}
-  .disclaim{margin-top:22px;font-size:12.5px;line-height:1.8}
-  hr.sep{border:none;border-top:1px solid var(--line);margin:52px auto;max-width:720px}
-</style>
+<title>AI 攻克的数学难题 · 时间线</title>
+<meta name="description" content="从 2023 年 FunSearch 到 2026 年的纳维–斯托克斯方程:按时间线梳理 AI 参与解决的重要数学难题,每个问题一页,讲清来龙去脉以及 AI 到底是怎么证明的。">
+<meta property="og:title" content="AI 攻克的数学难题 · 时间线">
+<meta property="og:description" content="通俗科普:AI 到底解决了哪些数学难题,是怎么解决的,哪些是真突破,哪些是乌龙。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧮</text></svg>">
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="./">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="./" aria-current="page">AI 攻克的数学难题</a><a href="kakeya/">一根针的百年难题</a></div>
+  </div>
+</nav>
 
-<header>
+<header class="hero">
   <div class="wrap">
-    <canvas id="hero" class="hero-canvas" aria-label="三尖摆线内旋转的针(动画)"></canvas>
-    <div class="kicker">1917 — 2026</div>
-    <h1>一根针的百年难题</h1>
-    <p class="subtitle">看懂<b>挂谷猜想</b>(Kakeya Conjecture)——<br>一个从「调头要多大地方」开始的故事</p>
-    <p class="hero-note">往下滑,亲手转一转这根针<span class="down">↓</span></p>
+    <canvas id="hero" class="hero-canvas" aria-label="两张旋转中的三角格点,点与点之间恰好相距一个单位时连线(动画)"></canvas>
+    <div class="kicker" id="heroStat">2023 — 2026</div>
+    <h1>AI 攻克的数学难题</h1>
+    <p class="subtitle">从<b>一个组合游戏</b>到<b>百万美元的流体方程</b>——<br>三年间,机器解开了哪些人类悬置数十年的问题?又是怎么解的?</p>
+    <p class="hero-note">按时间往下读,每个问题都有一页详解<span class="down">↓</span></p>
   </div>
 </header>
 
 <main>
-<!-- ================= 第一章 ================= -->
-<section id="ch1">
+<section id="primer">
   <div class="wrap">
-    <div class="chapnum">第 一 章</div>
-    <h2>转针问题:调头最少要多大地方?</h2>
-    <p class="lead">1917 年,日本数学家<b>挂谷宗一</b>提出了一个看似儿戏的问题:</p>
-    <p class="lead">平面上有一根长度为 1 的针——一条<em class="hl">粗细为零</em>的线段。要让它<em class="hl">原地调头</em>(转过 180°),它扫过的「场地」面积,最小可以是多少?</p>
-    <p>最老实的做法:让针绕中心转一圈,场地是个圆。聪明一点,可以借助各种巧妙的形状,让场地一步步变小。点击下面的形状,看针是怎么转的:</p>
+    <div class="chapnum">读 前 须 知</div>
+    <h2>看懂这些新闻之前,先弄清三件事</h2>
+    <p class="lead">「AI 解决了某某难题」这类标题,这两年几乎每月都有。它们有的名副其实,有的是乌龙。判断的标尺只有三把:</p>
   </div>
   <div class="wide">
-    <div class="demo">
-      <div class="demo-title"><span class="tag">动手玩</span><span class="name">四块场地,同一根针</span></div>
-      <div class="demo-sub">针的两端<b style="color:var(--gold)">一金</b><b style="color:var(--accent)">一红</b>:完整调头(180°)后,两端恰好互换位置——然后停顿一下,继续下一轮。红色阴影是针已经扫过的地方,「扫过」面积实时逐像素累计。四个图形按同一比例绘制。</div>
-      <div class="tabs" id="shapeTabs" role="tablist"></div>
-      <canvas id="shapes" class="viz" data-aspect="0.62" aria-label="针在所选形状内旋转的动画"></canvas>
-      <div class="controls">
-        <button class="btn" id="shapesPlay" aria-pressed="true">⏸ 暂停</button>
-        <span class="readout">转过 <b id="shapesAngle">0°</b></span>
-        <span class="readout">扫过 <b id="shapesSwept">0.000</b><span class="mut" id="shapesTotal"> / 0.785</span></span>
-      </div>
-      <div class="bars" id="areaBars" aria-label="各形状面积对比"></div>
-      <div class="fineprint">面积以针长为单位(针长 = 1)。等边三角形是<b>凸形</b>里的最优解(帕尔,1921);三尖摆线一度被认为就是最终答案。</div>
-    </div>
-  </div>
-  <div class="wrap">
-    <p>从圆的 <b>0.785</b>,到三尖摆线的 <b>0.393</b>——面积砍掉了一半。二十世纪初的数学家大多以为,故事到这里就该结束了:总该有一个「最小面积」吧?</p>
-    <div class="takeaway"><span class="tk">悬 念</span>还能更小吗?最小的场地究竟是多大?</div>
-  </div>
-</section>
-
-<hr class="sep">
-
-<!-- ================= 第二章 ================= -->
-<section id="ch2">
-  <div class="wrap">
-    <div class="chapnum">第 二 章</div>
-    <h2>惊人的答案:面积可以任意小</h2>
-    <p class="lead">1928 年,俄裔数学家<b>贝西科维奇</b>(A. S. Besicovitch)给出了一个颠覆直觉的回答:</p>
-    <p class="lead"><em class="hl">这个问题没有最小值。</em>只要你愿意,调头的场地可以比一粒尘埃小,比一个原子小——任意小。</p>
-    <p>他的魔法分两步。<b>第一步:切碎再叠起来。</b>把一个三角形沿底边切成许多细条,每根细条都还「装得下」一批方向的针;然后把细条平移、互相叠放。<em class="hl">平移不改变方向</em>——能容纳的针的方向一个不少,占用的面积却越来越小。这套构造被称为「佩龙树」(Perron tree):</p>
-  </div>
-  <div class="wide">
-    <div class="demo">
-      <div class="demo-title"><span class="tag">动手玩</span><span class="name">佩龙树:切碎、平移、叠放</span></div>
-      <div class="demo-sub">拖动「切分次数」,看面积如何被「折叠」掉;拖动「针的方向」,验证任何方向的针都还躺在图形里;再试试「三角形顶角」——<b>树能装下的方向范围,恰好就是初始三角形的顶角</b>。</div>
-      <canvas id="perron" class="viz" data-aspect="0.56" aria-label="佩龙树构造动画"></canvas>
-      <div class="controls">
-        <label>切分次数
-          <input type="range" id="perronK" min="0" max="7" step="1" value="0" aria-label="切分次数">
-          <span class="readout"><b id="perronN">1</b> 块</span>
-        </label>
-        <label>三角形顶角
-          <input type="range" id="perronApex" min="30" max="90" step="1" value="53" aria-label="初始三角形顶角(度)">
-          <span class="readout"><b id="perronApexV">53°</b></span>
-        </label>
-        <label>针的方向
-          <input type="range" id="perronDir" min="-26" max="26" step="0.5" value="0" aria-label="针的方向(度)">
-          <span class="readout"><b id="perronDirV">0°</b></span>
-        </label>
-        <span class="readout">面积 = 初始的 <b id="perronArea">100%</b></span>
-      </div>
-      <div class="bars" id="perronBars" aria-label="面积随切分次数的变化"></div>
-      <div class="fineprint">面积由页面实时逐像素测量,不是预设数字。这里演示的是简化版构造:每一层都把右半部分向左平移固定比例。真正的佩龙树在每一层用更精细的重叠方案,可以证明:<b>切分足够多次后,面积能小于任何给定的正数</b>。它缩小得很慢——这份「顽固」恰恰是挂谷问题深刻的伏笔。</div>
-    </div>
-  </div>
-  <div class="wrap">
-    <p><b>第二步:平移几乎是免费的。</b>碎片之间隔着距离,针怎么从一片挪到另一片?贝西科维奇借用了匈牙利数学家帕尔的妙招:针沿<em class="hl">自己的方向</em>滑动时,扫过的面积是零(线段滑过自己所在的直线,没有宽度)。于是「横着挪」可以这样偷懒——</p>
-  </div>
-  <div class="wide">
-    <div class="demo">
-      <div class="demo-title"><span class="tag">动手玩</span><span class="name">帕尔的戏法:斜一点,绕远路</span></div>
-      <div class="demo-sub">要把针挪到上面那条虚线上。直接横移要扫过一整个平行四边形;但「先偏转一个小角度 → 顺着滑过去 → 再摆正 → 滑回来」,只需扫过两个小扇形(红色)。</div>
-      <canvas id="pal" class="viz" data-aspect="0.42" aria-label="帕尔平移技巧动画"></canvas>
-      <div class="controls">
-        <button class="btn" id="palPlay" aria-pressed="true">⏸ 暂停</button>
-        <label>偏转角度(大→小)
-          <input type="range" id="palDelta" min="0.5" max="10" step="0.5" value="2.5" aria-label="偏转角度(度),向右变小">
-          <span class="readout"><b id="palDeltaV">8°</b></span>
-        </label>
-        <span class="readout">扫过 <b id="palArea">0.070</b> ,是直接横移的 <b id="palRatio">1/5</b></span>
-      </div>
-      <div class="fineprint">偏转角越小越省面积,代价是绕行的路越长(画面会自动缩放——注意针变得多小)。绕路不花面积,只花「地方」;而挂谷问题只关心面积。</div>
-    </div>
-  </div>
-  <div class="wrap">
-    <p>把两步合起来,就是针的完整调头「接力」:在一根细条里转完自己那份角度,「斜一点、绕出去」平移到下一根细条,接着转——</p>
-  </div>
-  <div class="wide">
-    <div class="demo">
-      <div class="demo-title"><span class="tag">动手玩</span><span class="name">合体:在佩龙树里接力调头</span></div>
-      <div class="demo-sub">8 根细条接力,走完整个扇区:条内旋转(小扇形)→ 帕尔机动平移到下一条(绕路免费,只付两个 δ 小扇形)→ 继续旋转。红色阴影是针扫过的全部区域(并集,实时逐像素累计)。</div>
-      <canvas id="relay" class="viz" data-aspect="0.62" aria-label="佩龙树内针的接力调头动画"></canvas>
-      <div class="controls">
-        <button class="btn" id="relayPlay" aria-pressed="true">⏸ 暂停</button>
-        <label>接力偏角 δ(大→小)
-          <input type="range" id="relayDelta" min="2" max="12" step="0.5" value="4" aria-label="接力偏角(度),向右变小">
-          <span class="readout"><b id="relayDeltaV">10°</b></span>
-        </label>
-        <span class="readout">第 <b id="relayStep">1</b>/8 条 · 已转 <b id="relayAngle">0°</b></span>
-        <span class="readout">扫过 <b id="relayArea">0.000</b></span>
-      </div>
-      <div class="fineprint">为了看清接力,这里固定切 8 条、只走完约 53° 的扇区(180° 的其余部分怎么办?往下看)。试着调小偏角 δ:接力的小扇形更省,代价是绕行更远(画面会自动缩小)。只切 8 条当然还省不了多少——但趋势已在眼前:真实构造中,切分数趋于无穷、δ 趋于零,总面积便可小于任何给定的数。</div>
-    </div>
-  </div>
-  <div class="wrap">
-    <p>旋转只发生在细条内部和接力的小扇形里,长途跋涉全靠<em class="hl">免费的滑行</em>。只剩最后一个疑问:一棵树的细条都大致「朝下」,只装得下约 53° 范围的方向——剩下的 127° 怎么办?答案朴素得可爱:<b>多复印几份,转个角度</b>。</p>
-  </div>
-  <div class="wide">
-    <div class="demo">
-      <div class="demo-title"><span class="tag">看明白</span><span class="name">最后一步:四份拷贝,拼满 180°</span></div>
-      <div class="demo-sub">把整棵佩龙树旋转到四个不同的角度,得到四份拷贝,每份负责 180° 中的一段(树能装 53°,比每段的 45° 宽,绰绰有余)。看方向表盘:针的方向转到哪一段,哪份拷贝就「值班」亮起——针就躺在它的某根细条里。份与份之间的衔接,照旧是帕尔机动。</div>
-      <canvas id="copies" class="viz" data-aspect="0.5" aria-label="四份旋转拷贝覆盖 180 度方向的演示"></canvas>
-      <div class="controls">
-        <button class="btn" id="copiesPlay" aria-pressed="true">⏸ 暂停</button>
-        <span class="readout">方向 <b id="copiesAngle">0°</b> · 第 <b id="copiesN">1</b> 份值班</span>
-      </div>
-      <div class="fineprint">「53°」就是佩龙树初始三角形的顶角(底 1、高 1 ⇒ 2·arctan(½) ≈ 53°)——回到上面的佩龙树演示,拖动「三角形顶角」滑块即可亲自验证:能装的方向范围恰好随顶角变化。但无论把三角形做多宽,都到不了 180°(那需要无限宽的底)——所以旋转拷贝不可省,只是份数可多可少。四份拷贝的总面积至多是单份的四倍——任意小的四倍,依旧任意小。至此,调头的完整路线凑齐:条内旋转 + 条间接力 + 份间轮换。</div>
-    </div>
-  </div>
-  <div class="wrap">
-    <p>切得更细、偏角更小,总面积就能压到任意小——挂谷的问题就此有了答案,却是一个没有终点的答案。</p>
-    <div class="takeaway"><span class="tk">结 论</span>
-      连续调头:面积可以<b>任意小</b>,但不能恰好为零。<br>
-      若只要求「每个方向都躺着一根完整的针」、不要求转动过程:存在<b>面积恰好为零</b>的集合——数学家称之为<b>贝西科维奇集合</b>(也叫挂谷集合)。
+    <div class="primer">
+      <div class="card"><div class="ic">🔎</div><h4>「解决」还是「查到」?</h4><p>很多所谓的 AI 解题,其实是模型在浩瀚文献里<b>找到了早已发表的答案</b>。这很有用,但不是新数学。2025 年 10 月 OpenAI 的「十个 Erdős 问题」就是这么翻的车。</p></div>
+      <div class="card"><div class="ic">✅</div><h4>谁来检查证明?</h4><p>一份上百页的机器证明,人类很难逐行核对。如今的通行做法是把证明写成 <b>Lean</b> 这种「证明编程语言」,由计算机逐步核验,一个漏洞也放不过——本站标注 <span class="tag lean">Lean 已验证</span> 的都是这一类。</p></div>
+      <div class="card"><div class="ic">🤝</div><h4>功劳算谁的?</h4><p>AI 极少从零开始:它几乎总是<b>沿着某位数学家铺好的路</b>走完最后几步。路是谁铺的、模型有没有「偷看」未发表的手稿——2026 年 9 月纳维–斯托克斯方程的署名风波,争的正是这个。</p></div>
     </div>
   </div>
 </section>
 
 <hr class="sep">
 
-<!-- ================= 第三章 ================= -->
-<section id="ch3">
+<section id="timeline">
   <div class="wrap">
-    <div class="chapnum">第 三 章</div>
-    <h2>面积为零,却「瘦」不下去</h2>
-    <p class="lead">面积为零,听上去像是「什么都不剩」。但数学家有更精细的尺子:<b>维度</b>。</p>
-    <p>量法很朴素:用越来越小的方格去覆盖一个图形,数一数需要多少格。<b>把方格边长缩小一半</b>:盖一条曲线,格子数大约变成原来的 <b>2 倍</b>——它是 1 维的;盖一块实心区域,格子数变成原来的 <b>4 倍</b>——它是 2 维的。增长的倍率介于两者之间,就是介于 1 和 2 之间的「分数维」。</p>
+    <div class="chapnum">时 间 线</div>
+    <h2>三年,从「改进纪录」到「千禧年难题」</h2>
+    <p>圆点颜色:<span class="tag solved">难题解决</span> 表示一个公开问题被证明或被反例推翻;<span class="tag progress">改进纪录</span> 表示 AI 找到了比人类更好的构造或界;<span class="tag milestone">里程碑</span> 是能力节点;<span class="tag caution">争议 · 乌龙</span> 提醒你别急着相信标题。</p>
+    <div class="filters" role="group" aria-label="筛选">
+      <button class="chip" data-f="all" aria-pressed="true">全部</button>
+      <button class="chip" data-f="solved" aria-pressed="false">难题解决</button>
+      <button class="chip" data-f="progress" aria-pressed="false">纪录与里程碑</button>
+      <button class="chip" data-f="caution" aria-pressed="false">争议 · 乌龙</button>
+    </div>
   </div>
   <div class="wide">
-    <div class="demo">
-      <div class="demo-title"><span class="tag">动手玩</span><span class="name">数格子,量维度</span></div>
-      <div class="demo-sub">拖动滑块细化网格,数一数每个图形占了多少格(高亮显示)。每个面板下方列出<b>粗细两档网格</b>的格子数:格子边长减半时,格子数变成几倍,维度就是几(×2 ⇒ 1 维,×4 ⇒ 2 维)。注意「贝西科维奇式集合」那一格:面积一直在流失,格子数的增长倍率却和实心方块几乎一样。</div>
-      <div class="controls" id="boxControls">
-        <label>网格精细度
-          <input type="range" id="boxM" min="0" max="3" step="1" value="1" aria-label="网格精细度">
-          <span class="readout"><b id="boxMV">16 × 16</b></span>
-        </label>
+    <div class="timeline" id="tl">
+
+      <div class="tl-year">2023</div>
+      <div class="tl-item" data-kind="progress" data-group="progress">
+        <a class="tl-card" href="problems/cap-set.html">
+          <div class="tl-meta"><span class="tl-date">2023 年 12 月</span><span class="tag progress">改进纪录</span><span class="tag org">Google DeepMind · FunSearch</span></div>
+          <div class="tl-title">帽子集问题:大语言模型第一次「发现」新数学<small>悬置数十年的构造纪录</small></div>
+          <p>让模型写程序、让程序生成候选、再用评分器优胜劣汰。几天之内,FunSearch 在 8 维空间找到了比人类已知更大的「帽子集」,还改进了渐近下界——这是 LLM 首次对公开数学问题给出经得起检验的新结果。</p>
+          <span class="tl-more">来龙去脉 →</span>
+        </a>
       </div>
-      <div class="boxgrid" id="boxGrid"></div>
-      <div class="fineprint">「维度 ≈ log₂(倍率)」:×2 ⇒ 1.00,×4 ⇒ 2.00,介于其间就是分数维。对比档取的是格子边长放大一倍的网格(如当前 16×16,则对比 8×8)。真正的维度定义在无限细分的极限下;「贝西科维奇式集合」取的是第二章佩龙树的有限步构造,故估值略低于 2。</div>
+
+      <div class="tl-year">2024</div>
+      <div class="tl-item" data-kind="milestone" data-group="progress">
+        <a class="tl-card" href="problems/imo.html">
+          <div class="tl-meta"><span class="tl-date">2024 年 7 月</span><span class="tag milestone">里程碑</span><span class="tag lean">Lean 已验证</span><span class="tag org">Google DeepMind · AlphaProof</span></div>
+          <div class="tl-title">国际数学奥林匹克:AI 拿到银牌<small>28 / 42 分</small></div>
+          <p>AlphaProof 把奥赛题翻译成 Lean 语言,用强化学习在形式化世界里搜索证明,解出 6 题中的 4 题——包括当年最难的一道。代价是:有的题算了三天。</p>
+          <span class="tl-more">从银牌到金牌 →</span>
+        </a>
+      </div>
+
+      <div class="tl-year">2025</div>
+      <div class="tl-item" data-kind="progress" data-group="progress">
+        <a class="tl-card" href="problems/alphaevolve.html">
+          <div class="tl-meta"><span class="tl-date">2025 年 5 月</span><span class="tag progress">改进纪录</span><span class="tag org">Google DeepMind · AlphaEvolve</span></div>
+          <div class="tl-title">AlphaEvolve:4×4 矩阵乘法 48 次、11 维亲吻数 593<small>打破 1969 年施特拉森的纪录</small></div>
+          <p>一个「让代码进化」的智能体,在 50 多个公开问题上跑了一遍:约两成给出了比人类已知更好的构造,其中最响亮的是 56 年来第一次把 4×4 复矩阵乘法的乘法次数从 49 降到 48。</p>
+          <span class="tl-more">它是怎么找的 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="milestone" data-group="progress">
+        <a class="tl-card" href="problems/imo.html#gold">
+          <div class="tl-meta"><span class="tl-date">2025 年 7 月</span><span class="tag milestone">里程碑</span><span class="tag org">Google DeepMind · OpenAI</span></div>
+          <div class="tl-title">国际数学奥林匹克:AI 拿到金牌<small>35 / 42 分,4.5 小时内,全用自然语言</small></div>
+          <p>一年之后,Gemini Deep Think 与 OpenAI 的实验模型都在比赛时限内解出 6 题中的 5 题,而且不再需要先翻译成形式语言——直接读题、直接写证明。奥赛从此不再是 AI 的天花板。</p>
+          <span class="tl-more">为什么这一步重要 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="caution" data-group="caution">
+        <a class="tl-card" href="problems/erdos-literature.html">
+          <div class="tl-meta"><span class="tl-date">2025 年 8 – 10 月</span><span class="tag caution">争议 · 乌龙</span><span class="tag org">OpenAI</span></div>
+          <div class="tl-title">「GPT-5 解决了十个 Erdős 问题」——其实是查到了文献<small>两次抢跑,两次翻车</small></div>
+          <p>8 月,一个凸优化界被宣布为「新数学」,但更好的结果几个月前就已发表;10 月,OpenAI 高管宣称模型解决了 10 个 Erdős 问题,数据库维护者 Thomas Bloom 回应:「严重失实」——模型只是找到了他没读过的旧论文。这两件事定义了此后所有人看 AI 数学新闻的方式。</p>
+          <span class="tl-more">乌龙是怎么发生的 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved">
+        <a class="tl-card" href="problems/aletheia.html">
+          <div class="tl-meta"><span class="tl-date">2025 年 12 月</span><span class="tag solved">难题解决</span><span class="tag org">Google DeepMind · Aletheia</span></div>
+          <div class="tl-title">Aletheia 一周扫过 700 个 Erdős 公开问题<small>4 个被真正解决,8 个被发现早有答案</small></div>
+          <p>基于 Gemini Deep Think 的研究智能体,配上「自然语言验证器」和 24 位数学家的人工筛选:212 份候选,63 份正确,其中 4 个公开问题是新的证明——这是第一次有系统地、批量地用 AI 攻研究级问题。</p>
+          <span class="tl-more">流水线是怎么搭的 →</span>
+        </a>
+      </div>
+
+      <div class="tl-year">2026</div>
+      <div class="tl-item" data-kind="solved" data-group="solved">
+        <a class="tl-card" href="problems/erdos-first.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 1 月</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag org">GPT-5.2 Pro + Aristotle · 业余爱好者</span></div>
+          <div class="tl-title">Erdős 第 728 号问题:第一个被 AI 独立解决的 Erdős 问题<small>阶乘整除 · 一位剑桥本科生的提问</small></div>
+          <p>一名本科生把问题原样输给 GPT-5.2 Pro,再用 Harmonic 的 Aristotle 把证明翻译成 Lean,最后由陶哲轩确认。同一周里,第 397 号(被反例推翻)和第 205 号相继失守。陶哲轩的评价:AI 正在收割 Erdős 问题的「长尾」。</p>
+          <span class="tl-more">证明的核心想法 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="milestone" data-group="progress">
+        <a class="tl-card" href="problems/first-proof.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 2 – 7 月</span><span class="tag milestone">里程碑</span><span class="tag org">11 位数学家 · First Proof</span></div>
+          <div class="tl-title">First Proof:用「从未发表」的题目给 AI 出考卷<small>结果好坏参半</small></div>
+          <p>为了排除「答案早就在训练数据里」,11 位数学家拿出自己研究中刚遇到的 10 个问题。第一轮各家模型表现平平;到 7 月,苏黎世联邦理工的两位博士后用自研智能体解出 6 题,击败 OpenAI、UCLA 与普林斯顿的参赛系统。</p>
+          <span class="tl-more">考卷长什么样 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved">
+        <a class="tl-card" href="problems/unit-distance.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 5 月 20 日</span><span class="tag solved">难题解决 · 反例</span><span class="tag org">OpenAI 内部模型</span></div>
+          <div class="tl-title">单位距离猜想被推翻:Erdős 1946 年的猜测错了<small>悬置 80 年</small></div>
+          <p>平面上 n 个点,最多有多少对恰好相距 1?八十年来人们相信方格点阵就是最优。模型却从代数数论的「类域塔」里搬来一套完全不相干的机器,构造出多得多的单位距离对。九位顶尖数学家当天联名核验;Gowers 说:若是人写的,他会推荐《数学年刊》接收。</p>
+          <span class="tl-more">反例是怎么造的 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved">
+        <a class="tl-card" href="problems/alphaproof-nexus.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 5 月 21 日</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag org">Google DeepMind · AlphaProof Nexus</span></div>
+          <div class="tl-title">AlphaProof Nexus:一口气解决 9 个 Erdős 问题、44 个 OEIS 猜想<small>每题成本几百美元</small></div>
+          <p>把大语言模型、奥赛级形式化证明器 AlphaProof 和进化算法接成一个多智能体系统,对 353 个已形式化的 Erdős 公开问题全自动开工,9 个被彻底解决——其中两个已悬置 56 年。所有证明都是 Lean 代码,无需人工核对。</p>
+          <span class="tl-more">系统怎么运转 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved">
+        <a class="tl-card" href="problems/non-sofic.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 8 月 1 日</span><span class="tag solved">难题解决</span><span class="tag lean">Lean 已验证</span><span class="tag caution">署名争议</span><span class="tag org">OpenAI · Astra</span></div>
+          <div class="tl-title">Astra:第一个非 sofic 群,以及另外九个公开问题<small>Gromov 1999 年的问题 · 悬置 27 年</small></div>
+          <p>OpenAI 未发布的 Astra 模型用约两千美元的算力,交出 249 页手稿和十份 Lean 证书:构造出首个「非 sofic 群」,推翻 Connes 刚性猜想,证明 Ehrhart 体积猜想,并给出 1978 年以来高维球堆积上界的首次改进。随后,德累斯顿的群论学家 Andreas Thom 质疑:证明的核心正是他二十年的路线,模型是否学过他的私人对话?</p>
+          <span class="tl-more">什么是 sofic 群 →</span>
+        </a>
+      </div>
+      <div class="tl-item" data-kind="solved" data-group="solved">
+        <a class="tl-card" href="problems/navier-stokes.html">
+          <div class="tl-meta"><span class="tl-date">2026 年 9 月 8 日</span><span class="tag solved">难题解决 · 待同行评审</span><span class="tag lean">Lean 已验证</span><span class="tag caution">署名争议</span><span class="tag org">OpenAI · 万级智能体</span></div>
+          <div class="tl-title">纳维–斯托克斯方程:千禧年大奖难题的「有限时间爆破」<small>百万美元 · 悬置 26 年(方程本身 200 年)</small></div>
+          <p>约一万个智能体连跑 88 小时,产出 166 页论文和一份 Lean 形式化:三维不可压缩流体在光滑外力驱动下,可以在有限时间内「爆破」。但纽约大学的 Buckmaster 与 Anthropic 的 Alpöge 一年前就沿同一条路走到了欧拉方程,并指控 OpenAI 施压删去合作者署名——25 位菲尔兹奖得主随即联名发声。</p>
+          <span class="tl-more">证明思路与风波全纪录 →</span>
+        </a>
+      </div>
+
     </div>
-  </div>
-  <div class="wrap">
-    <p>这正是整件事最微妙的地方:贝西科维奇集合的面积是零,可它依然「密不透风」——无论网格多细,它占据格子的速度都追着实心区域跑。它是一个<em class="hl">零面积、却满维度</em>的幽灵。</p>
-    <p>于是,现代版的猜想登场了。它究竟「猜」的是什么?这一次,把话说准——</p>
-    <div class="defbox" id="defn">
-      <div class="def-head">挂谷猜想 · 准确版</div>
-      <div class="def-row"><span class="def-k">对象</span><div><b>挂谷集合</b>(也叫贝西科维奇集合):一个点集,要求<b>每一个方向上,都完整地躺着一根那个方向的、长度为 1 的线段</b>。在平面上,「每一个方向」指 0° 到 180° 之间的所有角度;在三维空间里,则是所有的空间方向。</div></div>
-      <div class="def-row"><span class="def-k">已知</span><div>这样的集合,面积(三维及以上是体积)<b>可以恰好等于零</b>——这正是第二章贝西科维奇构造的结论。所以「它能有多小」,按面积问已经问到了头。</div></div>
-      <div class="def-row key"><span class="def-k">猜想</span><div><b>在 n 维空间中,任何挂谷集合的(豪斯多夫)维数都必须恰好等于 n。</b>直观地说:用小格子去覆盖它,所需的格子数必须和覆盖一块实心区域增长得一样快——面积可以被压成零,<b>维度却一格都压不掉</b>。猜的就是这件事:挂谷集合没有任何「降维」的余地。<div class="mutline">豪斯多夫维数:上面「数格子」维度的精细化版本,允许用大小不一的小块来覆盖。它与「n 维空间」的「维」在英文里是同一个词(dimension),但分工不同:空间的维数是「定位一个点需要几个坐标」,恒为整数;集合的豪斯多夫维数是它的推广,可取分数,对曲线、平面这类规整对象两者数值一致,且永远不超过所在空间的 n。猜想比较的正是这两个数:集合的维度必须顶格追上空间的维数。</div></div></div>
-      <div class="def-row"><span class="def-k">进展</span><div>2 维:已证(戴维斯,1971)。3 维:已证(王虹 & Zahl,2025)。<b>4 维及以上:至今仍是猜想。</b></div></div>
-    </div>
-    <p>注意提问方式的变化:1917 年挂谷宗一问的是<em class="hl">面积</em>,那个问题已被贝西科维奇终结;今天数学家说「挂谷猜想」,猜的是<em class="hl">维度</em>。就是这个看似几何小品的命题,从 3 维开始挡住了几代最强的数学家——因为它连着现代分析学的地基(第五章见)。</p>
+    <p class="wrap" style="font-size:13.5px;color:var(--muted);margin-top:20px">时间线只收录有公开论文或形式化证明可查的事件;数十个「长尾」Erdős 问题的 AI 解答,可在陶哲轩维护的 <a href="https://github.com/teorth/erdosproblems/wiki/AI-contributions-to-Erd%C5%91s-problems" target="_blank" rel="noopener">AI contributions to Erdős problems</a> 中逐条查阅。</p>
   </div>
 </section>
 
 <hr class="sep">
 
-<!-- ================= 第四章 ================= -->
-<section id="ch4">
+<section id="more">
   <div class="wrap">
-    <div class="chapnum">第 四 章</div>
-    <h2>三维空间的胜利</h2>
-    <p class="lead">在三维空间里,「每个方向一根针」长这样——</p>
-  </div>
-  <div class="wide">
-    <div class="demo">
-      <div class="demo-title"><span class="tag">动手玩</span><span class="name">三维的针丛</span></div>
-      <div class="demo-sub">每根线段代表一个方向的针(红色那根正在遍历各个方向)。拖动可旋转视角。三维挂谷猜想:这样的集合,维度必须是整整 3。</div>
-      <canvas id="cloud" class="viz" data-aspect="0.62" aria-label="三维针丛(可拖动旋转)"></canvas>
-      <div class="controls">
-        <button class="btn" id="cloudPlay" aria-pressed="true">⏸ 暂停</button>
-        <span class="readout" style="border:none;background:none">💡 用手指或鼠标拖动画面</span>
+    <div class="chapnum">其 他 实 验</div>
+    <h2>人类这边的故事</h2>
+    <p>同一时期,人类数学家也在攻克百年难题。作为对照,这里有一篇纯人类证明的可视化科普:</p>
+    <a class="exp" href="kakeya/">
+      <img src="kakeya/preview.png" alt="挂谷猜想页面预览">
+      <div>
+        <h4>🪡 一根针的百年难题 —— 挂谷猜想可视化</h4>
+        <p>从 1917 年「一根针如何调头」的小谜题,到王虹与 Joshua Zahl 的 2025 年三维证明和 2026 年菲尔兹奖。可交互动画,亲手转一转这根针。</p>
       </div>
-    </div>
-  </div>
-  <div class="wrap">
-    <p class="lead">三维为什么难了一百年?先看二维为什么「相对简单」。</p>
-    <p>平面上,两条方向不同的直线<em class="hl">必定相交</em>——纸面就这么大,谁也躲不开谁。所以平面挂谷集里,不同方向的针被迫互相穿插、共享地盘;这种「被迫的重叠」给了数学家结实的抓手,戴维斯 1971 年的证明正是踩着它完成的。</p>
-    <p>而三维空间多出来的那一个维度,恰好是给针用来<em class="hl">躲</em>的:</p>
-  </div>
-  <div class="wide">
-    <div class="demo">
-      <div class="demo-title"><span class="tag">看明白</span><span class="name">躲不开,与躲得开</span></div>
-      <div class="demo-sub">「平面」一图:两条方向不同的直线,无论怎么转,<b>交点</b>(红点)都躲不掉。「三维」一图:两条方向不同的直线可以一上一下地「异面」错开——虚线是两者的最近距离,<b>始终大于零</b>;用手指或鼠标拖动它,可以换个视角确认。</div>
-      <div class="duo">
-        <div class="boxcell"><canvas id="skew2d" class="viz" data-aspect="0.8" aria-label="平面上两条直线必然相交的动画"></canvas><div class="cap"><b>平面</b>:方向不同 ⇒ <b style="color:var(--accent)">必然相交</b></div></div>
-        <div class="boxcell"><canvas id="skew3d" class="viz" data-aspect="0.8" aria-label="三维中两条异面直线擦肩而过(可拖动)"></canvas><div class="cap"><b>三维</b>:可以「异面」——<b style="color:var(--blue)">擦肩而过,永不接触</b></div></div>
-      </div>
-      <div class="controls">
-        <button class="btn" id="skewPlay" aria-pressed="true">⏸ 暂停</button>
-        <span class="readout" style="border:none;background:none">💡 「三维」图可用手指或鼠标拖动</span>
-      </div>
-    </div>
-  </div>
-  <div class="wrap">
-    <p>于是三维挂谷集里的细针获得了避让的自由,可以精巧地编排出各种「互不打扰」的方案。要证明的却是反过来的事:<b>躲得再巧,也躲不干净</b>——这正是三维挂谷猜想的难点。</p>
-    <p>数学家的每一寸进展,都用「维度」丈量。把上一章的数格子游戏搬进三维(小方格换成小方块):边长减半后,块数 ×2 的是线、×4 的是面、<b>×8 的才是「体」</b>。沃尔夫 1995 年证明:三维挂谷集的块数至少按 ×5.66(= 2<sup>2.5</sup>,也就是「2.5 维」)的速度增长——比任何曲面都「厚」,可离满满的 3 维还差着最后的 0.5。此后三十年,全世界的调和分析学家就悬在这半个维度上,每前进 0.1 维都要发明全新的工具:</p>
-    <div class="timeline">
-      <div class="tl-item"><div class="tl-year">1917</div><p>挂谷宗一提出转针问题。</p></div>
-      <div class="tl-item"><div class="tl-year">1928</div><p>贝西科维奇:面积可以任意小;存在零面积的挂谷集合。</p></div>
-      <div class="tl-item"><div class="tl-year">1971</div><p>戴维斯证明平面挂谷猜想:2 维情形成立。</p></div>
-      <div class="tl-item"><div class="tl-year">1995</div><p>沃尔夫(T. Wolff):三维挂谷集合维度至少 2.5。此后二十余年,人类被卡在 2.5 附近。</p></div>
-      <div class="tl-item"><div class="tl-year">1999</div><p>卡茨、瓦巴、陶哲轩:把下界(按「数格子」意义下的维度)推进到 2.5000000001——每一位小数都是一场战役。</p></div>
-      <div class="tl-item"><div class="tl-year">2014</div><p>卡茨与陶哲轩提出「黏性」挂谷猜想——先攻克一类跨尺度自我复制的特殊情形(何为「黏性」,下文详解)——画出一张通往全面解决的路线图。</p></div>
-      <div class="tl-item"><div class="tl-year">2022</div><p>王虹与 Zahl 联手证明「黏性」挂谷猜想——路线图上决定性的一步。</p></div>
-      <div class="tl-item major"><div class="tl-year">2025 年 2 月</div><p><b>王虹</b>(时任纽约大学库朗研究所教授)与 <b>Joshua Zahl</b>(英属哥伦比亚大学)发布 127 页论文:三维挂谷猜想<b>成立</b>。陶哲轩当天撰长文解读,称之为几何测度论的「惊人进展」(spectacular progress);《量子杂志》的标题是——<b>「百年一遇的证明」</b>。</p></div>
-      <div class="tl-item gold"><div class="tl-year">2026 年 7 月</div><p>王虹在费城国际数学家大会上获<b>菲尔兹奖</b>。</p></div>
-    </div>
-
-    <h3>他们究竟是怎么证的?(听得懂的版本)</h3>
-    <p>127 页的证明无法在这里复原,但作战思路可以讲清楚——那是一场跨越所有尺度的<em class="hl">排除法</em>:</p>
-    <div class="defbox">
-      <div class="def-row"><span class="def-k">换问法</span><div><b>把针换成面条。</b>无限细的针没有体积可谈,数学家改问:给每个方向配一根粗细为 δ 的细管,所有细管叠在一起,总体积最小是多少?挂谷猜想等价于:无论 δ 多细,总体积都不能太小。想省体积,唯一的办法就是让细管们<b>疯狂重叠</b>——所以真正要证明的是:重叠不可能狠到那个程度。</div></div>
-      <div class="def-row"><span class="def-k">画像</span><div><b>给「想变小的集合」画像。</b>王虹与 Zahl 证明了一个结构定理:假如真存在异常小的挂谷集合,用「望远镜」在一层层尺度上看,它绝不能是随意的——细管必须一束束<b>抱团</b>,凝聚成颗粒与薄板;而且粗尺度上的抱团方式,必须在更细的尺度上<b>自我复制</b>。这种跨尺度自我复制的结构,行话叫「黏性」(sticky)。</div></div>
-      <div class="def-row"><span class="def-k">两头堵</span><div>2022 年,他们已经证明:<b>黏性的挂谷集合不可能小</b>(时间线上那决定性的一步)。2025 年的新武器——一整套关于「凸体并集的体积估计」的定理(论文标题正来自于此)——把另一头也堵死:<b>任何想变小的集合,都会被逼进黏性结构</b>。</div></div>
-      <div class="def-row key"><span class="def-k">将军</span><div>想变小 ⟹ 必须黏性;黏性 ⟹ 不可能小。<b>矛盾。</b>所以异常小的三维挂谷集合根本不存在——维度必须是整整 3。像一场排除法审讯:先证明嫌疑人必须长成某个样子,再证明长成那样的人并不存在。</div></div>
-    </div>
-    <p>整个论证要在无穷多个尺度层级上做归纳,每一层都不能让体积「漏走」——这正是之前一百年里所有尝试倒下的地方,也是这个证明被称为「百年一遇」的原因。</p>
-
-    <div class="fields">
-      <div class="medal">🏅</div>
-      <h3>2026 年 7 月 23 日 · 费城</h3>
-      <p><b>王虹</b>(1991 年生于广西桂林,北京大学数学系毕业,现为法国高等科学研究所终身教授)因「对调和分析与几何测度论的贡献,尤其是证明三维挂谷猜想」获得<b>菲尔兹奖</b>——数学界的最高荣誉,90 年历史上<b>第三位女性得主</b>。</p>
-      <p>一根 1917 年的针,在 2026 年别上了金质奖章。</p>
-    </div>
-  </div>
-</section>
-
-<hr class="sep">
-
-<!-- ================= 第五章 ================= -->
-<section id="ch5">
-  <div class="wrap">
-    <div class="chapnum">第 五 章</div>
-    <h2>为什么一根针如此重要?</h2>
-    <p class="lead">挂谷猜想从来不只是智力游戏。「针」的数学化身是<b>方向</b>——而「所有方向上的直线如何交叠」,恰好是现代分析学多个重大问题共同的地基。</p>
-    <div class="cards">
-      <div class="card"><div class="ic">🌊</div><h4>波的聚焦</h4><p>声波、光波、水波都能分解成沿各个方向行进的平面波(傅里叶分析)。不同方向的波能不能「合谋」,把能量集中到一个极小的区域?这个问题的几何骨架正是挂谷集合。限制性猜想、波动方程的局部光滑性猜想……一整座「猜想之塔」都建立在挂谷猜想这块基石之上。</p></div>
-      <div class="card"><div class="ic">🩻</div><h4>沿直线看世界</h4><p>CT 扫描用无数条直线穿过人体,再从「每条线上的读数」重建断层图像。这类「沿直线取样」的数学(X 射线变换、拉东变换)与挂谷问题同根同源:直线的交叠方式,决定了信息能不能被完整还原。</p></div>
-      <div class="card"><div class="ic">🎲</div><h4>意外的分支</h4><p>2008 年,德维尔(Zeev Dvir)用短短两页纸解决了「有限域版」挂谷问题,震动学界。这套多项式方法随即进入理论计算机科学,被用于构造「随机性提取器」——从劣质随机源中提纯真随机数的工具。</p></div>
-      <div class="card"><div class="ic">🧗</div><h4>未完待续</h4><p>王虹与 Zahl 的证明解决了 3 维,而 4 维及以上的挂谷猜想至今悬而未决。新证明带来的「粒度分解」等工具,正被寄望于攻向更高维度——这根针的故事,还在继续。</p></div>
-    </div>
-    <p class="epigraph">「好的数学问题就像一根针:<br>本身很小,却能刺穿一整个世纪。」<small>—— 谨以此页,致每一位转动过这根针的人</small></p>
+    </a>
   </div>
 </section>
 </main>
@@ -488,1186 +193,98 @@
   <div class="wrap">
     <h4>延伸阅读</h4>
     <ul>
-      <li>王虹 & Joshua Zahl 的原始论文:<a href="https://arxiv.org/abs/2502.17655" target="_blank" rel="noopener">Volume estimates for unions of convex sets, and the Kakeya set conjecture in three dimensions (arXiv:2502.17655)</a></li>
-      <li>陶哲轩的解读博文:<a href="https://terrytao.wordpress.com/2025/02/25/the-three-dimensional-kakeya-conjecture-after-wang-and-zahl/" target="_blank" rel="noopener">The three-dimensional Kakeya conjecture, after Wang and Zahl</a></li>
-      <li>《量子杂志》报道:<a href="https://www.quantamagazine.org/once-in-a-century-proof-settles-maths-kakeya-conjecture-20250314/" target="_blank" rel="noopener">“Once in a Century” Proof Settles Math’s Kakeya Conjecture</a></li>
-      <li>菲尔兹奖报道:<a href="https://www.quantamagazine.org/hong-wang-wins-2026-fields-medal-the-third-woman-ever-20260723/" target="_blank" rel="noopener">Hong Wang Wins 2026 Fields Medal (Quanta)</a> · <a href="https://www.ihes.fr/en/hong-wang2026-fields-medal/" target="_blank" rel="noopener">IHES 公告</a></li>
+      <li>《量子杂志》:<a href="https://www.quantamagazine.org/why-the-legendary-erdos-problems-are-falling-to-ai-20260803/" target="_blank" rel="noopener">Why the Legendary Erdős Problems Are Falling to AI</a>(2026 年 8 月)</li>
+      <li>《量子杂志》:<a href="https://www.quantamagazine.org/ai-has-solved-one-of-maths-1-million-millennium-prize-problems-20260908/" target="_blank" rel="noopener">AI Has Solved One of Math's $1 Million Millennium Prize Problems</a>(2026 年 9 月)</li>
+      <li>陶哲轩等维护:<a href="https://github.com/teorth/erdosproblems/wiki/AI-contributions-to-Erd%C5%91s-problems" target="_blank" rel="noopener">AI contributions to Erdős problems</a>(逐题记录,区分「解决」与「文献检索」)</li>
+      <li>Erdős 问题数据库:<a href="https://www.erdosproblems.com/" target="_blank" rel="noopener">erdosproblems.com</a>(Thomas Bloom 维护)</li>
     </ul>
-    <p class="disclaim">本页所有动画为示意性简化,但均建立在真实的数学构造之上:三尖摆线中针的运动采用精确的切线弦参数化;佩龙树的面积为实时逐像素测量;等边三角形的高恰为针长,是帕尔定理的临界情形。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+    <p class="disclaim">本站为通俗科普,所有数学陈述均做了简化;涉及署名与数据使用的争议,只转述各方公开说法,不做裁判。信息截至 2026 年 9 月中旬,部分结果尚待同行评审。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
   </div>
 </footer>
 
 <script>
-"use strict";
-/* ============================================================
-   工具
-============================================================ */
-const $ = (id) => document.getElementById(id);
-const TAU = Math.PI * 2;
-const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+(() => {
+  // 阅读进度条
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    const p = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight);
+    bar.style.width = (p * 100).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
 
-// 高分屏适配:canvas 逻辑坐标 = CSS 像素
-function fitCanvas(cv) {
-  const dpr = window.devicePixelRatio || 1;
-  const w = cv.clientWidth;
-  const h = Math.round(w * parseFloat(cv.dataset.aspect || "0.6"));
-  cv.style.height = h + "px";
-  if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) {
-    cv.width = Math.round(w * dpr);
-    cv.height = Math.round(h * dpr);
-  }
+  // 筛选
+  const chips = [...document.querySelectorAll(".chip")];
+  const items = [...document.querySelectorAll(".tl-item")];
+  const years = [...document.querySelectorAll(".tl-year")];
+  chips.forEach(c => c.addEventListener("click", () => {
+    chips.forEach(x => x.setAttribute("aria-pressed", x === c ? "true" : "false"));
+    const f = c.dataset.f;
+    items.forEach(it => it.hidden = !(f === "all" || it.dataset.group === f));
+    // 年份标题:其后若无可见条目则隐藏
+    years.forEach(y => {
+      let n = y.nextElementSibling, any = false;
+      while (n && !n.classList.contains("tl-year")) { if (n.classList.contains("tl-item") && !n.hidden) any = true; n = n.nextElementSibling; }
+      y.hidden = !any;
+    });
+  }));
+
+  // 首屏动画:两张三角格点互相旋转,恰好相距一个单位的点对之间连线
+  const cv = document.getElementById("hero");
+  const stat = document.getElementById("heroStat");
   const ctx = cv.getContext("2d");
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  return { ctx, w, h };
-}
-
-// 动画调度:仅在视口内运行;RM(减少动态)时默认暂停
-const animators = [];
-function makeAnim(cv, render, { autoplay = true } = {}) {
-  const a = {
-    cv, render, raf: 0, t: 0, last: 0, visible: false,
-    userPaused: RM ? true : !autoplay,
-    step(now) {
-      a.raf = 0;
-      if (a.last) a.t += Math.min(now - a.last, 100);
-      a.last = now;
-      render(a.t);
-      if (a.visible && !a.userPaused) a.raf = requestAnimationFrame(a.step);
-    },
-    kick() {
-      if (!a.raf && a.visible && !a.userPaused) { a.last = 0; a.raf = requestAnimationFrame(a.step); }
-    },
-    drawOnce() { render(a.t); }
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W = 0, H = 0, dpr = 1;
+  const fit = () => {
+    const r = cv.getBoundingClientRect();
+    dpr = Math.min(2, devicePixelRatio || 1);
+    if (cv.width !== Math.round(r.width * dpr) || cv.height !== Math.round(r.height * dpr)) {
+      cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+    }
+    W = r.width; H = r.height;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
-  a.step = a.step.bind(a);
-  const io = new IntersectionObserver((entries) => {
-    const e = entries[entries.length - 1];
-    a.visible = e.isIntersecting;
-    if (a.visible) { a.kick(); if (a.userPaused) a.drawOnce(); }
-  }, { rootMargin: "60px" });
-  io.observe(cv);
-  animators.push(a);
-  return a;
-}
-function bindPlayBtn(btn, anim) {
-  const sync = () => {
-    btn.textContent = anim.userPaused ? "▶ 播放" : "⏸ 暂停";
-    btn.setAttribute("aria-pressed", String(!anim.userPaused));
-  };
-  btn.addEventListener("click", () => { anim.userPaused = !anim.userPaused; sync(); anim.kick(); });
-  sync();
-}
-
-addEventListener("resize", () => animators.forEach(a => { if (a.visible) a.drawOnce(); }));
-
-// 滚动进度条
-addEventListener("scroll", () => {
-  const h = document.documentElement;
-  const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
-  $("progress").style.width = (p * 100).toFixed(2) + "%";
-}, { passive: true });
-
-const C = {
-  ink: "#2a2418", muted: "#6f6553", line: "#e6dfd0",
-  accent: "#bc3f1e", accentSoft: "rgba(188,63,30,.16)",
-  blue: "#33589b", blueFill: "rgba(51,88,155,.15)", blueSoft: "rgba(51,88,155,.35)",
-  gold: "#a8801f", paper: "#faf6ee"
-};
-
-function needleStroke(ctx, x1, y1, x2, y2, w = 3.2, color = C.accent) {
-  ctx.strokeStyle = color;
-  ctx.lineWidth = w;
-  ctx.lineCap = "round";
-  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
-  // 两端不同标记(金 / 红),调头后能看出两端互换
-  for (const [x, y, fill] of [[x1, y1, C.gold], [x2, y2, color]]) {
-    ctx.beginPath(); ctx.arc(x, y, w * 1.15, 0, TAU);
-    ctx.fillStyle = fill; ctx.fill();
-    ctx.lineWidth = 1.5; ctx.strokeStyle = "#fffdf9"; ctx.stroke();
+  const s3 = Math.sqrt(3) / 2;
+  const base = [];
+  for (let i = -5; i <= 5; i++) for (let j = -3; j <= 3; j++) {
+    const x = i + j / 2, y = j * s3;
+    if (x * x + y * y <= 4.2 * 4.2) base.push([x, y]);
   }
-}
-
-/* ============================================================
-   三尖摆线(deltoid)的针运动 —— 精确参数化
-   P(t) = (2r cos t + r cos 2t, 2r sin t − r sin 2t), 针长 = 4r
-   针的两端 = P(−t/2), P(π−t/2);切点 = P(t)
-============================================================ */
-function deltoidPoint(r, t) {
-  return [2 * r * Math.cos(t) + r * Math.cos(2 * t),
-          2 * r * Math.sin(t) - r * Math.sin(2 * t)];
-}
-function drawDeltoid(ctx, cx, cy, unit, t, { curveColor = C.blue, fill = C.blueFill, needleW = 3.2, showTangent = true, drawNeedle = true } = {}) {
-  const r = 0.25; // 针长 4r = 1
-  const X = (p) => cx + p[0] * unit, Y = (p) => cy - p[1] * unit;
-  ctx.beginPath();
-  for (let i = 0; i <= 240; i++) {
-    const p = deltoidPoint(r, (i / 240) * TAU);
-    i ? ctx.lineTo(X(p), Y(p)) : ctx.moveTo(X(p), Y(p));
-  }
-  ctx.closePath();
-  ctx.fillStyle = fill; ctx.fill();
-  ctx.strokeStyle = curveColor; ctx.lineWidth = 1.6; ctx.stroke();
-  if (!drawNeedle) return;
-  const A = deltoidPoint(r, -t / 2), B = deltoidPoint(r, Math.PI - t / 2);
-  if (showTangent) {
-    const T = deltoidPoint(r, t);
-    ctx.fillStyle = C.gold;
-    ctx.beginPath(); ctx.arc(X(T), Y(T), needleW * 0.9, 0, TAU); ctx.fill();
-  }
-  needleStroke(ctx, X(A), Y(A), X(B), Y(B), needleW);
-}
-
-/* ============================================================
-   HERO:三尖摆线动画
-============================================================ */
-{
-  const cv = $("hero");
-  cv.dataset.aspect = "0.88";
-  const anim = makeAnim(cv, (t) => {
-    const { ctx, w, h } = fitCanvas(cv);
-    ctx.clearRect(0, 0, w, h);
-    drawDeltoid(ctx, w / 2, h / 2 - h * 0.02, Math.min(w, h) * 0.62, (t / 9000) * TAU, { needleW: 3.6 });
-  }, { autoplay: true });
-  if (RM) { anim.t = 2600; }
-}
-
-/* ============================================================
-   第一章:四块场地
-============================================================ */
-{
-  const cv = $("shapes");
-  const shapes = [
-    { name: "圆", area: Math.PI / 4, desc: "绕中心原地转" },
-    { name: "勒洛三角形", area: (Math.PI - Math.sqrt(3)) / 2, desc: "定宽曲线" },
-    { name: "等边三角形", area: 1 / Math.sqrt(3), desc: "凸形最优 · 帕尔 1921" },
-    { name: "三尖摆线", area: Math.PI / 8, desc: "曾被当作最终答案" },
-  ];
-  let cur = 0;
-  const PERIOD = 8000;          // 一次 180° 调头的毫秒数
-  const HOLD = 1500;            // 调头完成后的停顿
-  const TOTAL = PERIOD + HOLD;
-  // 扫过区域缓冲(逐帧累积针掠过的四边形,逐像素测面积)
-  const sw = {
-    buf: document.createElement("canvas"),
-    bc: null, shape: -1, cycle: -1, w: 0, h: 0, prev: null, frames: 0,
-  };
-  sw.bc = sw.buf.getContext("2d", { willReadFrequently: true });
-
-  // —— 各形状:给定进度 τ∈[0,1) 返回针的两端(单位坐标)与已转角度(弧度)——
-  const dir = (a) => [Math.cos(a), Math.sin(a)];
-  const add = (p, q, s = 1) => [p[0] + q[0] * s, p[1] + q[1] * s];
-
-  function circleNeedle(tau) {
-    const th = tau * Math.PI;
-    return { A: [-0.5 * Math.cos(th), -0.5 * Math.sin(th)], B: [0.5 * Math.cos(th), 0.5 * Math.sin(th)], rot: th };
-  }
-  // 勒洛三角形(宽 1):以三个顶点为轴心各转 60°
-  const RLX = (() => {
-    const h = Math.sqrt(3) / 2, cy = h / 3;
-    return { V: [[-0.5, -cy], [0.5, -cy], [0, h - cy]] };
-  })();
-  // A/B 两端在各阶段保持物理连续:轴心在 A 端与 B 端之间交替
-  function reuleauxNeedle(tau) {
-    const th = tau * Math.PI;
-    const k = Math.min(2, Math.floor(th / (Math.PI / 3)));
-    if (k === 0) return { A: RLX.V[0], B: add(RLX.V[0], dir(th)), rot: th };            // 轴心 V0 = A 端
-    if (k === 1) return { A: add(RLX.V[2], dir(th + Math.PI)), B: RLX.V[2], rot: th };  // 轴心 V2 = B 端
-    return { A: RLX.V[1], B: add(RLX.V[1], dir(th)), rot: th };                          // 轴心 V1 = A 端
-  }
-  // 等边三角形(高 1,边 s=2/√3):顶点旋转 + 沿边滑动
-  const TRI = (() => {
-    const s = 2 / Math.sqrt(3);
-    const A = [-s / 2, -1 / 3], B = [s / 2, -1 / 3], Cv = [0, 2 / 3]; // 质心置原点
-    return { s, A, B, Cv, slide: s - 1 };
-  })();
-  function triangleNeedle(tau) {
-    const { A, B, Cv, slide } = TRI;
-    const d60 = dir(Math.PI / 3), d300 = dir(-Math.PI / 3);
-    // 时间分配:三段旋转各 .28,三段滑动各 .0533
-    // 轴心交替落在 A、B 两端,保证端点物理连续(颜色不跳):A→(C=B端)→(B=A端)
-    const seg = [
-      { len: .28, f: (u) => { const ray = u * Math.PI / 3; return { A: A, B: add(A, dir(ray)), rot: ray }; } },
-      { len: .0533, f: (u) => { const o = add(A, d60, u * slide); return { A: o, B: add(o, d60), rot: Math.PI / 3 }; } },
-      { len: .28, f: (u) => { const ray = Math.PI * (240 + 60 * u) / 180; return { A: add(Cv, dir(ray)), B: Cv, rot: Math.PI / 3 + u * Math.PI / 3 }; } },
-      { len: .0533, f: (u) => { const o = add(Cv, d300, u * slide); return { A: add(o, d300), B: o, rot: Math.PI * 2 / 3 }; } },
-      { len: .28, f: (u) => { const ray = Math.PI * (120 + 60 * u) / 180; return { A: B, B: add(B, dir(ray)), rot: Math.PI * 2 / 3 + u * Math.PI / 3 }; } },
-      { len: .0534, f: (u) => { const o = add(B, [-u * slide, 0]); return { A: o, B: add(o, [-1, 0]), rot: Math.PI }; } },
-    ];
-    let acc = 0;
-    for (const sg of seg) {
-      if (tau < acc + sg.len || sg === seg[seg.length - 1]) {
-        const u = Math.min(1, Math.max(0, (tau - acc) / sg.len));
-        return sg.f(u);
-      }
-      acc += sg.len;
-    }
-  }
-
-  function drawShapeRegion(ctx, cx, cy, unit) {
-    ctx.fillStyle = C.blueFill;
-    ctx.strokeStyle = C.blue;
-    ctx.lineWidth = 1.6;
-    ctx.beginPath();
-    if (cur === 0) {
-      ctx.arc(cx, cy, 0.5 * unit, 0, TAU);
-    } else if (cur === 1) {
-      const V = RLX.V.map(p => [cx + p[0] * unit, cy - p[1] * unit]);
-      // 三段圆弧,半径 = 1(针长)。屏幕 y 向下,数学角 θ 映射为画布角 −θ,逆时针(true)遍历
-      ctx.arc(V[0][0], V[0][1], unit, 0, -Math.PI / 3, true);                    // 心 V0:V1(0°) → V2(60°)
-      ctx.arc(V[1][0], V[1][1], unit, -Math.PI * 2 / 3, -Math.PI, true);         // 心 V1:V2(120°) → V0(180°)
-      ctx.arc(V[2][0], V[2][1], unit, -Math.PI * 4 / 3, -Math.PI * 5 / 3, true); // 心 V2:V0(240°) → V1(300°)
-      ctx.closePath();
-    } else if (cur === 2) {
-      const { A, B, Cv } = TRI;
-      const P = [A, B, Cv].map(p => [cx + p[0] * unit, cy - p[1] * unit]);
-      ctx.moveTo(P[0][0], P[0][1]); ctx.lineTo(P[1][0], P[1][1]); ctx.lineTo(P[2][0], P[2][1]);
-      ctx.closePath();
-    }
-    if (cur !== 3) { ctx.fill(); ctx.stroke(); }
-  }
-
-  const anim = makeAnim(cv, (t) => {
-    const { ctx, w, h } = fitCanvas(cv);
-    ctx.clearRect(0, 0, w, h);
-    const unit = Math.min(w / 1.75, h / 1.62);
-    const cx = w / 2, cy = h / 2 + (cur === 2 ? h * 0.02 : 0);
-    const cycle = Math.floor(t / TOTAL);
-    const tau = Math.min((t % TOTAL) / PERIOD, 1); // 转满 180° 后停顿 HOLD 毫秒
-    const flip = cycle % 2 === 1;                  // 每轮结束两端互换,颜色跟随物理端点
-
-    if (sw.shape !== cur || sw.cycle !== cycle) {
-      sw.shape = cur; sw.cycle = cycle; sw.w = w; sw.h = h;
-      sw.buf.width = Math.max(1, Math.round(w));
-      sw.buf.height = Math.max(1, Math.round(h));
-      sw.prev = null; sw.frames = 0; sw.final = false;
-      $("shapesSwept").textContent = "0.000";
-    } else if (sw.w !== w || sw.h !== h) {
-      // 转屏/缩放:把已扫过的区域等比迁移到新尺寸,计数不清零
-      const tmp = document.createElement("canvas");
-      tmp.width = sw.buf.width; tmp.height = sw.buf.height;
-      tmp.getContext("2d").drawImage(sw.buf, 0, 0);
-      sw.buf.width = Math.max(1, Math.round(w));
-      sw.buf.height = Math.max(1, Math.round(h));
-      const r = unit / sw.unit;
-      sw.bc.drawImage(tmp, cx - sw.cx * r, cy - sw.cy * r, tmp.width * r, tmp.height * r);
-      sw.w = w; sw.h = h; sw.prev = null; sw.final = false;
-    }
-    sw.unit = unit; sw.cx = cx; sw.cy = cy;
-
-    let n;
-    if (cur === 3) {
-      const td = tau * TAU;
-      n = { A: deltoidPoint(0.25, -td / 2), B: deltoidPoint(0.25, Math.PI - td / 2), rot: tau * Math.PI };
-    } else {
-      n = cur === 0 ? circleNeedle(tau) : cur === 1 ? reuleauxNeedle(tau) : triangleNeedle(tau);
-    }
-    if (flip) { const tmp = n.A; n.A = n.B; n.B = tmp; }
-    const ax = cx + n.A[0] * unit, ay = cy - n.A[1] * unit;
-    const bx = cx + n.B[0] * unit, by = cy - n.B[1] * unit;
-
-    // 相邻两帧针位置围成的四边形累积进缓冲(绕轴旋转时为蝶形,nonzero 填充两瓣都覆盖)
-    if (sw.prev) {
-      sw.bc.fillStyle = "#bc3f1e";
-      sw.bc.beginPath();
-      sw.bc.moveTo(sw.prev[0], sw.prev[1]); sw.bc.lineTo(sw.prev[2], sw.prev[3]);
-      sw.bc.lineTo(bx, by); sw.bc.lineTo(ax, ay);
-      sw.bc.closePath(); sw.bc.fill();
-    }
-    sw.prev = [ax, ay, bx, by];
-    if (unit > 0 && !sw.final && (sw.frames++ % 6 === 0 || tau >= 1)) {
-      const d = sw.bc.getImageData(0, 0, sw.buf.width, sw.buf.height).data;
-      let npx = 0;
-      for (let i = 3; i < d.length; i += 4) if (d[i] > 127) npx++;
-      $("shapesSwept").textContent = (npx / (unit * unit)).toFixed(3);
-      if (tau >= 1) sw.final = true; // 停顿期间不再重复整幅读取
-    }
-
-    // 区域 → 已扫过的阴影 → 针
-    if (cur === 3) drawDeltoid(ctx, cx, cy, unit, tau * TAU, { drawNeedle: false });
-    else drawShapeRegion(ctx, cx, cy, unit);
-    ctx.globalAlpha = 0.24;
-    ctx.drawImage(sw.buf, 0, 0, w, h);
-    ctx.globalAlpha = 1;
-    needleStroke(ctx, ax, ay, bx, by);
-    $("shapesAngle").textContent = Math.round(n.rot * 180 / Math.PI) + "°";
-  });
-  bindPlayBtn($("shapesPlay"), anim);
-
-  // 形状选项卡 + 面积条(条同样可点:前四条切换形状,悬念条跳到第二章)
-  // 图标描边用 currentColor:未选中为墨色、悬停变红、选中(深底)自动变白
-  const ICONS = [
-    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>',
-    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2.4 A8.8 8.8 0 0 1 11.4 10 A8.8 8.8 0 0 1 2.6 10 A8.8 8.8 0 0 1 7 2.4 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>',
-    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2.6 L12 11 H2 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>',
-    '<svg class="shape-ic" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.6 Q8.1 6.9 12.4 11 Q7 9.3 1.6 11 Q5.9 6.9 7 1.6 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>',
-  ];
-  const tabs = $("shapeTabs"), barsEl = $("areaBars");
-  function selectShape(i) {
-    const fromTab = tabs.contains(document.activeElement);
-    const fromBar = barsEl.contains(document.activeElement);
-    cur = i; anim.t = 0; sw.shape = -1;
-    renderTabs(); renderBars();
-    if (fromTab && tabs.children[i]) tabs.children[i].focus();
-    else if (fromBar && barsEl.children[i]) barsEl.children[i].focus();
-    anim.drawOnce(); anim.kick();
-  }
-  function renderTabs() {
-    tabs.innerHTML = "";
-    shapes.forEach((s, i) => {
-      const b = document.createElement("button");
-      b.className = "btn";
-      b.innerHTML = ICONS[i] + "<span>" + s.name + "</span>";
-      b.setAttribute("aria-pressed", String(i === cur));
-      b.onclick = () => selectShape(i);
-      tabs.appendChild(b);
-    });
-    $("shapesTotal").textContent = " / " + shapes[cur].area.toFixed(3);
-  }
-  function renderBars() {
-    barsEl.innerHTML = "";
-    const max = shapes[0].area;
-    const mkRow = (cls, html, onClick, label) => {
-      const row = document.createElement("div");
-      row.className = cls + " clickable";
-      row.innerHTML = html;
-      row.setAttribute("role", "button");
-      row.setAttribute("tabindex", "0");
-      row.setAttribute("aria-label", label);
-      row.onclick = onClick;
-      row.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onClick(); } };
-      barsEl.appendChild(row);
-    };
-    shapes.forEach((s, i) => {
-      mkRow("bar-row" + (i === cur ? " active" : ""),
-        `<span>${s.name}</span><div class="track"><div class="fill" style="width:${(s.area / max * 100).toFixed(1)}%"></div></div><span class="val">${s.area.toFixed(3)}</span>`,
-        () => selectShape(i), "切换到" + s.name);
-    });
-    mkRow("bar-row tease",
-      `<span>还能更小…?</span><div class="track"><div class="fill" style="width:14%"></div></div><span class="val">→ 0 ?</span>`,
-      () => $("ch2").scrollIntoView({ behavior: RM ? "auto" : "smooth" }),
-      "跳到第二章:面积可以任意小");
-  }
-  renderTabs(); renderBars();
-}
-
-/* ============================================================
-   第二章 A:佩龙树
-   基础三角形 (0,0)(1,0)(0.5,1) 切成 N=2^k 份(共顶点)。
-   第 s 层把每组右半部分左移 (1−α)·2^(s−1)/N,α=0.42(数值实验最优)
-============================================================ */
-{
-  const cv = $("perron");
-  const ALPHA = 0.42;
-  const kInput = $("perronK"), dirInput = $("perronDir"), apexInput = $("perronApex");
-  let k = 0, B = 1, animU = 1, animating = false, prevT = 0;
-
-  // 底宽 B 由顶角决定(高恒为 1):B = 2·tan(顶角/2);方向容量 = ±顶角/2
-  function applyApex() {
-    const deg = +apexInput.value;
-    B = 2 * Math.tan(deg / 2 * Math.PI / 180);
-    const half = deg / 2;
-    dirInput.min = String(-half);
-    dirInput.max = String(half);
-    $("perronApexV").textContent = deg + "°";
-    $("perronDirV").textContent = (+dirInput.value).toFixed(1).replace(/\.0$/, "") + "°";
-  }
-
-  function shiftOf(i, k) {
-    const N = 1 << k;
-    let sh = 0;
-    for (let s = 1; s <= k; s++) if ((i >> (s - 1)) & 1) sh += (1 - ALPHA) * (1 << (s - 1)) / N * B;
-    return sh;
-  }
-  function triangles(k, u) { // u∈[0,1] 平移动画进度
-    const N = 1 << k, out = [];
-    for (let i = 0; i < N; i++) {
-      const sh = shiftOf(i, k) * u;
-      out.push([[i * B / N - sh, 0], [(i + 1) * B / N - sh, 0], [B / 2 - sh, 1]]);
-    }
-    return out;
-  }
-
-  // 逐像素实测面积(相对 k=0;按顶角+切分数缓存)
-  const areaCache = new Map();
-  function measureArea(k) {
-    const key = apexInput.value + ":" + k;
-    if (areaCache.has(key)) return areaCache.get(key);
-    const W = 1000, H = 640, off = document.createElement("canvas");
-    off.width = W; off.height = H;
-    const c = off.getContext("2d", { willReadFrequently: true });
-    const tris = triangles(k, 1);
-    let x0 = 1e9, x1 = -1e9;
-    for (const T of tris) for (const p of T) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); }
-    const sc = Math.min(W / (x1 - x0), H);
-    c.fillStyle = "#000";
-    for (const T of tris) {
-      c.beginPath();
-      T.forEach((p, j) => { const x = (p[0] - x0) * sc, y = H - p[1] * sc; j ? c.lineTo(x, y) : c.moveTo(x, y); });
-      c.closePath(); c.fill();
-    }
-    const data = c.getImageData(0, 0, W, H).data;
-    let n = 0;
-    for (let i = 3; i < data.length; i += 4) if (data[i] > 127) n++;
-    const val = n / (sc * sc); // 单位:初始三角形高=1 的坐标系
-    areaCache.set(key, val);
-    return val;
-  }
-
-  const anim = makeAnim(cv, (t) => {
-    const { ctx, w, h } = fitCanvas(cv);
-    ctx.clearRect(0, 0, w, h);
-    const dt = Math.min(t - prevT, 100); prevT = t;
-    if (animating) {
-      animU = Math.min(1, animU + dt / 750);
-      if (animU >= 1) { animating = false; anim.userPaused = true; }
-    }
-    const eased = 1 - Math.pow(1 - animU, 3);
-    // 视口按最终形态(u=1)+ 原三角形 [0,B] 取包围盒,动画过程中不晃动
-    let bx0 = 0, bx1 = B;
-    for (const T of triangles(k, 1)) for (const p of T) { bx0 = Math.min(bx0, p[0]); bx1 = Math.max(bx1, p[0]); }
-    const pad = 22, unit = Math.min((w - pad * 2) / (bx1 - bx0), (h - pad * 2 - 14));
-    const ox = pad - bx0 * unit + (w - pad * 2 - (bx1 - bx0) * unit) / 2;
-    const oy = h - pad;
-    const X = (x) => ox + x * unit, Y = (y) => oy - y * unit;
-
-    // 地平线 + 原三角形轮廓(虚线)
-    ctx.strokeStyle = C.line; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(0, oy + .5); ctx.lineTo(w, oy + .5); ctx.stroke();
-    ctx.setLineDash([5, 5]);
-    ctx.strokeStyle = "#c9bfa9";
-    ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(B), Y(0)); ctx.lineTo(X(B / 2), Y(1)); ctx.closePath(); ctx.stroke();
-    ctx.setLineDash([]);
-
-    const tris = triangles(k, eased);
-    ctx.fillStyle = "rgba(51,88,155,.30)";
-    const strokeToo = k <= 3;
-    for (const T of tris) {
-      ctx.beginPath();
-      T.forEach((p, j) => { j ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1])); });
-      ctx.closePath(); ctx.fill();
-      if (strokeToo) { ctx.strokeStyle = "rgba(255,255,255,.75)"; ctx.lineWidth = 1; ctx.stroke(); }
-    }
-
-    // 方向针:φ ∈ [−顶角/2, +顶角/2],落在覆盖该方向的细条里
-    const phi = parseFloat(dirInput.value) * Math.PI / 180;
-    const N = 1 << k;
-    const xb = B / 2 + Math.tan(phi);
-    const i = Math.min(N - 1, Math.max(0, Math.floor(xb / B * N)));
-    const sh = shiftOf(i, k) * eased;
-    const apex = [B / 2 - sh, 1];
-    const dvec = [Math.sin(phi), -Math.cos(phi)];
-    // 高亮所在细条
-    const T = tris[i];
-    ctx.fillStyle = "rgba(188,63,30,.20)";
-    ctx.beginPath();
-    T.forEach((p, j) => { j ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1])); });
-    ctx.closePath(); ctx.fill();
-    needleStroke(ctx, X(apex[0]), Y(apex[1]), X(apex[0] + dvec[0]), Y(apex[1] + dvec[1]), 2.6);
-  }, { autoplay: false });
-  anim.userPaused = true; // 平时静止,交互时短暂播放
-
-  function refresh(playAnim) {
-    k = parseInt(kInput.value, 10);
-    $("perronN").textContent = String(1 << k);
-    const rel = measureArea(k) / measureArea(0);
-    $("perronArea").textContent = (rel * 100).toFixed(0) + "%";
-    renderPerronBars(rel);
-    if (playAnim && !RM) {
-      animU = 0; animating = true; anim.userPaused = false; anim.kick();
-    } else {
-      animU = 1; animating = false; anim.drawOnce();
-    }
-    if (!anim.visible) anim.drawOnce();
-  }
-  function renderPerronBars(_) {
-    const el = $("perronBars");
-    el.innerHTML = "";
-    for (let j = 0; j <= 7; j++) {
-      const rel = measureArea(j) / measureArea(0);
-      const row = document.createElement("div");
-      row.className = "bar-row" + (j === k ? " active" : "") + " clickable";
-      row.innerHTML = `<span>切 ${j} 次 · ${1 << j} 块</span><div class="track"><div class="fill" style="width:${(rel * 100).toFixed(1)}%"></div></div><span class="val">${(rel * 100).toFixed(0)}%</span>`;
-      row.setAttribute("role", "button");
-      row.setAttribute("tabindex", "0");
-      row.setAttribute("aria-label", `切分 ${j} 次(${1 << j} 块)`);
-      const go = () => {
-        const kb = el.contains(document.activeElement);
-        kInput.value = String(j);
-        refresh(true);
-        if (kb && el.children[j]) el.children[j].focus();
-      };
-      row.onclick = go;
-      row.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
-      el.appendChild(row);
-    }
-  }
-  kInput.addEventListener("input", () => refresh(true));
-  let apexBarsTimer = 0;
-  apexInput.addEventListener("input", () => {
-    applyApex();
-    k = parseInt(kInput.value, 10);
-    const rel = measureArea(k) / measureArea(0);
-    $("perronArea").textContent = (rel * 100).toFixed(0) + "%";
-    animU = 1; animating = false; anim.drawOnce();
-    clearTimeout(apexBarsTimer);
-    apexBarsTimer = setTimeout(() => renderPerronBars(), 250); // 8 档实测延迟到拖动停稳
-  });
-  dirInput.addEventListener("input", () => {
-    $("perronDirV").textContent = (+dirInput.value).toFixed(1).replace(/\.0$/, "") + "°";
-    anim.drawOnce();
-  });
-  applyApex();
-  // 逐像素测量延迟到浏览器空闲期,不阻塞首屏
-  (window.requestIdleCallback || ((fn) => setTimeout(fn, 200)))(() => refresh(false), { timeout: 600 });
-}
-
-/* ============================================================
-   第二章 B:帕尔的平移戏法
-============================================================ */
-{
-  const cv = $("pal");
-  const D = 0.35; // 目标平行线距离(针长单位)
-  const deltaInput = $("palDelta");
-  const PERIOD = 7000;
-  // 滑块从大到小:显示值 = min+max − 原始值(向右滑 = 偏角变小)
-  const palDeg = () => 10.5 - parseFloat(deltaInput.value);
-
-  function params() {
-    const delta = palDeg() * Math.PI / 180;
-    const L = D / Math.sin(delta); // 沿针方向滑行距离
-    return { delta, L };
-  }
-  function updateReadout() {
-    const { delta } = params();
-    const swept = delta; // 两个扇形:2 × δ/2 × 1²
-    $("palDeltaV").textContent = palDeg().toFixed(1).replace(/\.0$/, "") + "°";
-    deltaInput.setAttribute("aria-valuetext", palDeg() + "度");
-    $("palArea").textContent = swept.toFixed(3);
-    $("palRatio").textContent = "1/" + Math.max(1, Math.round(D / swept));
-  }
-
-  const anim = makeAnim(cv, (t) => {
-    const { ctx, w, h } = fitCanvas(cv);
-    ctx.clearRect(0, 0, w, h);
-    const { delta, L } = params();
-    const worldW = L * Math.cos(delta) + 1.15;
-    const worldH = D + Math.sin(delta) + 0.14;
-    const unit = Math.min((w - 30) / worldW, (h - 30) / worldH);
-    const ox = 15, oy = Math.round(h / 2 + worldH * unit / 2) - 6;
-    const X = (x) => ox + x * unit, Y = (y) => oy - y * unit;
-    const tau = (t % PERIOD) / PERIOD;
-
-    // 起点线与目标线
-    ctx.strokeStyle = C.line; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(0, Y(0)); ctx.lineTo(w, Y(0)); ctx.stroke();
-    ctx.setLineDash([6, 5]);
-    ctx.strokeStyle = "#b7a97f";
-    ctx.beginPath(); ctx.moveTo(0, Y(D)); ctx.lineTo(w, Y(D)); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = C.muted; ctx.font = "12px " + getComputedStyle(document.body).fontFamily;
-    ctx.fillText("目标位置", X(0) + 4, Y(D) - 6);
-
-    // 阶段:0-.18 旋转δ | .18-.5 滑出 | .5-.68 旋回 | .68-.95 滑回 | .95-1 停
-    let a1 = 0, a2 = 0, slide = 0, back = 0;
-    if (tau < .18) a1 = tau / .18;
-    else if (tau < .5) { a1 = 1; slide = (tau - .18) / .32; }
-    else if (tau < .68) { a1 = 1; slide = 1; a2 = (tau - .5) / .18; }
-    else if (tau < .95) { a1 = 1; slide = 1; a2 = 1; back = (tau - .68) / .27; }
-    else { a1 = 1; slide = 1; a2 = 1; back = 1; }
-
-    // 扫过的扇形(红):起点端 + 远端
-    ctx.fillStyle = C.accentSoft;
-    ctx.beginPath(); ctx.moveTo(X(0), Y(0));
-    ctx.arc(X(0), Y(0), unit, 0, -delta * a1, true); ctx.closePath(); ctx.fill();
-    if (a2 > 0) {
-      const F = [L * Math.cos(delta), D];
-      ctx.beginPath(); ctx.moveTo(X(F[0]), Y(F[1]));
-      ctx.arc(X(F[0]), Y(F[1]), unit, -delta, -delta * (1 - a2), false); ctx.closePath(); ctx.fill();
-    }
-
-    // 幽灵:起始位置
-    ctx.strokeStyle = "#cfc6b2"; ctx.lineWidth = 2; ctx.lineCap = "round";
-    ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(1), Y(0)); ctx.stroke();
-
-    // 当前针位置
-    let p0, ang;
-    if (back === 0) {
-      const along = slide * L;
-      ang = delta * a1 - delta * a2;
-      // 支点:滑动前是原点端;旋回阶段支点在远端
-      if (a2 === 0) p0 = [along * Math.cos(delta), along * Math.sin(delta)];
-      else p0 = [L * Math.cos(delta), D];
-      if (a2 === 0) {
-        needleStroke(ctx, X(p0[0]), Y(p0[1]), X(p0[0] + Math.cos(ang)), Y(p0[1] + Math.sin(ang)));
-      } else {
-        const a = delta * (1 - a2);
-        needleStroke(ctx, X(p0[0]), Y(p0[1]), X(p0[0] + Math.cos(a)), Y(p0[1] + Math.sin(a)));
-      }
-    } else {
-      const x0 = L * Math.cos(delta) * (1 - back);
-      needleStroke(ctx, X(x0), Y(D), X(x0 + 1), Y(D));
-    }
-  });
-  bindPlayBtn($("palPlay"), anim);
-  deltaInput.addEventListener("input", () => { updateReadout(); anim.drawOnce(); });
-  updateReadout();
-}
-
-/* ============================================================
-   第二章 C:合体——在佩龙树里接力调头
-   针在细条 i 内绕顶点旋转过自己的角度区间,再用帕尔机动
-   (倾斜 δ → 沿针方向长滑 → 摆正 → 沿针方向归位)平移到细条 i+1。
-   平移位移分解:D = a·u + b·n(u 为针方向,n 为垂直方向),
-   倾斜 σδ(σ=sign(b))后滑行 L = |b|/sinδ,恰好补上垂直分量。
-============================================================ */
-{
-  const cv = $("relay");
-  const K = 3, N = 1 << K, ALPHA = 0.42;
-  const shiftOf = (i) => {
-    let sh = 0;
-    for (let s = 1; s <= K; s++) if ((i >> (s - 1)) & 1) sh += (1 - ALPHA) * (1 << (s - 1)) / N;
-    return sh;
-  };
-  const phis = [], apexes = [], tris = [];
-  for (let i = 0; i <= N; i++) phis.push(Math.atan(i / N - 0.5));
-  for (let i = 0; i < N; i++) {
-    const s = shiftOf(i);
-    apexes.push([0.5 - s, 1]);
-    tris.push([[i / N - s, 0], [(i + 1) / N - s, 0], [0.5 - s, 1]]);
-  }
-  const uDir = (phi) => [Math.sin(phi), -Math.cos(phi)];
-  const HOLD = 2000, FAN_T = 700, TILT_T = 280, SLIDE_T = 470, HOME_T = 300;
-  const deltaInput = $("relayDelta");
-  // 滑块从大到小:显示值 = min+max − 原始值(向右滑 = 偏角变小)
-  const relDeg = () => 14 - (+deltaInput.value);
-  const ease = (u) => u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
-
-  let plan = [], total = HOLD, world = null;
-  function buildPlan() {
-    const delta = relDeg() * Math.PI / 180;
-    plan = []; total = 0;
+  let t0 = performance.now();
+  const draw = (now) => {
+    fit();
+    const t = reduce ? 0 : (now - t0) / 1000;
+    const u = Math.min(W / 10.5, H / 5.2);
+    const cx = W / 2, cy = H / 2;
+    const th = 0.22 + 0.16 * Math.sin(t * 0.25);
+    const c = Math.cos(th), s = Math.sin(th);
     const pts = [];
-    tris.forEach(T => pts.push(...T));
-    for (let i = 0; i < N; i++) {
-      plan.push({ kind: "fan", dur: FAN_T, i, a: phis[i], b: phis[i + 1], p: apexes[i] });
-      pts.push([apexes[i][0] + Math.sin(phis[i]), apexes[i][1] - Math.cos(phis[i])]);
-      if (i < N - 1) {
-        const phi = phis[i + 1];
-        const u = uDir(phi), n = [Math.cos(phi), Math.sin(phi)];
-        const dx = apexes[i + 1][0] - apexes[i][0];
-        const a = dx * u[0], b = dx * n[0];
-        const sg = Math.sign(b) || 1;
-        const L = Math.abs(b) / Math.sin(delta);
-        const phi2 = phi + sg * delta;
-        const P1 = [apexes[i][0] + L * uDir(phi2)[0], apexes[i][1] + L * uDir(phi2)[1]];
-        const resid = a - L * Math.cos(delta);
-        plan.push({ kind: "tilt", dur: TILT_T, i, p: apexes[i], phi0: phi, phi1: phi2 });
-        plan.push({ kind: "slide", dur: SLIDE_T, i, phi: phi2, p0: apexes[i], p1: P1 });
-        plan.push({ kind: "tilt", dur: TILT_T, i: i + 1, p: P1, phi0: phi2, phi1: phi });
-        plan.push({ kind: "slide", dur: HOME_T, i: i + 1, phi, p0: P1, p1: apexes[i + 1] });
-        pts.push(P1, [P1[0] + uDir(phi2)[0], P1[1] + uDir(phi2)[1]]);
+    for (const [x, y] of base) pts.push({ x: cx + x * u, y: cy + y * u, k: 0 });
+    for (const [x, y] of base) pts.push({ x: cx + (x * c - y * s) * u, y: cy + (x * s + y * c) * u, k: 1 });
+    ctx.clearRect(0, 0, W, H);
+    let cnt = 0;
+    ctx.lineWidth = 1;
+    for (let a = 0; a < pts.length; a++) for (let b = a + 1; b < pts.length; b++) {
+      const dx = pts[a].x - pts[b].x, dy = pts[a].y - pts[b].y;
+      const d = Math.hypot(dx, dy) / u;
+      if (Math.abs(d - 1) < 0.012) {
+        cnt++;
+        const cross = pts[a].k !== pts[b].k;
+        ctx.strokeStyle = cross ? "rgba(188,63,30,.75)" : "rgba(51,88,155,.28)";
+        ctx.lineWidth = cross ? 1.4 : 1;
+        ctx.beginPath(); ctx.moveTo(pts[a].x, pts[a].y); ctx.lineTo(pts[b].x, pts[b].y); ctx.stroke();
       }
     }
-    for (const ph of plan) total += ph.dur;
-    total += HOLD;
-    let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
-    for (const p of pts) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); }
-    world = { x0, x1, y0, y1 };
-  }
-  function evalPlan(tms) {
-    let acc = 0;
-    for (const ph of plan) {
-      if (tms < acc + ph.dur) {
-        const e = ease((tms - acc) / ph.dur);
-        if (ph.kind === "fan") return { i: ph.i, phi: ph.a + (ph.b - ph.a) * e, pivot: ph.p };
-        if (ph.kind === "tilt") return { i: ph.i, phi: ph.phi0 + (ph.phi1 - ph.phi0) * e, pivot: ph.p };
-        return { i: ph.i, phi: ph.phi, pivot: [ph.p0[0] + (ph.p1[0] - ph.p0[0]) * e, ph.p0[1] + (ph.p1[1] - ph.p0[1]) * e] };
-      }
-      acc += ph.dur;
+    for (const p of pts) {
+      ctx.fillStyle = p.k ? "#bc3f1e" : "#33589b";
+      ctx.beginPath(); ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2); ctx.fill();
     }
-    return { i: N - 1, phi: phis[N], pivot: apexes[N - 1], done: true };
-  }
-
-  const sw = { buf: document.createElement("canvas"), bc: null, cycle: -1, w: 0, h: 0, prev: null, frames: 0, delta: -1 };
-  sw.bc = sw.buf.getContext("2d", { willReadFrequently: true });
-
-  buildPlan();
-  const anim = makeAnim(cv, (t) => {
-    const { ctx, w, h } = fitCanvas(cv);
-    ctx.clearRect(0, 0, w, h);
-    const cycle = Math.floor(t / total);
-    const tms = t % total;
-    const dv = relDeg();
-    const pad = 16;
-    const bw = world.x1 - world.x0, bh = world.y1 - world.y0;
-    const unit = Math.min((w - pad * 2) / bw, (h - pad * 2) / bh);
-    const ox = (w - bw * unit) / 2 - world.x0 * unit;
-    const oy = (h + bh * unit) / 2 + world.y0 * unit;
-    if (sw.cycle !== cycle || sw.delta !== dv) {
-      sw.cycle = cycle; sw.w = w; sw.h = h; sw.delta = dv;
-      sw.buf.width = Math.max(1, Math.round(w));
-      sw.buf.height = Math.max(1, Math.round(h));
-      sw.prev = null; sw.frames = 0;
-      $("relayArea").textContent = "0.000";
-    } else if (sw.w !== w || sw.h !== h) {
-      // 转屏/缩放:迁移已扫过区域,计数不清零
-      const tmp = document.createElement("canvas");
-      tmp.width = sw.buf.width; tmp.height = sw.buf.height;
-      tmp.getContext("2d").drawImage(sw.buf, 0, 0);
-      sw.buf.width = Math.max(1, Math.round(w));
-      sw.buf.height = Math.max(1, Math.round(h));
-      const r = unit / sw.unit;
-      sw.bc.drawImage(tmp, ox - sw.ox * r, oy - sw.oy * r, tmp.width * r, tmp.height * r);
-      sw.w = w; sw.h = h; sw.prev = null;
-    }
-    sw.unit = unit; sw.ox = ox; sw.oy = oy;
-    const X = (x) => ox + x * unit, Y = (y) => oy - y * unit;
-
-    const st = evalPlan(tms);
-    const u = uDir(st.phi);
-    const ax = X(st.pivot[0]), ay = Y(st.pivot[1]);
-    const bx = X(st.pivot[0] + u[0]), by = Y(st.pivot[1] + u[1]);
-
-    if (sw.prev) {
-      sw.bc.fillStyle = "#bc3f1e";
-      sw.bc.beginPath();
-      sw.bc.moveTo(sw.prev[0], sw.prev[1]); sw.bc.lineTo(sw.prev[2], sw.prev[3]);
-      sw.bc.lineTo(bx, by); sw.bc.lineTo(ax, ay);
-      sw.bc.closePath(); sw.bc.fill();
-    }
-    sw.prev = [ax, ay, bx, by];
-    if (sw.frames++ % 6 === 0 && unit > 0) {
-      const d = sw.bc.getImageData(0, 0, sw.buf.width, sw.buf.height).data;
-      let npx = 0;
-      for (let i = 3; i < d.length; i += 4) if (d[i] > 127) npx++;
-      $("relayArea").textContent = (npx / (unit * unit)).toFixed(3);
-    }
-
-    // 地平线 + 树 + 当前细条高亮
-    ctx.strokeStyle = C.line; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(0, Y(0) + .5); ctx.lineTo(w, Y(0) + .5); ctx.stroke();
-    ctx.fillStyle = "rgba(51,88,155,.26)";
-    for (const T of tris) {
-      ctx.beginPath();
-      T.forEach((p, j) => { j ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1])); });
-      ctx.closePath(); ctx.fill();
-      ctx.strokeStyle = "rgba(255,255,255,.7)"; ctx.lineWidth = 1; ctx.stroke();
-    }
-    const T = tris[st.i];
-    ctx.fillStyle = "rgba(188,63,30,.18)";
-    ctx.beginPath();
-    T.forEach((p, j) => { j ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1])); });
-    ctx.closePath(); ctx.fill();
-
-    ctx.globalAlpha = 0.26;
-    ctx.drawImage(sw.buf, 0, 0, w, h);
-    ctx.globalAlpha = 1;
-    needleStroke(ctx, ax, ay, bx, by, 2.8);
-
-    $("relayStep").textContent = String(st.i + 1);
-    $("relayAngle").textContent = Math.max(0, Math.round((st.phi - phis[0]) * 180 / Math.PI)) + "°";
-  });
-  bindPlayBtn($("relayPlay"), anim);
-  deltaInput.addEventListener("input", () => {
-    $("relayDeltaV").textContent = relDeg().toFixed(1).replace(/\.0$/, "") + "°";
-    deltaInput.setAttribute("aria-valuetext", relDeg() + "度");
-    buildPlan();
-    anim.t = 0;
-    anim.drawOnce();
-    anim.kick();
-  });
-}
-
-/* ============================================================
-   第二章 D:四份旋转拷贝拼满 180°
-   树 j 旋转 ρ_j = 22.5°+45°j+90°,使其细条方向覆盖表盘
-   第 j 段 [45°j, 45°(j+1)];树自身可容纳 ±26.57° > ±22.5°。
-============================================================ */
-{
-  const cv = $("copies");
-  const K = 3, N = 1 << K, ALPHA = 0.42;
-  const shiftOf = (i) => {
-    let sh = 0;
-    for (let s = 1; s <= K; s++) if ((i >> (s - 1)) & 1) sh += (1 - ALPHA) * (1 << (s - 1)) / N;
-    return sh;
+    stat.textContent = `${pts.length} 个点 · ${cnt} 对单位距离`;
+    if (!reduce) requestAnimationFrame(draw);
   };
-  const polys = [], apexes = [];
-  let tx0 = 1e9, tx1 = -1e9;
-  for (let i = 0; i < N; i++) {
-    const s = shiftOf(i);
-    const T = [[i / N - s, 0], [(i + 1) / N - s, 0], [0.5 - s, 1]];
-    polys.push(T); apexes.push([0.5 - s, 1]);
-    for (const p of T) { tx0 = Math.min(tx0, p[0]); tx1 = Math.max(tx1, p[0]); }
-  }
-  const tc = [(tx0 + tx1) / 2, 0.5];
-  const rotP = (p, c, a) => {
-    const dx = p[0] - c[0], dy = p[1] - c[1], ca = Math.cos(a), sa = Math.sin(a);
-    return [c[0] + dx * ca - dy * sa, c[1] + dx * sa + dy * ca];
-  };
-  const copies = [];
-  for (let j = 0; j < 4; j++) {
-    const thc = (22.5 + 45 * j) * Math.PI / 180; // 该份负责的方向段中心
-    const rho = thc + Math.PI / 2;               // 旋转量:细条「朝下」→ 指向 thc
-    const ps = polys.map(T => T.map(p => rotP(p, tc, rho)));
-    let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
-    for (const T of ps) for (const p of T) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); }
-    copies.push({ thc, rho, ps, bb: [x0, y0, x1, y1] });
-  }
-  const PERIOD = 12000, HOLD = 1400, TOTAL = PERIOD + HOLD;
-
-  const anim = makeAnim(cv, (t) => {
-    const narrow = cv.clientWidth < 560;
-    cv.dataset.aspect = narrow ? "1.2" : "0.5";
-    const { ctx, w, h } = fitCanvas(cv);
-    ctx.clearRect(0, 0, w, h);
-    const tau = Math.min((t % TOTAL) / PERIOD, 1);
-    const th = tau * Math.PI;
-    const j = Math.min(3, Math.floor(th / (Math.PI / 4)));
-    const fontBase = getComputedStyle(document.body).fontFamily;
-
-    // —— 方向表盘(上半圆):宽屏在左,窄屏在上 ——
-    const R = narrow ? Math.min(w * 0.34, h * 0.24) : Math.min(w * 0.22, h * 0.55);
-    const cx = narrow ? w / 2 : w * 0.245;
-    const cy = narrow ? h * 0.28 : h * 0.68;
-    for (let s = 0; s < 4; s++) {
-      ctx.beginPath(); ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, R, -s * Math.PI / 4, -(s + 1) * Math.PI / 4, true);
-      ctx.closePath();
-      ctx.fillStyle = s === j ? "rgba(188,63,30,.22)" : (s % 2 ? "rgba(51,88,155,.17)" : "rgba(51,88,155,.09)");
-      ctx.fill();
-    }
-    ctx.strokeStyle = C.line; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.arc(cx, cy, R, 0, -Math.PI, true); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx - R, cy + .5); ctx.lineTo(cx + R, cy + .5); ctx.stroke();
-    ctx.fillStyle = C.muted; ctx.font = "11px " + fontBase; ctx.textAlign = "center";
-    ctx.fillText("0°", cx + R, cy + 14);
-    ctx.fillText("90°", cx, cy - R - 6);
-    ctx.fillText("180°", cx - R, cy + 14);
-    // 指针:表示针当前的方向
-    const ux = Math.cos(th), uy = Math.sin(th);
-    needleStroke(ctx, cx - ux * R * 0.22, cy + uy * R * 0.22, cx + ux * R * 0.92, cy - uy * R * 0.92, 2.6);
-    ctx.fillStyle = C.muted; ctx.font = "12px " + fontBase;
-    ctx.fillText("针的方向", cx, cy + 30);
-
-    // —— 2×2 网格,四份旋转拷贝:宽屏在右,窄屏在下 ——
-    const gx = narrow ? w * 0.02 : w * 0.47;
-    const gtop = narrow ? h * 0.42 : 0;
-    const gw = narrow ? w * 0.96 : w * 0.52;
-    const cellW = gw / 2, cellH = (h - gtop) / 2;
-    for (let s = 0; s < 4; s++) {
-      const cpy = copies[s];
-      const ox = gx + (s % 2) * cellW, oy = gtop + (s >> 1) * cellH;
-      const [x0, y0, x1, y1] = cpy.bb;
-      const sc = Math.min((cellW * 0.82) / (x1 - x0), (cellH * 0.62) / (y1 - y0));
-      const mx = ox + cellW / 2 - (x0 + x1) / 2 * sc;
-      const my = oy + cellH * 0.44 + (y0 + y1) / 2 * sc;
-      const X = (p) => mx + p[0] * sc, Y = (p) => my - p[1] * sc;
-      const active = s === j;
-      ctx.fillStyle = active ? "rgba(188,63,30,.30)" : "rgba(51,88,155,.16)";
-      for (const T of cpy.ps) {
-        ctx.beginPath();
-        T.forEach((p, m) => { m ? ctx.lineTo(X(p), Y(p)) : ctx.moveTo(X(p), Y(p)); });
-        ctx.closePath(); ctx.fill();
-      }
-      if (active) {
-        // 该方向的针,躺在值班拷贝对应的细条里
-        const phi = th - cpy.thc;
-        const xb = 0.5 + Math.tan(phi);
-        const i = Math.min(N - 1, Math.max(0, Math.floor(xb * N)));
-        const a0 = apexes[i];
-        const a1 = [a0[0] + Math.sin(phi), a0[1] - Math.cos(phi)];
-        const p0 = rotP(a0, tc, cpy.rho), p1 = rotP(a1, tc, cpy.rho);
-        needleStroke(ctx, X(p0), Y(p0), X(p1), Y(p1), 2.2);
-      }
-      ctx.fillStyle = active ? C.accent : C.muted;
-      ctx.font = (active ? "600 " : "") + (narrow ? "10.5px " : "11.5px ") + fontBase;
-      ctx.textAlign = "center";
-      const label = narrow ? `第${s + 1}份 ${45 * s}°–${45 * (s + 1)}°` : `第 ${s + 1} 份 · 负责 ${45 * s}°–${45 * (s + 1)}°`;
-      ctx.fillText(label, ox + cellW / 2, oy + cellH - 8);
-    }
-    ctx.textAlign = "start";
-    $("copiesAngle").textContent = Math.round(th * 180 / Math.PI) + "°";
-    $("copiesN").textContent = String(j + 1);
-  });
-  bindPlayBtn($("copiesPlay"), anim);
-}
-
-/* ============================================================
-   第三章:数格子量维度
-============================================================ */
-{
-  const grid = $("boxGrid");
-  const Ms = [8, 16, 32, 64];
-  const panels = [
-    { name: "一条线段", note: "1 维", kind: "line" },
-    { name: "实心方块", note: "2 维", kind: "square" },
-    { name: "贝西科维奇式集合", note: "面积→0,维度→?", kind: "kakeya" },
-  ];
-  // 佩龙树 k=6 的多边形,归一化到 [0,1]²
-  const ALPHA = 0.42, K6 = 6;
-  const kTris = (() => {
-    const N = 1 << K6, out = [];
-    let x0 = 1e9, x1 = -1e9;
-    for (let i = 0; i < N; i++) {
-      let sh = 0;
-      for (let s = 1; s <= K6; s++) if ((i >> (s - 1)) & 1) sh += (1 - ALPHA) * (1 << (s - 1)) / N;
-      const T = [[i / N - sh, 0], [(i + 1) / N - sh, 0], [0.5 - sh, 1]];
-      out.push(T);
-      for (const p of T) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); }
-    }
-    const sc = 0.9 / Math.max(x1 - x0, 1);
-    return out.map(T => T.map(p => [0.05 + (p[0] - x0) * sc, 0.05 + p[1] * 0.9]));
-  })();
-
-  function paintShape(c, kind, S) { // S = 像素尺寸
-    c.clearRect(0, 0, S, S);
-    if (kind === "line") {
-      c.strokeStyle = "#000"; c.lineWidth = Math.max(1, S / 260);
-      c.beginPath(); c.moveTo(S * .08, S * .88); c.lineTo(S * .92, S * .12); c.stroke();
-    } else if (kind === "square") {
-      c.fillStyle = "#000"; c.fillRect(S * .25, S * .25, S * .5, S * .5);
-    } else {
-      c.fillStyle = "#000";
-      for (const T of kTris) {
-        c.beginPath();
-        T.forEach((p, j) => { const x = p[0] * S, y = S - p[1] * S; j ? c.lineTo(x, y) : c.moveTo(x, y); });
-        c.closePath(); c.fill();
-      }
-    }
-  }
-  const occCache = {};
-  function occupancy(kind, m) {
-    const key = kind + m;
-    if (occCache[key]) return occCache[key];
-    const off = document.createElement("canvas");
-    off.width = m; off.height = m;
-    const c = off.getContext("2d", { willReadFrequently: true });
-    paintShape(c, kind, m);
-    const d = c.getImageData(0, 0, m, m).data;
-    const cells = [];
-    for (let i = 0; i < m * m; i++) if (d[i * 4 + 3] > 8) cells.push(i);
-    occCache[key] = cells;
-    return cells;
-  }
-
-  const cells = panels.map((p) => {
-    const div = document.createElement("div");
-    div.className = "boxcell";
-    div.innerHTML = `<canvas class="viz" data-aspect="1" aria-label="${p.name}的数格子演示"></canvas>
-      <div class="cap"><b>${p.name}</b>(${p.note})<br><span class="cnt"></span></div>
-      <div class="dim"></div>`;
-    grid.appendChild(div);
-    return { ...p, cv: div.querySelector("canvas"), cnt: div.querySelector(".cnt"), dim: div.querySelector(".dim") };
-  });
-
-  function draw() {
-    const mi = parseInt($("boxM").value, 10), m = Ms[mi];
-    $("boxMV").textContent = m + " × " + m;
-    for (const p of cells) {
-      const { ctx, w } = fitCanvas(p.cv);
-      const S = w;
-      ctx.clearRect(0, 0, S, S);
-      // 占用格
-      const occ = occupancy(p.kind, m), cell = S / m;
-      ctx.fillStyle = "rgba(168,128,31,.28)";
-      for (const i of occ) ctx.fillRect((i % m) * cell, Math.floor(i / m) * cell, cell, cell);
-      // 网格
-      ctx.strokeStyle = "rgba(0,0,0,.08)"; ctx.lineWidth = 1;
-      ctx.beginPath();
-      for (let i = 0; i <= m; i++) {
-        ctx.moveTo(i * cell + .5, 0); ctx.lineTo(i * cell + .5, S);
-        ctx.moveTo(0, i * cell + .5); ctx.lineTo(S, i * cell + .5);
-      }
-      ctx.stroke();
-      // 图形本体
-      ctx.save();
-      if (p.kind === "line") {
-        ctx.strokeStyle = C.blue; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(S * .08, S * .88); ctx.lineTo(S * .92, S * .12); ctx.stroke();
-      } else if (p.kind === "square") {
-        ctx.fillStyle = "rgba(51,88,155,.5)"; ctx.fillRect(S * .25, S * .25, S * .5, S * .5);
-      } else {
-        ctx.fillStyle = "rgba(51,88,155,.45)";
-        for (const T of kTris) {
-          ctx.beginPath();
-          T.forEach((q, j) => { const x = q[0] * S, y = S - q[1] * S; j ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
-          ctx.closePath(); ctx.fill();
-        }
-      }
-      ctx.restore();
-      const n = occ.length;
-      const half = m / 2;
-      const prev = occupancy(p.kind, half).length;
-      const ratio = n / Math.max(prev, 1);
-      const dimEst = Math.log2(ratio);
-      p.cnt.innerHTML = `${half}×${half}:<b>${prev}</b> 格 → ${m}×${m}:<b>${n}</b> 格`;
-      p.dim.innerHTML = `倍率 ×${ratio.toFixed(1)} ⇒ 维度 ≈ <b>${dimEst.toFixed(2)}</b>`;
-    }
-  }
-  $("boxM").addEventListener("input", draw);
-  // 面板尺寸首次可见时绘制
-  const io = new IntersectionObserver((es) => { if (es.some(e => e.isIntersecting)) draw(); }, { rootMargin: "80px" });
-  io.observe(grid);
-  addEventListener("resize", draw);
-}
-
-/* ============================================================
-   第四章 A:躲不开(平面)与躲得开(三维异面直线)
-============================================================ */
-{
-  const cv2 = $("skew2d"), cv3 = $("skew3d");
-
-  // 平面:两条方向不同的直线,交点用克莱姆法则实时求解
-  const anim2d = makeAnim(cv2, (t) => {
-    const { ctx, w, h } = fitCanvas(cv2);
-    ctx.clearRect(0, 0, w, h);
-    const unit = Math.min(w, h) / 2.3, cx = w / 2, cy = h / 2;
-    const X = (p) => cx + p[0] * unit, Y = (p) => cy - p[1] * unit;
-    const a = 0.4 + t * 0.00013;
-    const b = a + Math.PI * (47 + 18 * Math.sin(t * 0.00021)) / 180;
-    const A = [-0.25, -0.06], Bp = [0.25, 0.06];
-    const da = [Math.cos(a), Math.sin(a)], db = [Math.cos(b), Math.sin(b)];
-    const cross = da[0] * db[1] - da[1] * db[0];
-    const dx = Bp[0] - A[0], dy = Bp[1] - A[1];
-    const sPar = (dx * db[1] - dy * db[0]) / cross;
-    const P = [A[0] + sPar * da[0], A[1] + sPar * da[1]];
-    ctx.lineCap = "round";
-    ctx.strokeStyle = C.blue; ctx.lineWidth = 2.6;
-    ctx.beginPath(); ctx.moveTo(X([A[0] - da[0] * 3, A[1] - da[1] * 3]), Y([A[0] - da[0] * 3, A[1] - da[1] * 3]));
-    ctx.lineTo(X([A[0] + da[0] * 3, A[1] + da[1] * 3]), Y([A[0] + da[0] * 3, A[1] + da[1] * 3])); ctx.stroke();
-    ctx.strokeStyle = C.gold;
-    ctx.beginPath(); ctx.moveTo(X([Bp[0] - db[0] * 3, Bp[1] - db[1] * 3]), Y([Bp[0] - db[0] * 3, Bp[1] - db[1] * 3]));
-    ctx.lineTo(X([Bp[0] + db[0] * 3, Bp[1] + db[1] * 3]), Y([Bp[0] + db[0] * 3, Bp[1] + db[1] * 3])); ctx.stroke();
-    // 交点:脉冲红点
-    const r = 4.5 + 1.5 * Math.sin(t * 0.006);
-    ctx.fillStyle = C.accent;
-    ctx.beginPath(); ctx.arc(X(P), Y(P), r, 0, TAU); ctx.fill();
-    ctx.strokeStyle = "rgba(188,63,30,.35)"; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.arc(X(P), Y(P), r + 5, 0, TAU); ctx.stroke();
-  });
-
-  // 三维:异面直线,虚线为公垂线段(最近距离)
-  let yaw3 = 0.7, pitch3 = 0.35, drag3 = null, last3 = 0;
-  cv3.addEventListener("pointerdown", (e) => { drag3 = [e.clientX, e.clientY]; cv3.setPointerCapture(e.pointerId); });
-  cv3.addEventListener("pointermove", (e) => {
-    if (!drag3) return;
-    yaw3 += (e.clientX - drag3[0]) * 0.008;
-    pitch3 = Math.max(-1.2, Math.min(1.2, pitch3 + (e.clientY - drag3[1]) * 0.008));
-    drag3 = [e.clientX, e.clientY];
-    if (anim3d.userPaused) anim3d.drawOnce();
-  });
-  cv3.addEventListener("pointerup", () => drag3 = null);
-  cv3.addEventListener("pointercancel", () => drag3 = null);
-  const anim3d = makeAnim(cv3, (t) => {
-    const { ctx, w, h } = fitCanvas(cv3);
-    ctx.clearRect(0, 0, w, h);
-    const unit = Math.min(w, h) * 0.52, cx = w / 2, cy = h / 2;
-    const dt3 = Math.min(t - last3, 100); last3 = t;
-    if (!drag3) yaw3 += dt3 * 0.0001;
-    const cyw = Math.cos(yaw3), syw = Math.sin(yaw3), cp = Math.cos(pitch3), sp = Math.sin(pitch3);
-    const proj = (v) => {
-      const x1 = v[0] * cyw + v[2] * syw, z1 = -v[0] * syw + v[2] * cyw;
-      const y2 = v[1] * cp - z1 * sp;
-      return [cx + x1 * unit, cy - y2 * unit];
-    };
-    ctx.lineCap = "round";
-    // 蓝线:沿 x 方向,悬在 z=+0.28;金线:沿 y 方向,沉在 z=−0.28
-    const a0 = proj([-0.85, 0, 0.28]), a1 = proj([0.85, 0, 0.28]);
-    const b0 = proj([0, -0.85, -0.28]), b1 = proj([0, 0.85, -0.28]);
-    ctx.strokeStyle = C.gold; ctx.lineWidth = 2.6;
-    ctx.beginPath(); ctx.moveTo(b0[0], b0[1]); ctx.lineTo(b1[0], b1[1]); ctx.stroke();
-    // 公垂线段(最近距离)
-    const m0 = proj([0, 0, 0.28]), m1 = proj([0, 0, -0.28]);
-    ctx.setLineDash([5, 5]);
-    ctx.strokeStyle = C.accent; ctx.lineWidth = 1.8;
-    ctx.beginPath(); ctx.moveTo(m0[0], m0[1]); ctx.lineTo(m1[0], m1[1]); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.strokeStyle = C.blue; ctx.lineWidth = 2.6;
-    ctx.beginPath(); ctx.moveTo(a0[0], a0[1]); ctx.lineTo(a1[0], a1[1]); ctx.stroke();
-    for (const [pt, col] of [[m0, C.blue], [m1, C.gold]]) {
-      ctx.fillStyle = col;
-      ctx.beginPath(); ctx.arc(pt[0], pt[1], 3.4, 0, TAU); ctx.fill();
-    }
-  });
-
-  // 一个按钮同时控制两个面板
-  const bp = $("skewPlay");
-  const syncBtn = () => {
-    bp.textContent = anim2d.userPaused ? "▶ 播放" : "⏸ 暂停";
-    bp.setAttribute("aria-pressed", String(!anim2d.userPaused));
-  };
-  bp.addEventListener("click", () => {
-    const v = !anim2d.userPaused;
-    anim2d.userPaused = anim3d.userPaused = v;
-    syncBtn(); anim2d.kick(); anim3d.kick();
-  });
-  syncBtn();
-}
-
-/* ============================================================
-   第四章:三维针丛
-============================================================ */
-{
-  const cv = $("cloud");
-  const N = 170;
-  // 斐波那契半球:每个方向一根针;确定性偏移
-  let seed = 20260723;
-  const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
-  const needles = [];
-  for (let i = 0; i < N; i++) {
-    const y = (i + 0.5) / N;             // z ∈ (0,1):半球即可(方向不分正反)
-    const rxy = Math.sqrt(1 - y * y);
-    const a = i * 2.399963229728653;     // 黄金角
-    const d = [Math.cos(a) * rxy, Math.sin(a) * rxy, y];
-    const o = [(rnd() - .5) * .7, (rnd() - .5) * .7, (rnd() - .5) * .7];
-    needles.push({ d, o });
-  }
-  let yaw = 0.6, pitch = 0.42, dragging = null, cloudLastT = 0;
-  cv.addEventListener("pointerdown", (e) => { dragging = [e.clientX, e.clientY]; cv.setPointerCapture(e.pointerId); });
-  cv.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
-    yaw += (e.clientX - dragging[0]) * 0.008;
-    pitch = Math.max(-1.3, Math.min(1.3, pitch + (e.clientY - dragging[1]) * 0.008));
-    dragging = [e.clientX, e.clientY];
-    if (anim.userPaused) anim.drawOnce();
-  });
-  cv.addEventListener("pointerup", () => dragging = null);
-  cv.addEventListener("pointercancel", () => dragging = null);
-
-  const anim = makeAnim(cv, (t) => {
-    const { ctx, w, h } = fitCanvas(cv);
-    ctx.clearRect(0, 0, w, h);
-    const unit = Math.min(w, h) * 0.42;
-    const cx = w / 2, cy = h / 2;
-    const cdt = Math.min(t - cloudLastT, 100); cloudLastT = t;
-    if (!dragging) yaw += cdt * 0.00012;
-    const Y = yaw;
-    const cyw = Math.cos(Y), syw = Math.sin(Y), cp = Math.cos(pitch), sp = Math.sin(pitch);
-    const proj = (v) => {
-      const x1 = v[0] * cyw + v[2] * syw, z1 = -v[0] * syw + v[2] * cyw;
-      const y2 = v[1] * cp - z1 * sp, z2 = v[1] * sp + z1 * cp;
-      return [cx + x1 * unit, cy - y2 * unit, z2];
-    };
-    const hi = Math.floor(t / 1400) % N;
-    const segs = needles.map((nd, i) => {
-      const A = proj([nd.o[0] - nd.d[0] * .5, nd.o[1] - nd.d[1] * .5, nd.o[2] - nd.d[2] * .5]);
-      const B = proj([nd.o[0] + nd.d[0] * .5, nd.o[1] + nd.d[1] * .5, nd.o[2] + nd.d[2] * .5]);
-      return { A, B, z: (A[2] + B[2]) / 2, i };
-    }).sort((a, b) => a.z - b.z);
-    for (const s of segs) {
-      const depth = (s.z + 1.1) / 2.2;
-      if (s.i === hi) {
-        ctx.strokeStyle = C.accent; ctx.lineWidth = 3; ctx.lineCap = "round";
-      } else {
-        ctx.strokeStyle = `rgba(51,88,155,${(0.12 + 0.4 * depth).toFixed(3)})`;
-        ctx.lineWidth = 1.1 + depth;
-        ctx.lineCap = "round";
-      }
-      ctx.beginPath(); ctx.moveTo(s.A[0], s.A[1]); ctx.lineTo(s.B[0], s.B[1]); ctx.stroke();
-    }
-  });
-  bindPlayBtn($("cloudPlay"), anim);
-}
+  requestAnimationFrame(draw);
+  addEventListener("resize", () => { if (reduce) requestAnimationFrame(draw); });
+})();
 </script>
 </body>
 </html>

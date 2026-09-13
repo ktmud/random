@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>单位距离猜想被推翻 · AI 攻克的数学难题</title>
+<meta name="description" content="Erdős 单位距离猜想的来龙去脉:方格点阵构造、n^{4/3} 上界、2026 年 5 月 OpenAI 模型用类域塔造出的反例、九位数学家的当日核验、Gowers 的评价以及后续影响。">
+<meta property="og:title" content="单位距离猜想被推翻">
+<meta property="og:description" content="Erdős 单位距离猜想的来龙去脉:方格点阵构造、n^{4/3} 上界、2026 年 5 月 OpenAI 模型用类域塔造出的反例、九位数学家的当日核验、Gowers 的评价以及后续影响。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../#timeline">← 时间线</a><a href="../kakeya/">一根针的百年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">2026 年 5 月 20 日 · OpenAI 内部模型</div>
+    <h1>单位距离猜想:<br>Erdős 1946 年的猜测,错了</h1>
+    <p class="subtitle">平面上 n 个点最多有多少对恰好相距 1?八十年来人们相信方格点阵就是答案</p>
+    <div class="facts">
+      <div class="fact">问题<b>Erdős 单位距离问题,1946 年</b></div>
+      <div class="fact">猜想<b>方格点阵(约 n^{1+c/log log n} 对)已是最优</b></div>
+      <div class="fact">结果<b>反例:存在点集有 n^{1+c} 对单位距离;c 后被 Sawin 精化到约 0.014</b></div>
+      <div class="fact">工具<b>代数数论:类域塔、Golod–Shafarevich 不等式</b></div>
+      <div class="fact">核验<b>当天九位数学家联名发表核验论文(arXiv:2605.20695)</b></div>
+      <div class="fact">仍未解决<b>上界 n^{4/3}(1984)与新下界之间的鸿沟</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">问 题</div>
+    <h2>n 个点,最多有多少对恰好相距 1?</h2>
+    <p class="lead">在平面上撒 n 个点。任取两个点,它们之间的距离恰好等于 1 的概率很小——但如果你可以<em class="hl">精心安排</em>这些点,最多能让多少对点恰好相距 1?</p>
+    <p>3 个点摆成等边三角形,3 对。4 个点摆成两个共边的等边三角形(一个菱形),5 对。点越多,想让更多对「刚好等于 1」就越难,因为每个点周围恰好相距 1 的位置只有一个圆周。</p>
+    <p>1946 年,Erdős 给出了一个漂亮的构造:取一块 <b>方格点阵</b>,再把「单位长度」取成一个巧妙的数——某个能写成很多种「两个平方数之和」的整数的平方根。这样每个点周围都有很多点恰好相距一个单位。他算出这样能得到大约 <span class="math">n<sup>1 + c/log log n</sup></span> 对,比 n 稍多一点,但多得非常缓慢。</p>
+  </div>
+  <div class="wide">
+    <div class="figure" style="max-width:600px">
+      <div class="tl-meta"><span class="tag solved">动手玩</span><span>方格点阵里的单位距离</span></div>
+      <canvas id="udGrid" style="height:300px" aria-label="方格点阵,恰好相距一个单位的点对之间连线"></canvas>
+      <div class="controls">
+        <label>边长 <input type="range" id="udN" min="3" max="24" value="10"></label>
+        <span class="readout" id="udOut"></span>
+      </div>
+      <div class="cap">这是 Erdős 的构造:把「单位」取成 √5、√25、√65、√325 之类的数(能用多种方式写成两个平方数之和),让方格点阵里每个点都有很多「刚好相距一个单位」的邻居。拖动滑块,看每个点平均能有几个这样的邻居——它增长得非常慢。</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p>Erdős 猜想:<b>方格点阵已经是最优的</b>,再聪明的构造也只能做到 <span class="math">n<sup>1 + c/log log n</sup></span> 这个量级。另一边,1984 年 Spencer、Szemerédi 与 Trotter 证明了上界 <span class="math">n<sup>4/3</sup></span>。八十年来,人们普遍相信真相在猜想那一端,只是证不出来。这个问题是<b>离散几何</b>的中心问题之一,与数论、组合、代数几何都有深刻联系。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">AI 做了什么</div>
+    <h2>从一个毫不相干的角落搬来了一台机器</h2>
+    <p class="lead">2026 年 5 月 20 日,OpenAI 宣布:一个内部的推理模型<em class="hl">自主</em>找到了单位距离猜想的<b>反例</b>——存在一族点集,单位距离对的数量达到 <span class="math">n<sup>1 + c</sup></span>,c 是一个确定的正数。这比方格点阵多出一个<b>真正的幂次</b>,猜想因此被推翻。</p>
+    <p>数学家们最震惊的不是结论,而是<b>方法</b>。模型使用的是<b>代数数论</b>里的「类域塔」(class field towers)——一种描述数域如何一层层扩张的理论,由 Golod 与 Shafarevich 在 1964 年用来回答完全不同的问题(是否存在无限的类域塔)。没有人想过它和平面上的点有什么关系。</p>
+    <div class="defbox">
+      <div class="def-row"><span class="def-k">老思路</span><div>Erdős 的方格点阵之所以有效,是因为整数格点里「两平方和」有很多表示方式——这背后是<b>高斯整数</b>(形如 a + bi 的复数)的乘法结构。</div></div>
+      <div class="def-row"><span class="def-k">新思路</span><div>高斯整数只是一个「数域」。如果换成更大、更复杂的数域,并把它们的「整数」投影到平面上,单位的表示方式会不会更多?关键是要找到一种数域,它的单位元(乘法可逆元)<b>极其丰富</b>。</div></div>
+      <div class="def-row"><span class="def-k">类域塔</span><div>Golod–Shafarevich 不等式保证:某些数域可以无限地一层层扩张,每一层都保持好的性质。沿着这座「塔」往上走,单位元的丰富程度以幂次增长——正好是打破 <span class="math">c/log log n</span> 所需要的东西。</div></div>
+      <div class="def-row key"><span class="def-k">拼装</span><div>把 Ellenberg–Venkatesh 关于数域计数的想法与 Hajir–Maire–Ramakrishna 关于类域塔的构造拼在一起,得到点集与单位。核验论文的作者写道:所需的每一块材料都是已知的,<b>没有人想到把它们拼在一起</b>。</div></div>
+    </div>
+    <p>OpenAI 这一次吸取了<a href="erdos-literature.html">半年前的教训</a>:宣布之前就把证明交给了外部专家。同一天,<b>九位数学家</b>——Noga Alon、Thomas Bloom、Timothy Gowers、Daniel Litt、Will Sawin、Arul Shankar、Jacob Tsimerman、Victor Wang、Melanie Matchett Wood——联名发表了一篇「简短、消化过、经人工核验」的版本。Bloom 正是 2025 年 10 月批评 OpenAI 最严厉的人。</p>
+    <div class="quote">「如果这篇论文是一个人写的,我会推荐《数学年刊》接收。」<small>—— Timothy Gowers,菲尔兹奖得主</small></div>
+    <div class="quote">「这绝对是一个令人生畏的构造。」<small>—— Jacob Tsimerman,数论学家(两个月后获 2026 年菲尔兹奖,并宣布加入 OpenAI)</small></div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">意 义 与 余 波</div>
+    <h2>猜想错了,问题却更有意思了</h2>
+    <p>模型给出的指数 c 很小;普林斯顿的 Will Sawin 几周内把它精化到约 <b>0.014</b>——也就是 <span class="math">n<sup>1.014</sup></span> 对。这与上界 <span class="math">n<sup>4/3</sup></span> 之间仍有巨大的鸿沟,真相在哪里,现在比以前更不清楚了。</p>
+    <p>但方法本身立刻开花:几周之内,人类数学家用同样的类域塔技术改进了结果,Bloom 等人还推翻了「和积猜想」的一个版本。一个八十年的老问题,突然有了新的工具箱。</p>
+    <p>这也是本站时间线上第一个满足全部三条标准的事件:<b>不是文献检索</b>(结论与所有已知结果相反)、<b>经过独立核验</b>(九位专家当天签名)、<b>署名清楚</b>(OpenAI 明确说明这是模型自主完成,人类只做了核验与改写)。</p>
+    <div class="takeaway"><span class="tk">一句话</span>单位距离猜想的推翻,是 AI 第一次在一个真正的中心问题上给出人类完全没想到的证明思路。此后没有人再问「AI 能不能做数学」,只问「它下一个会做什么」。</div>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <div class="pager">
+    <a class="prev" href="first-proof.html"><small>← 上一篇 · 2026 年 2 月 → 7 月 · 11 位数学家</small>First Proof:用「从未发表」的题目给 AI 出考卷</a>
+    <a class="next" href="alphaproof-nexus.html"><small>下一篇 · 2026 年 5 月 21 日 · Google DeepMind →</small>AlphaProof Nexus:一口气解决 9 个 Erdős 问题</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>核验论文:<a href="https://arxiv.org/abs/2605.20695" target="_blank" rel="noopener">Remarks on the disproof of the unit distance conjecture(Alon, Bloom, Gowers, Litt, Sawin, Shankar, Tsimerman, Wang, Wood)</a></li>
+      <li>《量子杂志》:<a href="https://www.quantamagazine.org/why-the-legendary-erdos-problems-are-falling-to-ai-20260803/" target="_blank" rel="noopener">Why the Legendary Erdős Problems Are Falling to AI</a></li>
+      <li>后续工作:<a href="https://arxiv.org/abs/2606.03419" target="_blank" rel="noopener">Optimizing Explicit Unit-Distance Lower-Bound Certificates</a></li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+<script>
+(() => {
+  const cv=document.getElementById('udGrid'),ctx=cv.getContext('2d');
+  const sl=document.getElementById('udN'),out=document.getElementById('udOut');
+  const draw=()=>{
+    const k=+sl.value; const r=cv.getBoundingClientRect(); const dpr=Math.min(2,devicePixelRatio||1);
+    cv.width=r.width*dpr; cv.height=r.height*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    const W=r.width,H=r.height; ctx.clearRect(0,0,W,H);
+    const pts=[]; for(let i=0;i<k;i++)for(let j=0;j<k;j++)pts.push([i,j]);
+    // 单位取 sqrt(s):在 k×k 方格里,若把「单位」取成某个能写成两平方和的整数的平方根,单位距离对会更多
+    const cands=[1,2,5,10,13,25,50,65,85,125,130,145,170,185,205,221,250,260,265,290,305,325,338,340,365,370,377,390,410,425,442,445,450,481,485,493,505,520,530,533,545,565,580,585,610,625,629,650];
+    let best=null;
+    for(const s of cands){ if(s>2*(k-1)*(k-1))break; let c=0; const reps=[]; for(let a=0;a<=k-1;a++)for(let b=-(k-1);b<=k-1;b++){ if(a*a+b*b===s&&!(a===0&&b<0))reps.push([a,b]); }
+      for(const [x,y] of pts)for(const [a,b] of reps){const X=x+a,Y=y+b;if(X>=0&&X<k&&Y>=0&&Y<k)c++;}
+      if(!best||c>best.c)best={s,c,reps}; }
+    const pad=18,u=(Math.min(W,H)-2*pad)/Math.max(1,k-1); const ox=(W-(k-1)*u)/2,oy=(H-(k-1)*u)/2;
+    ctx.strokeStyle='rgba(188,63,30,.55)';ctx.lineWidth=1;
+    for(const [x,y] of pts)for(const [a,b] of best.reps){const X=x+a,Y=y+b;if(X>=0&&X<k&&Y>=0&&Y<k){ctx.beginPath();ctx.moveTo(ox+x*u,oy+(k-1-y)*u);ctx.lineTo(ox+X*u,oy+(k-1-Y)*u);ctx.stroke();}}
+    ctx.fillStyle='#33589b';for(const [x,y] of pts){ctx.beginPath();ctx.arc(ox+x*u,oy+(k-1-y)*u,Math.max(1.6,Math.min(3.2,u/8)),0,Math.PI*2);ctx.fill();}
+    const n=k*k; out.innerHTML=`n = <b>${n}</b> 个点 · 单位取 √${best.s} · <b>${best.c}</b> 对单位距离 · 平均每点 ${(2*best.c/n).toFixed(2)} 个`;
+  };
+  sl.addEventListener('input',draw); addEventListener('resize',draw); draw();
+})();
+</script>
+</body>
+</html>

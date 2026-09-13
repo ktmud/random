@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First Proof:给 AI 出一份从未发表的考卷 · AI 攻克的数学难题</title>
+<meta name="description" content="First Proof 基准的来龙去脉:11 位数学家用未发表的研究问题测试 AI,2026 年 2 月首轮各模型表现平平,7 月苏黎世联邦理工团队以 6/10 赢得挑战赛;结论是 AI 擅长竞赛式问题,仍缺乏研究所需的创造深度。">
+<meta property="og:title" content="First Proof:给 AI 出一份从未发表的考卷">
+<meta property="og:description" content="First Proof 基准的来龙去脉:11 位数学家用未发表的研究问题测试 AI,2026 年 2 月首轮各模型表现平平,7 月苏黎世联邦理工团队以 6/10 赢得挑战赛;结论是 AI 擅长竞赛式问题,仍缺乏研究所需的创造深度。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../#timeline">← 时间线</a><a href="../kakeya/">一根针的百年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">2026 年 2 月 → 7 月 · 11 位数学家</div>
+    <h1>First Proof:<br>给 AI 出一份「从未发表」的考卷</h1>
+    <p class="subtitle">为了排除「答案早就在训练数据里」,数学家们拿出了自己研究中刚刚遇到的问题</p>
+    <div class="facts">
+      <div class="fact">发起<b>11 位数学家(含 Mohammed Abouzaid、Nikhil Srivastava 等)</b></div>
+      <div class="fact">首批题目<b>2026 年 2 月 5 日 · 10 题,均来自作者未发表的研究</b></div>
+      <div class="fact">首轮结果<b>主流模型表现平平;DeepMind 的 Aletheia 随后自主做出部分题目</b></div>
+      <div class="fact">第二批<b>2026 年 6 月 10 日</b></div>
+      <div class="fact">挑战赛<b>2026 年 7 月 · 苏黎世联邦理工团队 6 / 10 夺冠</b></div>
+      <div class="fact">结论<b>「擅长竞赛式任务,缺乏探索未知所需的创造深度」</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">问 题</div>
+    <h2>怎么知道 AI 是「会做」,还是「见过」?</h2>
+    <p class="lead">到 2026 年初,AI 已经拿了奥赛金牌、解了一批 Erdős 问题。但一个疑问始终挥之不去:这些题目和它们的解答,是不是早就以某种形式躺在训练数据里?</p>
+    <p>奥赛题有海量的历史题库与题解;Erdős 问题在网上被讨论了几十年。模型可能是「推理」出了答案,也可能只是「回忆」出了答案——从外面看,两者没有区别。</p>
+    <p>11 位数学家决定用最直接的办法回答这个问题:<em class="hl">出一批世界上任何地方都不存在答案的题</em>。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">考 卷</div>
+    <h2>十道题,全部来自「昨天的草稿纸」</h2>
+    <p>2026 年 2 月 5 日,First Proof 的第一批题目公开。这 10 道题的共同点是:它们都是作者们<b>自己正在进行的研究</b>中自然冒出来的、已经解决但尚未发表的引理级问题。题目分布在代数几何、组合、概率、分析等多个领域,每一道都要求给出完整证明,而不是一个数值答案。</p>
+    <div class="grid2">
+      <div class="card"><div class="ic">🔒</div><h4>不可能泄漏</h4><p>题目公开之前,答案只存在于作者的手稿里。模型不可能「见过」。</p></div>
+      <div class="card"><div class="ic">🧑‍🔬</div><h4>研究级,而非竞赛级</h4><p>题目不追求巧妙,而是研究中真实会遇到的那种「先要弄清楚概念在说什么」的问题。</p></div>
+      <div class="card"><div class="ic">⏱️</div><h4>限时公开</h4><p>发布后各团队有固定窗口提交解答,之后作者公布自己的证明,再由人评分。</p></div>
+      <div class="card"><div class="ic">🔁</div><h4>定期换题</h4><p>第二批题目 6 月 10 日发布,之后还会继续——一份用完就作废的考卷。</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">结 果</div>
+    <h2>好坏参半</h2>
+    <p><b>第一轮(2 月):</b>主流的商用模型表现平平。它们能把题目里的概念复述得头头是道,但在需要「想出一个新构造」的地方大多卡住,或者给出貌似完整、实则有洞的证明。DeepMind 的研究智能体 Aletheia 随后单独发布了对同一批题目的自主尝试,做出了其中一部分。《科学美国人》的标题是:「AI 迄今最难的数学考试,结果好坏参半。」</p>
+    <p><b>挑战赛(7 月):</b>组织者随后举办了公开的 First Proof Challenge,邀请各团队提交自己搭建的智能体系统。冠军来自<b>苏黎世联邦理工学院</b>——数学系的两位博士后 Johannes Schmitt 和 Tim Gehrunger,他们的系统解出 10 题中的 <b>6 题</b>,超过了 OpenAI、加州大学洛杉矶分校和普林斯顿大学的参赛系统。</p>
+    <p>组织者的总体结论写得很克制:目前的 AI「擅长竞赛式的任务,但缺乏在未知中摸索所需的创造深度与直觉」。</p>
+    <div class="aside"><b>一个有趣的对照:</b>赢得比赛的不是模型最强的公司,而是两位自己做数学、知道该怎么「指挥」模型的研究者。这与 <a href="erdos-first.html">Erdős 问题</a>那边业余爱好者的胜利遥相呼应:2026 年,<em class="hl">会用 AI 的人</em>比 AI 本身更稀缺。</div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">意 义</div>
+    <h2>一把每年都要重新校准的尺子</h2>
+    <p>First Proof 没有产生任何「被解决的著名难题」,但它给这条时间线上的每一个故事提供了一把尺子:当 AI 面对确定没见过的、研究级的问题时,它到底能做多少?2026 年的答案是「一半左右,取决于谁在用」。</p>
+    <p>它也解释了为什么同一年里既有<a href="unit-distance.html">推翻八十年猜想</a>的壮举,也有<a href="first-proof.html">考试不及格</a>的尴尬:AI 数学能力极不均匀——在有大量文献、可以自动验证的领域(数论、组合)突飞猛进;在需要建立新概念的领域,仍然是个吃力的学生。</p>
+    <div class="takeaway"><span class="tk">一句话</span>「AI 能不能做数学研究」没有单一答案。First Proof 的贡献是把这个问题变成了可以定期测量的东西。</div>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <div class="pager">
+    <a class="prev" href="erdos-first.html"><small>← 上一篇 · 2026 年 1 月 · GPT-5.2 Pro + Aristotle · 业余爱好者与陶哲轩</small>Erdős 第 728 号:第一个被 AI 独立解决的 Erdős 问题</a>
+    <a class="next" href="unit-distance.html"><small>下一篇 · 2026 年 5 月 20 日 · OpenAI 内部模型 →</small>单位距离猜想被推翻:Erdős 1946 年的猜测错了</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>《科学美国人》:<a href="https://www.scientificamerican.com/article/mathematicians-launch-first-proof-a-first-of-its-kind-math-exam-for-ai/" target="_blank" rel="noopener">Mathematicians launch First Proof, a first-of-its-kind math exam for AI</a></li>
+      <li>《科学美国人》:<a href="https://www.scientificamerican.com/article/first-proof-is-ais-toughest-math-test-yet-the-results-are-mixed/" target="_blank" rel="noopener">First Proof is AI&#x27;s toughest math test yet. The results are mixed</a></li>
+      <li>第二批题目:<a href="https://arxiv.org/abs/2606.18119" target="_blank" rel="noopener">First Proof Second Batch(arXiv:2606.18119)</a></li>
+      <li>苏黎世联邦理工:<a href="https://ethz.ch/staffnet/en/news-and-events/internal-news/archive/2026/07/eth-team-wins-first-proof-challenge-for-ai-assisted-mathematical-research.html" target="_blank" rel="noopener">ETH team wins First Proof Challenge for AI-assisted mathematical research</a></li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+
+</body>
+</html>

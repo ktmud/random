@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纳维–斯托克斯方程:千禧年难题与署名风波 · AI 攻克的数学难题</title>
+<meta name="description" content="OpenAI 2026 年 9 月宣布用多智能体系统证明三维纳维–斯托克斯方程在光滑外力下可有限时间爆破:方程是什么、千禧年问题怎么表述、Córdoba–Martínez-Zoroa 的跨尺度放大策略、Buckmaster–Alpöge 的欧拉方程结果,以及署名与数据使用的争议全纪录。">
+<meta property="og:title" content="纳维–斯托克斯方程:千禧年难题与署名风波">
+<meta property="og:description" content="OpenAI 2026 年 9 月宣布用多智能体系统证明三维纳维–斯托克斯方程在光滑外力下可有限时间爆破:方程是什么、千禧年问题怎么表述、Córdoba–Martínez-Zoroa 的跨尺度放大策略、Buckmaster–Alpöge 的欧拉方程结果,以及署名与数据使用的争议全纪录。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../#timeline">← 时间线</a><a href="../kakeya/">一根针的百年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">2026 年 9 月 8 日 · OpenAI · 约一万个智能体</div>
+    <h1>纳维–斯托克斯方程:<br>千禧年难题的「有限时间爆破」</h1>
+    <p class="subtitle">百万美元、200 年的方程、88 小时的运行——以及一场关于「这到底是谁的证明」的风波</p>
+    <div class="facts">
+      <div class="fact">问题<b>三维不可压缩纳维–斯托克斯方程的存在性与光滑性 · 克雷千禧年大奖 · 100 万美元</b></div>
+      <div class="fact">结论<b>在光滑外力驱动下,光滑解可以在有限时间内「爆破」(速度趋于无穷)</b></div>
+      <div class="fact">系统<b>OpenAI 内部多智能体系统 · 约 10000 个智能体 · 88 小时 · 数百万条消息</b></div>
+      <div class="fact">产出<b>166 页论文 + Lean 形式化(另 17 小时);电费估计数百万美元</b></div>
+      <div class="fact">铺路者<b>Córdoba 与 Martínez-Zoroa(马德里)· Buckmaster(纽约大学)与 Alpöge(Anthropic)</b></div>
+      <div class="fact">状态<b>待同行评审;克雷研究所尚未认定;25 位菲尔兹奖得主联名发声</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">问 题</div>
+    <h2>200 年前的方程,26 年前的悬赏</h2>
+    <p class="lead">水、空气、血液、大气——所有流体的运动,都由一组叫<b>纳维–斯托克斯方程</b>的偏微分方程描述。它由法国工程师 Navier(1822)和英国物理学家 Stokes(1845)先后写下,是牛顿第二定律在流体上的版本:流体每一小块的加速度,等于压力差、粘性摩擦与外力之和。</p>
+    <p>工程师天天用它算飞机、算天气、算血管。可是从数学上,它有一个令人尴尬的漏洞:<em class="hl">没有人知道它的解是否总是存在、总是光滑</em>。会不会有一种初始状态,流体演化到某个有限时刻,某一点的速度变成无穷大——数学家管这叫「<b>爆破</b>」(blowup)或「奇点」?</p>
+    <p>2000 年,克雷数学研究所把它列为七个「千禧年大奖难题」之一,悬赏 100 万美元。普林斯顿的 Charles Fefferman 起草的官方题目给了两个方向,证明其中任何一个都算:</p>
+    <div class="grid2">
+      <div class="card"><div class="ic">🕊️</div><h4>方向 A:永远光滑</h4><p>证明对任何光滑的初始状态,三维流体的解都永远存在并保持光滑。</p></div>
+      <div class="card"><div class="ic">💥</div><h4>方向 B:有限时间爆破</h4><p>构造一个光滑的初始状态与一个<b>光滑的外力</b>,使得解在有限时间内失去光滑性——即找到一个奇点。</p></div>
+    </div>
+    <p>请注意方向 B 里「<b>光滑的外力</b>」这几个字:官方题目允许你在流体上施加一个外力(比如搅动它),但这个外力必须是数学上「温和」的——不能靠一个本身就发疯的外力把流体逼疯。这个条件正是过去所有尝试倒下的地方。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">铺 路</div>
+    <h2>三代人的接力:从「奇点长什么样」到「怎么造一个」</h2>
+    <div class="mini-tl">
+      <div class="row"><span class="d">2013</span>侯一钊(Thomas Hou)与罗果(Guo Luo)用高精度数值模拟,在有边界的圆柱容器里看到了<b>欧拉方程</b>(纳维–斯托克斯去掉粘性的版本)的奇点迹象。此后,整个领域的信念开始从「方向 A」向「方向 B」倾斜。</div>
+      <div class="row"><span class="d">2021</span>马德里的博士生 <b>Luis Martínez-Zoroa</b> 在导师 <b>Diego Córdoba</b> 指导下完成论文,走了一条与主流相反的路:不靠计算机辅助证明,而是用纯解析的方法构造奇点。</div>
+      <div class="row major"><span class="d">2023 – 2025</span>Córdoba 与 Martínez-Zoroa 发表一系列论文,在允许一个(不那么光滑的)外力的前提下,为三维欧拉方程构造出有限时间奇点。他们的策略——<b>跨尺度放大</b>(见下)——成为此后所有工作的蓝本。</div>
+      <div class="row"><span class="d">2025 年 9 月</span>纽约大学的 <b>Tristan Buckmaster</b> 与 Anthropic 的数学家 <b>Levent Alpöge</b> 开始秘密合作。Alpöge 在邮件里写下动机:担心「公司会抢走深刻纯数学的功劳」。他们一年间使用了 Anthropic 与 OpenAI 两家的模型作为工具。</div>
+      <div class="row major"><span class="d">2026 年 8 月</span>Buckmaster 与 Alpöge 在<b>光滑外力</b>条件下,证明了三个「练习题」方程——不可压缩多孔介质方程、二维 Boussinesq 方程、三维<b>欧拉方程</b>——的有限时间爆破。8 月 22 日,欧拉方程的证明通过 Lean 核验。离纳维–斯托克斯只差最后一步:粘性。</div>
+    </div>
+
+    <h3>跨尺度放大:证明的核心想法(听得懂的版本)</h3>
+    <div class="defbox">
+      <div class="def-row"><span class="def-k">大带小</span><div>先放一个<b>大尺度</b>、慢慢转的背景流。它本身很温和,但它会把嵌在里面的<b>小尺度</b>涡旋<b>拉伸、放大</b>——就像大漩涡把小漩涡越搅越快。</div></div>
+      <div class="def-row"><span class="def-k">不回头</span><div>关键的设计:小尺度对大尺度的反作用被压制住。大只管带小,小不会反过来搅乱大。这样每一层都可以单独分析。</div></div>
+      <div class="def-row"><span class="def-k">无穷层</span><div>在小涡旋里再嵌更小的涡旋,再更小……每一层的尺度按几何级数缩小,转速按几何级数加快。把无穷多层叠起来,它们的「爆破时刻」收敛到同一个有限时间 T。</div></div>
+      <div class="def-row key"><span class="def-k">外力光滑</span><div>整个构造的难点在于:每加一层,需要的外力修正必须<b>越来越小、越来越温和</b>,以至于全部加起来仍然是一个光滑函数。Buckmaster 与 Alpöge 做到了欧拉方程的这一点;纳维–斯托克斯多了粘性——粘性专门抹平小尺度——放大必须跑赢耗散,尺度缩小的速度要快得多。</div></div>
+    </div>
+  </div>
+  <div class="wide">
+    <div class="figure" style="max-width:560px">
+      <div class="tl-meta"><span class="tag solved">示意动画</span><span>跨尺度级联</span></div>
+      <canvas id="cascade" style="height:300px" aria-label="一层层越来越小、转得越来越快的同心涡旋,随着时间趋近爆破时刻,活跃的层数越来越多(示意动画)"></canvas>
+      <div class="controls"><button class="btn" id="cascadePlay" aria-pressed="true">⏸ 暂停</button><span class="readout" id="cascadeT"></span></div>
+      <div class="cap">纯示意,不是方程的解:外圈慢,内圈快;越接近时刻 T,更小、更快的层被「点亮」,速度在中心趋于无穷。真实的证明要控制每一层之间的相互作用与外力的光滑性,那是 166 页的工作。</div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">AI 做了什么</div>
+    <h2>88 小时,约一万个智能体</h2>
+    <p class="lead">2026 年 9 月 1 日,OpenAI 启动了一次内部运行:一个建立在「比 GPT-6 Astra 显著更强」的未发布模型上的<b>多智能体系统</b>,据报道同时尝试了全部六个尚未解决的千禧年难题。</p>
+    <p>88 小时后,系统在纳维–斯托克斯方程上停下:约 <b>10000 个</b>智能体之间交换了数百万条消息、生成约 1300 亿个输出词元,产出一篇 <b>166 页</b>的论文,证明三维不可压缩纳维–斯托克斯方程在光滑外力下可有限时间爆破——正是官方题目的「方向 B」。随后又用 <b>17 小时</b>把证明形式化为 Lean,机器核验通过。OpenAI 的 Sébastien Bubeck 估计电费在数百万美元量级。另有约 100 个智能体花 50 小时处理了欧拉方程的相关变体。</p>
+    <p>9 月 8 日中午,OpenAI 公开宣布。同一天,《量子杂志》的标题是:「AI 解决了一个百万美元的千禧年难题。」</p>
+    <div class="aside"><b>证明本身是新的吗?</b> 从路线上看,它沿着 Córdoba–Martínez-Zoroa 的跨尺度放大走,与 Buckmaster–Alpöge 的欧拉方程证明同源;OpenAI 说「我们的证明有显著不同」,Alpöge 看过后说「它更像我们手里另一个欧拉爆破证明的样子」。Fefferman 的评价一锤定音:「这个故事的英雄是 Córdoba 和 Martínez-Zoroa。」Córdoba 本人说:「如果没有我们的工作,AI 不会解决这个问题。」</div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">风 波</div>
+    <h2>九月的七天:这到底是谁的证明?</h2>
+    <p class="lead">数学上,证明是否成立由 Lean 说了算。但<em class="hl">谁的功劳</em>、<em class="hl">模型从哪里学到了这条路</em>——这两个问题,在宣布之前就已经炸开。</p>
+    <div class="mini-tl">
+      <div class="row grey"><span class="d">9 月 2 – 3 日</span>Alpöge 与 Buckmaster 先后得到消息,他们的进展可能已传到 OpenAI。Buckmaster 联系 OpenAI 的一位数学家,请对方不要仓促发布 AI 写的论文。</div>
+      <div class="row grey"><span class="d">9 月 6 日</span>Buckmaster 与 Bubeck 及那位数学家会面(Alpöge 未出席)。据 Buckmaster 的公开陈述,OpenAI 提出两种方案:要么 Buckmaster 先发布欧拉结果,要么由他改写 OpenAI 的证明并署名——但对把 Alpöge(Anthropic 员工)列为作者有顾虑,理由是利益冲突。Buckmaster 拒绝,并表示要公开这些交涉;他称对方回了一句「你为什么要毁掉自己的职业生涯?」Bubeck 后来为措辞道歉。OpenAI 在会上承认,Buckmaster 使用 Codex 时的去标识化数据可能进入过训练。</div>
+      <div class="row major"><span class="d">9 月 7 日</span>陶哲轩发博文解读 Buckmaster–Alpöge 的欧拉方程结果,称之为「了不起的成就」,并指出方法看起来可以推广到纳维–斯托克斯。深夜,Buckmaster 发表公开声明,抢在 OpenAI 之前公布三个结果,「以免一连串的公告传递错误的印象」。</div>
+      <div class="row major"><span class="d">9 月 8 日</span>OpenAI 宣布。声明写道:「没有人或 AI 系统检索过用户数据……但我们不能排除,源自他们使用我们产品的去标识化数据帮助改进了模型。」Buckmaster 指出初版论文没有引用 Córdoba–Martínez-Zoroa;修订版补上了。Anthropic 的 Sholto Douglas 公开表示,对两家实验室未能在科学上合作感到失望。</div>
+      <div class="row grey"><span class="d">9 月 9 – 10 日</span>OpenAI 的说法收紧:先称 Buckmaster 的 Codex 提示「不可能以任何方式影响系统,包括训练」,随后称内部调查确认了这一点。Alpöge 反驳「证明相互独立」的说法,并对自己被排除在署名之外表示失望。普林斯顿的 Peter Sarnak 称赞 Buckmaster「以数学家应有的方式行事」。</div>
+      <div class="row grey"><span class="d">9 月中旬</span><b>25 位菲尔兹奖得主</b>联名公开信,批评 AI 实验室为了互相攀比「攻克名题」而威胁数学家的智力劳动。OpenAI 宣布不再赞助加州理工的 Mathathon 活动。德累斯顿的 Andreas Thom 就<a href="non-sofic.html">非 sofic 群</a>提出类似质疑。克雷研究所所长 Martin Bridson 表示:结果「令人兴奋」,但奖金需要正式发表并经同行评审(按规则,发表后两年)才可能授予。</div>
+    </div>
+
+    <h3>争议的三个层次</h3>
+    <div class="defbox">
+      <div class="def-row"><span class="def-k">署名</span><div>Buckmaster 反复强调他不要奖金、不争先后,只要求<b>合作者 Alpöge 被署名</b>。他称自己是「OpenAI 与 Anthropic 竞争中的无辜旁观者」。</div></div>
+      <div class="def-row"><span class="def-k">数据</span><div>Buckmaster 与 Alpöge 用 OpenAI 的 Codex 工作了近一年。OpenAI 的说法在三天内从「不能排除」变为「不可能」。<b>没有第三方能核实</b>任何一种说法——这正是 Thom 所说的问题:只有 OpenAI 自己握有证据。</div></div>
+      <div class="def-row"><span class="def-k">路线</span><div>即便数据完全干净,模型选择的仍然是 Córdoba–Martínez-Zoroa 开辟、Buckmaster–Alpöge 走通的那条冷门路线。陶哲轩的担忧是更结构性的:如果公司可以根据「某某数学家快做出来了」的传闻投入巨量算力抢先冲线,人类研究者还有没有做长期工作的空间?</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">意 义</div>
+    <h2>方程解决了吗?数学解决了吗?</h2>
+    <p><b>就千禧年题目而言:</b>如果 166 页的证明经受住同行评审,「方向 B」成立,悬赏可以颁发——颁给谁,是克雷研究所要面对的前所未有的问题。<b>就数学而言:</b>外力为零的情形(纯粹靠初始状态能否爆破)仍然是公开问题;而对真实的水来说,方程在极小尺度上本来就不再适用——这个结果说的是<em class="hl">数学模型</em>可以崩溃,不是水龙头会喷出无穷大的速度。</p>
+    <p>但真正被改变的,可能是数学这门手艺的运作方式。Buckmaster 与 Alpöge 花了一年;OpenAI 花了 88 小时。「路是人铺的,最后一公里是机器跑的」——这在本站时间线上已经出现过多次,只是这一次,路上站着的人还没走完,就被超了车。</p>
+    <div class="takeaway"><span class="tk">一句话</span>纳维–斯托克斯方程的爆破证明,可能是 AI 在数学上迄今最重大的成果;围绕它的风波,则是数学界第一次认真地问:当机器沿着人铺的路冲过终点线,功劳、署名与数据,该按什么规则来算?</div>
+    <p class="epigraph" style="text-align:center;font-family:var(--serif);font-size:clamp(18px,3.4vw,22px);line-height:2;margin:48px 0 10px">「数学家的行为方式,就是 Buckmaster 的行为方式。」<small style="display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:8px;letter-spacing:.2em">—— Peter Sarnak,2026 年 9 月 10 日</small></p>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <div class="pager">
+    <a class="prev" href="non-sofic.html"><small>← 上一篇 · 2026 年 8 月 1 日 · OpenAI · Astra</small>Astra:第一个非 sofic 群,以及另外九个公开问题</a>
+    <a class="next" href="../#timeline"><small>回到 →</small>时间线首页</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>《量子杂志》:<a href="https://www.quantamagazine.org/ai-has-solved-one-of-maths-1-million-millennium-prize-problems-20260908/" target="_blank" rel="noopener">AI Has Solved One of Math&#x27;s $1 Million Millennium Prize Problems</a></li>
+      <li>陶哲轩博客:<a href="https://terrytao.wordpress.com/2026/09/07/finite-time-blowup-with-smooth-forcing-term-for-the-incompressible-porous-medium-boussinesq-and-incompressible-euler-equations/" target="_blank" rel="noopener">Finite time blowup with smooth forcing term for the incompressible porous medium, Boussinesq, and incompressible Euler equations</a></li>
+      <li>Córdoba–Martínez-Zoroa 论文:<a href="https://arxiv.org/abs/2410.22920" target="_blank" rel="noopener">Finite time singularities for the 3D Euler equations with forcing(arXiv:2410.22920)</a></li>
+      <li>OpenAI 论文:<a href="https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf" target="_blank" rel="noopener">Finite time blowup for Navier–Stokes</a></li>
+      <li>TechCrunch:<a href="https://techcrunch.com/2026/09/08/openai-fought-dirty-on-career-making-math-problem-says-nyu-mathematician/" target="_blank" rel="noopener">OpenAI fought dirty on career-making math problem, says NYU mathematician</a></li>
+      <li>TechCrunch:<a href="https://techcrunch.com/2026/09/11/openais-feud-with-mathematicians-is-only-escalating/" target="_blank" rel="noopener">OpenAI&#x27;s feud with mathematicians is only escalating</a></li>
+      <li>维基百科:<a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_priority_controversy" target="_blank" rel="noopener">Navier–Stokes priority controversy</a></li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+<script>
+(() => {
+  const cv=document.getElementById('cascade'),ctx=cv.getContext('2d');
+  const btn=document.getElementById('cascadePlay'),ro=document.getElementById('cascadeT');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let playing=!reduce,t0=performance.now(),acc=0,last=t0;
+  const T=6.0; // 「爆破时刻」(秒)
+  const draw=(now)=>{
+    const r=cv.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);
+    if(cv.width!==Math.round(r.width*dpr)){cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);}
+    ctx.setTransform(dpr,0,0,dpr,0,0);const W=r.width,H=r.height;
+    if(playing){acc+=(now-last)/1000;} last=now; if(acc>T-0.02)acc=0;
+    const tau=acc/T; // 0 → 1
+    ctx.clearRect(0,0,W,H);
+    const cx=W/2,cy=H/2,R0=Math.min(W,H)*0.44;
+    // 每一层:半径缩小、角速度加快;越接近 T,活跃层数越多
+    const layers=3+Math.floor(tau*9);
+    for(let k=0;k<layers;k++){
+      const R=R0*Math.pow(0.72,k); const w=Math.pow(1.9,k)*(0.6+3*tau*tau);
+      const ang=acc*w; const alpha=0.18+0.8*k/layers;
+      ctx.strokeStyle=k%2?`rgba(188,63,30,${alpha.toFixed(2)})`:`rgba(51,88,155,${alpha.toFixed(2)})`;
+      ctx.lineWidth=Math.max(1,3-k*0.25);
+      for(let a=0;a<3;a++){ctx.beginPath();ctx.arc(cx,cy,R,ang+a*2.094,ang+a*2.094+1.2);ctx.stroke();}
+    }
+    ctx.fillStyle='#2a2418';ctx.font='12px sans-serif';ctx.textAlign='center';
+    ro.innerHTML=`t = <b>${acc.toFixed(2)}</b> / T = ${T.toFixed(1)} · 活跃尺度 ${layers} 层`;
+    requestAnimationFrame(draw);
+  };
+  btn.addEventListener('click',()=>{playing=!playing;btn.textContent=playing?'⏸ 暂停':'▶ 播放';btn.setAttribute('aria-pressed',playing);});
+  btn.textContent=playing?'⏸ 暂停':'▶ 播放';
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
