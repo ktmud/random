@@ -226,3 +226,21 @@ a.tl-card:hover .tl-more.detail{background:var(--accent);color:#fff}
 .tl-card.brief .tl-title{font-size:17px;font-weight:600}
 .tl-card.brief p{font-size:14px;color:#5a5346}
 .tl-card.brief .tl-more{font-size:13px}
+
+/* ---------- 千禧年难题总览 ---------- */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:8px 0}
+@media (max-width:720px){.mgrid{grid-template-columns:1fr}}
+.mcard{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:16px;padding:18px 20px 16px;text-decoration:none;color:inherit;box-shadow:0 2px 14px rgba(90,75,45,.06);transition:transform .15s ease,box-shadow .15s ease}
+.mcard:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(90,75,45,.12)}
+.mtop{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.mic{font-size:28px;line-height:1}
+.tag.mstatus{white-space:normal;line-height:1.5}
+.tag.mstatus.done{background:var(--green-soft);color:var(--green)}
+.tag.mstatus.open{background:var(--grey-soft);color:#5c5546}
+.tag.mstatus.claimed{background:var(--gold-soft);color:var(--gold)}
+.mcard h3{font-family:var(--serif);font-size:21px;margin:4px 0 0;line-height:1.4}
+.mcard .mq{font-size:15px;color:var(--ink);line-height:1.7;background:var(--paper);border-radius:10px;padding:8px 12px;margin:4px 0}
+.mcard p{margin:2px 0 4px;font-size:14.5px;line-height:1.8;color:#4a4436;flex:1}
+.mcard .tl-more.detail{align-self:flex-start}
+.mcard:hover .tl-more.detail{background:var(--accent)}
+.tabs .btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}

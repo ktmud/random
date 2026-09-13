@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>千禧年大奖难题</title>
+<meta name="description" content="七个千禧年大奖难题的通俗总览:每个难题在问什么、为什么难、现在解决到哪一步,以及 2026 年 AI 浪潮下的最新状态。每题一页,含可交互的可视化。">
+<meta property="og:title" content="千禧年大奖难题">
+<meta property="og:description" content="七道百万美元的数学题,一页看懂它们在问什么、解决到哪一步。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../">数学难题时间线</a><a href="./" aria-current="page">千禧年难题</a></div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">2000 — 2026 · 七题 · 每题一百万美元</div>
+    <h1>千禧年大奖难题</h1>
+    <p class="subtitle">2000 年 5 月 24 日,克雷数学研究所在巴黎宣布了七个问题——<br>它们是<b>整个数学</b>在世纪之交最想知道答案的事。二十六年过去,<b>一个</b>被证明,<b>一个</b>被 AI 声称解决,五个仍然公开。</p>
+    <p class="hero-note">每个难题一页:它在问什么、为什么难、解到哪一步<span class="down">↓</span></p>
+  </div>
+</header>
+
+<main>
+<section id="list">
+  <div class="wide">
+    <div class="mgrid">
+      <a class="mcard" href="poincare.html">
+        <div class="mtop"><span class="mic">🎈</span><span class="tag mstatus done">✅ 已解决 · 2003</span></div>
+        <h3>庞加莱猜想</h3>
+        <div class="mq">没有洞的三维空间,是否只有三维球面一种?</div>
+        <p>1904 年提出,2003 年由佩雷尔曼用「里奇流」证明——他随后拒绝了菲尔兹奖与百万美元。唯一已被解决的千禧年难题。</p>
+        <span class="tl-more detail">橡皮筋动画 →</span>
+      </a>
+      <a class="mcard" href="navier-stokes.html">
+        <div class="mtop"><span class="mic">🌊</span><span class="tag mstatus claimed">⚠️ AI 声称解决 · 2026 · 待评审</span></div>
+        <h3>纳维–斯托克斯方程</h3>
+        <div class="mq">流体的光滑解是否永远存在?还是会在有限时间内「爆破」?</div>
+        <p>方程 1822 年写下。2026 年 9 月,OpenAI 的万级智能体给出「光滑外力下有限时间爆破」的证明,附 Lean 形式化;克雷研究所尚未认定,署名争议仍在发酵。</p>
+        <span class="tl-more detail">涡旋动画 →</span>
+      </a>
+      <a class="mcard" href="riemann.html">
+        <div class="mtop"><span class="mic">🎼</span><span class="tag mstatus open">🔓 公开</span></div>
+        <h3>黎曼猜想</h3>
+        <div class="mq">ζ 函数的所有非平凡零点,是否都排在同一条直线上?</div>
+        <p>1859 年提出,数学中最著名的猜想。它决定了素数分布「有多规则」;已数值验证十万亿个零点,上千条定理在等它。</p>
+        <span class="tl-more detail">用零点奏出素数 →</span>
+      </a>
+      <a class="mcard" href="p-vs-np.html">
+        <div class="mtop"><span class="mic">🧩</span><span class="tag mstatus open">🔓 公开</span></div>
+        <h3>P 与 NP 问题</h3>
+        <div class="mq">答案容易检查的问题,是否也一定容易找到答案?</div>
+        <p>1971 年提出,唯一关于「计算」的千禧年难题。几千个看似无关的难题被它绑在一起;专家共识是 P ≠ NP,但连证明的方法都还不存在。</p>
+        <span class="tl-more detail">指数与多项式的鸿沟 →</span>
+      </a>
+      <a class="mcard" href="yang-mills.html">
+        <div class="mtop"><span class="mic">⚛️</span><span class="tag mstatus open">🔓 公开</span></div>
+        <h3>杨–米尔斯存在性与质量间隙</h3>
+        <div class="mq">能否严格构造描述核力的量子场论,并证明它的最轻粒子有正质量?</div>
+        <p>物理学家用这套理论解释了整个原子核并拿了诺贝尔奖;数学家还不能证明它在四维时空中「存在」。</p>
+        <span class="tl-more detail">拉开一对夸克 →</span>
+      </a>
+      <a class="mcard" href="hodge.html">
+        <div class="mtop"><span class="mic">🍩</span><span class="tag mstatus open">🔓 公开</span></div>
+        <h3>霍奇猜想</h3>
+        <div class="mq">形状里的每一个「洞」,是否都能用多项式方程画出来?</div>
+        <p>1950 年提出,七题中最抽象的一个。连它的真假,数学界都没有共识——两个近亲版本都已被反例推翻。</p>
+        <span class="tl-more detail">环面上的洞 →</span>
+      </a>
+      <a class="mcard" href="bsd.html">
+        <div class="mtop"><span class="mic">📈</span><span class="tag mstatus open">🔓 公开 · 秩 0、1 已证</span></div>
+        <h3>贝赫和斯维讷通–戴尔猜想</h3>
+        <div class="mq">数清曲线在每个素数处的解,能否预言它有多少个分数解?</div>
+        <p>1960 年代从一台电子计算机的打印纸上长出来的猜想。秩为 0 和 1 的情形已证;秩 ≥ 2 一无所知。</p>
+        <span class="tl-more detail">椭圆曲线与计点实验 →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section id="about">
+  <div class="wrap">
+    <div class="chapnum">规 则</div>
+    <h2>一百万美元怎么才能拿到</h2>
+    <p class="lead">1998 年,波士顿商人 Landon Clay 出资成立克雷数学研究所;2000 年,研究所在巴黎法兰西公学院——一百年前希尔伯特宣布 23 个问题的同一座城市——公布了这七个问题,每题悬赏 100 万美元。</p>
+    <div class="defbox">
+      <div class="def-row"><span class="def-k">不收投稿</span><div>研究所<b>不接受</b>任何直接提交的「证明」。解答必须先在有同行评审的正式刊物上发表。</div></div>
+      <div class="def-row"><span class="def-k">等两年</span><div>发表之后至少<b>两年</b>,并且获得数学界的普遍接受,研究所才会启动评审。</div></div>
+      <div class="def-row"><span class="def-k">谁的功劳</span><div>评审委员会同时裁定「贡献归谁」——这条规则在 2026 年 9 月纳维–斯托克斯的风波之后,第一次被认真地读了一遍:如果证明是机器写的、路线是人铺的,奖给谁?</div></div>
+      <div class="def-row key"><span class="def-k">迄今</span><div>只有一次颁奖(2010 年,庞加莱猜想),而得主拒绝了。二十六年来,一百万美元一分也没有发出去。</div></div>
+    </div>
+    <p>克雷研究所在 2026 年 9 月的声明里说,评审过程「刻意不急」。这句话可能会定义接下来两年里,数学界与 AI 实验室之间的关系。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section id="why">
+  <div class="wrap">
+    <div class="chapnum">为 什 么 是 这 七 个</div>
+    <h2>它们各自代表数学的一块大陆</h2>
+    <p>这七个问题不是「最难的七道题」,而是当时的评审委员会(Atiyah、Tate、Wiles 等)认为<b>最能代表数学各领域核心疑问</b>的七道:数论(黎曼、BSD)、拓扑(庞加莱)、代数几何(霍奇)、分析(纳维–斯托克斯)、数学物理(杨–米尔斯)、计算(P 与 NP)。每一个的解决,都会改变一整个领域的面貌。</p>
+    <p>2026 年 AI 浪潮给了这份名单一个新的读法:纳维–斯托克斯有明确路线、可形式化、可验证,被攻下了;黎曼猜想是「全称命题」,没有反例可找,正在被瞄准;霍奇与杨–米尔斯没有公认路线,几乎无人触碰;P 与 NP 连证明方法都被证明不存在。名单本身,成了一张衡量「机器能做什么数学」的地图。</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>克雷数学研究所:<a href="https://www.claymath.org/millennium-problems/" target="_blank" rel="noopener">The Millennium Prize Problems</a>(官方题目、规则与各题的权威陈述)</li>
+      <li>克雷数学研究所:<a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener">Navier–Stokes Announcement</a>(2026 年 9 月声明)</li>
+      <li>Keith Devlin,<a href="https://en.wikipedia.org/wiki/The_Millennium_Problems" target="_blank" rel="noopener">《千年难题》(The Millennium Problems)</a>,面向大众的七题导读</li>
+      <li>本站:<a href="../">数学难题时间线</a>(2023–2026 年人类与 AI 各攻克了什么)</li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化。信息截至 2026 年 9 月中旬;纳维–斯托克斯方程的结果尚待同行评审。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => { const h = document.documentElement; bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%"; };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+</body>
+</html>

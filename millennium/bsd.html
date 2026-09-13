@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>贝赫和斯维讷通–戴尔猜想 · 千禧年难题</title>
+<meta name="description" content="贝赫和斯维讷通–戴尔(BSD)猜想通俗讲解:椭圆曲线是什么、有理点与秩、模 p 计点如何预言秩、Gross–Zagier 与 Kolyvagin 的部分结果。含可交互的椭圆曲线绘图与模 p 计点曲线。">
+<meta property="og:title" content="贝赫和斯维讷通–戴尔猜想">
+<meta property="og:description" content="贝赫和斯维讷通–戴尔(BSD)猜想通俗讲解:椭圆曲线是什么、有理点与秩、模 p 计点如何预言秩、Gross–Zagier 与 Kolyvagin 的部分结果。含可交互的椭圆曲线绘图与模 p 计点曲线。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../">数学难题时间线</a><a href="./">← 千禧年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">千禧年难题 · 数论 · 1960 年代提出</div>
+    <h1>BSD 猜想:<br>数一数曲线上的点,就能知道方程有多少解</h1>
+    <p class="subtitle">从一台 1950 年代的电子计算机上长出来的猜想——用「局部」的统计预言「整体」的解</p>
+    <div class="facts">
+      <div class="fact">提出<b>Bryan Birch 与 Peter Swinnerton-Dyer,1960 年代初,基于剑桥 EDSAC 计算机上的实验</b></div>
+      <div class="fact">领域<b>数论 · 算术几何</b></div>
+      <div class="fact">一句话<b>椭圆曲线有理点的「秩」,等于它的 L 函数在 s = 1 处零点的阶</b></div>
+      <div class="fact">状态<b>🔓 公开 · 秩为 0 与 1 的情形已证(Gross–Zagier 1986、Kolyvagin 1989);秩 ≥ 2 一无所知</b></div>
+      <div class="fact">关联<b>同余数问题(哪些整数是有理边直角三角形的面积)在假设 BSD 下有完整答案</b></div>
+      <div class="fact">现代证据<b>Bhargava–Shankar 等:「大多数」椭圆曲线满足 BSD</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">问 题</div>
+    <h2>一条曲线上,有多少个「分数点」?</h2>
+    <p class="lead">数论最古老的游戏:一个方程有没有整数解或分数解,有多少个?对形如 <span class="math">y² = x³ + ax + b</span> 的<b>椭圆曲线</b>,这个问题既足够简单,可以说清楚,又足够深,深到成了千禧年难题。</p>
+    <p>椭圆曲线有一个魔法:曲线上任意两个有理点(坐标都是分数的点),连一条直线,直线与曲线的第三个交点也是有理点。于是从几个点出发,可以「加」出无穷多个点。莫德尔在 1922 年证明:所有有理点都能从<b>有限个</b>出发点加出来;这个「有限个」里独立的个数,叫曲线的<b>秩</b>。秩为 0 意味着只有有限个有理点,秩越大,有理点越「丰富」。</p>
+    <p>问题是:<em class="hl">给你一条曲线,怎么算出它的秩?</em>至今没有一个保证能算出答案的方法。</p>
+  </div>
+  <div class="wide">
+    <div class="figure" style="max-width:720px">
+      <div class="tl-meta"><span class="tag solved">动手玩</span><span>椭圆曲线与它的秩</span></div>
+      <div class="tabs" id="bsdTabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn" data-a="-1" data-b="0" data-r="0" aria-pressed="true">y² = x³ − x(秩 0)</button>
+        <button class="btn" data-a="-36" data-b="0" data-r="1" aria-pressed="false">y² = x³ − 36x(秩 1)</button>
+        <button class="btn" data-a="0" data-b="17" data-r="2" aria-pressed="false">y² = x³ + 17(秩 2)</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" id="bsdGrid">
+        <canvas id="ecPlot" style="height:240px" aria-label="椭圆曲线的实数图像"></canvas>
+        <canvas id="ecProd" style="height:240px" aria-label="模 p 点数之积随 p 的增长"></canvas>
+      </div>
+      <div class="controls"><span class="readout" id="bsdOut"></span></div>
+      <div class="cap">左:曲线的实数图像,红点是几个有理点。右:BSD 的「实验」——对每个素数 p,数一数方程在模 p 意义下有几个解 N<sub>p</sub>,把 N<sub>p</sub>/p 连乘起来。秩 0 的曲线,乘积在一个常数附近晃;秩 1 的像 log x 一样缓慢上升;秩 2 的像 (log x)² 上升更快。Birch 与 Swinnerton-Dyer 正是在 EDSAC 的打印纸上看到了这个规律。</div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">猜 想</div>
+    <h2>用「局部」预言「整体」</h2>
+    <p>模 p 计点是「局部」信息:每个素数只看一眼。有理点的秩是「整体」信息:关于整个有理数域。BSD 猜想说这两者由一个精确的等式绑在一起:</p>
+    <div class="defbox">
+      <div class="def-row"><span class="def-k">L 函数</span><div>把所有素数的 N<sub>p</sub> 打包成一个函数 L(E, s)——就像黎曼 ζ 函数把所有素数打包起来一样。它在 s = 1 附近的行为,编码了上面那个连乘积的增长。</div></div>
+      <div class="def-row key"><span class="def-k">BSD</span><div>L(E, s) 在 s = 1 处零点的阶(它「消失得有多快」),<b>恰好等于</b>曲线的秩。而且更强的版本还预言了零点处首项系数的精确公式,其中包含一个神秘的有限群「沙」(Ш)的阶。</div></div>
+      <div class="def-row"><span class="def-k">已证</span><div>秩 0 与秩 1:如果 L 函数在 s = 1 不为零,秩就是 0;如果是一阶零点,秩就是 1——Gross–Zagier(1986)与 Kolyvagin(1989)的定理。这两个情形涵盖了「几乎所有」曲线(Bhargava–Shankar 等,2010 年代)。</div></div>
+      <div class="def-row"><span class="def-k">未证</span><div>秩 ≥ 2 的任何情形。我们甚至不知道 Ш 是否总是有限群——这是猜想成立的前提之一。</div></div>
+    </div>
+    <div class="aside"><b>一个千年老问题:</b>哪些整数 n 是某个三边都是有理数的直角三角形的面积?(5 是:边长 3/2、20/3、41/6。)这个「同余数问题」等价于问椭圆曲线 y² = x³ − n²x 的秩是否为正——上面秩 1 的例子 y² = x³ − 36x 正是 n = 6 的情形(边长 3、4、5)。1983 年 Tunnell 给出了判定公式,但它的正确性依赖 BSD。</div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">状 态</div>
+    <h2>2026 年:数据很多,证明很少</h2>
+    <p>BSD 是七个难题中<b>实验证据最丰富</b>的一个:数据库 LMFDB 里有几百万条椭圆曲线,每一条的数值都与猜想吻合。也正因为它「可计算」,它是 AI 数学系统最可能先啃出部分结果的千禧年难题之一——但截至 2026 年 9 月,秩 ≥ 2 的情形没有任何进展宣称。</p>
+    <div class="takeaway"><span class="tk">一句话</span>BSD 猜想说:数清楚曲线在每个素数处有几个解,就能知道它在有理数里有多少解。计算机看到了这条规律,数学家还没能解释它。</div>
+  </div>
+</section>
+<script>
+(() => {
+  const plot = document.getElementById("ecPlot"), prod = document.getElementById("ecProd"), out = document.getElementById("bsdOut");
+  const tabs = [...document.querySelectorAll("#bsdTabs .btn")];
+  let a = -1, b = 0, rank = 0;
+  const primes = []; for (let n = 2; n <= 400; n++) if (primes.every(p => n % p)) primes.push(n);
+  const fit = (cv) => { const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1); cv.width = r.width * dpr; cv.height = r.height * dpr; const ctx = cv.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); return { ctx, W: r.width, H: r.height }; };
+  const ratPoints = { "-1,0": [[0, 0], [1, 0], [-1, 0]], "-36,0": [[-3, 9], [12, 36], [0, 0], [6, 0], [-6, 0], [-2, 8], [18, 72]], "0,17": [[-2, 3], [-1, 4], [2, 5], [4, 9], [8, 23], [-2, -3], [-1, -4], [2, -5]] };
+  const drawPlot = () => {
+    const { ctx, W, H } = fit(plot); ctx.clearRect(0, 0, W, H);
+    const xr = a === -36 ? 14 : 5, yr = a === -36 ? 45 : (b === 17 ? 12 : 3);
+    const X = (x) => W / 2 + x / xr * (W / 2 - 8), Y = (y) => H / 2 - y / yr * (H / 2 - 8);
+    ctx.strokeStyle = "#e6dfd0"; ctx.beginPath(); ctx.moveTo(0, Y(0)); ctx.lineTo(W, Y(0)); ctx.moveTo(X(0), 0); ctx.lineTo(X(0), H); ctx.stroke();
+    ctx.strokeStyle = "#33589b"; ctx.lineWidth = 2;
+    for (const sgn of [1, -1]) { ctx.beginPath(); let on = false; for (let i = 0; i <= 600; i++) { const x = -xr + 2 * xr * i / 600, v = x ** 3 + a * x + b; if (v < 0) { on = false; continue; } const y = sgn * Math.sqrt(v); on ? ctx.lineTo(X(x), Y(y)) : ctx.moveTo(X(x), Y(y)); on = true; } ctx.stroke(); }
+    ctx.fillStyle = "#bc3f1e"; for (const [x, y] of (ratPoints[a + "," + b] || [])) { if (Math.abs(x) <= xr && Math.abs(y) <= yr) { ctx.beginPath(); ctx.arc(X(x), Y(y), 4, 0, Math.PI * 2); ctx.fill(); } }
+    ctx.fillStyle = "#6f6553"; ctx.font = "12px sans-serif"; ctx.textAlign = "left"; ctx.fillText(`y² = x³ ${a ? (a < 0 ? "− " + (-a) + "x" : "+ " + a + "x") : ""} ${b ? (b < 0 ? "− " + (-b) : "+ " + b) : ""}`, 8, 16);
+  };
+  const drawProd = () => {
+    const { ctx, W, H } = fit(prod); ctx.clearRect(0, 0, W, H);
+    const disc = -16 * (4 * a ** 3 + 27 * b ** 2);
+    const pts = []; let acc = 1;
+    for (const p of primes) {
+      if (disc % p === 0) continue;
+      const sq = new Array(p).fill(0); for (let y = 0; y < p; y++) sq[(y * y) % p]++;
+      let N = 1; for (let x = 0; x < p; x++) { const v = (((x * x % p) * x % p) + (((a % p) + p) % p) * x % p + ((b % p) + p) % p) % p; N += sq[v]; }
+      acc *= N / p; pts.push([p, acc]);
+    }
+    const pad = { l: 34, r: 8, t: 10, b: 22 }, ymax = Math.max(4, ...pts.map(q => q[1])) * 1.1;
+    const X = (p) => pad.l + Math.log(p / 2) / Math.log(400 / 2) * (W - pad.l - pad.r), Y = (v) => H - pad.b - v / ymax * (H - pad.t - pad.b);
+    ctx.strokeStyle = "#e6dfd0"; for (let v = 0; v <= ymax; v += Math.ceil(ymax / 5)) { ctx.beginPath(); ctx.moveTo(pad.l, Y(v)); ctx.lineTo(W - pad.r, Y(v)); ctx.stroke(); ctx.fillStyle = "#6f6553"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.fillText(v, pad.l - 4, Y(v) + 3); }
+    ctx.textAlign = "center"; for (const p of [2, 5, 10, 20, 50, 100, 200, 400]) ctx.fillText(p, X(p), H - 8);
+    ctx.strokeStyle = "#bc3f1e"; ctx.lineWidth = 2; ctx.beginPath(); pts.forEach(([p, v], i) => i ? ctx.lineTo(X(p), Y(v)) : ctx.moveTo(X(p), Y(v))); ctx.stroke();
+    ctx.fillStyle = "#6f6553"; ctx.font = "12px sans-serif"; ctx.textAlign = "left"; ctx.fillText("∏ Nₚ/p(p ≤ x)", pad.l + 4, 16);
+    out.innerHTML = `秩 = <b>${rank}</b> · 乘到 p ≤ 400 时 ∏ N<sub>p</sub>/p ≈ <b>${acc.toFixed(2)}</b> · 预期增长 ~ (log x)<sup>${rank}</sup>`;
+  };
+  const draw = () => { drawPlot(); drawProd(); };
+  tabs.forEach(t => t.addEventListener("click", () => { tabs.forEach(x => x.setAttribute("aria-pressed", x === t ? "true" : "false")); a = +t.dataset.a; b = +t.dataset.b; rank = +t.dataset.r; draw(); }));
+  addEventListener("resize", draw); draw();
+  const mq = matchMedia("(max-width:560px)"); const grid = document.getElementById("bsdGrid"); const adapt = () => { grid.style.gridTemplateColumns = mq.matches ? "1fr" : "1fr 1fr"; draw(); }; mq.addEventListener("change", adapt); adapt();
+})();
+</script>
+</main>
+
+<div class="wrap">
+  <div class="pager">
+    <a class="prev" href="hodge.html"><small>← 上一篇 · 千禧年难题 · 代数几何 · 1950 年提出</small>霍奇猜想:形状里的洞,能不能用方程画出来</a>
+    <a class="next" href="./"><small>回到 →</small>千禧年难题总览</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>克雷研究所:<a href="https://www.claymath.org/millennium/birch-and-swinnerton-dyer-conjecture/" target="_blank" rel="noopener">Birch and Swinnerton-Dyer Conjecture(官方题目,Andrew Wiles 撰写)</a></li>
+      <li>《量子杂志》:<a href="https://www.quantamagazine.org/tag/elliptic-curves/" target="_blank" rel="noopener">Elliptic Curves(专题页)</a></li>
+      <li>LMFDB:<a href="https://www.lmfdb.org/EllipticCurve/Q/" target="_blank" rel="noopener">椭圆曲线数据库(可查每条曲线的秩与 L 函数)</a></li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+
+</body>
+</html>

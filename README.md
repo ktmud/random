@@ -36,6 +36,22 @@ AI 参与的详解页:
 - 时间线只收录有公开论文或形式化证明可查的事件;署名与数据使用的争议只转述各方公开说法
 - 信息截至 2026 年 9 月中旬,部分结果尚待同行评审
 
+## 🏛️ 千禧年大奖难题
+
+**总览:<https://ktmud.github.io/random/millennium/>**
+
+七个千禧年难题的通俗科普,每题一页:它在问什么、为什么难、解到哪一步、2026 年 AI 浪潮下的状态,每页都有一个可交互的可视化。
+
+| 难题 | 状态 | 可视化 | 页面 |
+|---|---|---|---|
+| 庞加莱猜想 | ✅ 已解决(2003) | 球面 vs 环面上的橡皮筋能否收缩 | [`millennium/poincare.html`](millennium/poincare.html) |
+| 黎曼猜想 | 🔓 公开 | 用前 30 个零点「奏」出素数阶梯(显式公式) | [`millennium/riemann.html`](millennium/riemann.html) |
+| P 与 NP | 🔓 公开 | 多项式 vs 指数:每秒十亿步要跑多久 | [`millennium/p-vs-np.html`](millennium/p-vs-np.html) |
+| 纳维–斯托克斯 | ⚠️ AI 声称解决(2026)· 待评审 | 粘性可调的衰减涡旋粒子动画 | [`millennium/navier-stokes.html`](millennium/navier-stokes.html) |
+| 杨–米尔斯 | 🔓 公开 | 拉开一对夸克:线性势与色流管断裂 | [`millennium/yang-mills.html`](millennium/yang-mills.html) |
+| 霍奇猜想 | 🔓 公开 | 可拖动的环面与三条闭合曲线 | [`millennium/hodge.html`](millennium/hodge.html) |
+| BSD 猜想 | 🔓 公开(秩 0、1 已证) | 椭圆曲线绘图 + 模 p 计点连乘实验(秩 0/1/2) | [`millennium/bsd.html`](millennium/bsd.html) |
+
 ## 🪡 一根针的百年难题 —— 挂谷猜想可视化
 
 **在线阅读:<https://ktmud.github.io/random/kakeya/>**
