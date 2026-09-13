@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>什么是 Lean · 数学难题时间线</title>
+<meta name="description" content="通俗解释 Lean：一门让计算机逐行核验数学证明的「证明编程语言」。它和论文证明的区别、它怎么工作、为什么 2026 年的 AI 数学突破几乎都附带 Lean 证明，以及它不能做什么。含可交互的核验演示。">
+<meta property="og:title" content="什么是 Lean">
+<meta property="og:description" content="本站标注「Lean 已验证」的结果，都是指证明被计算机逐行核过。这一页解释它是什么、怎么工作、有什么局限。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✅</text></svg>">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .code{font-family:var(--mono);font-size:14px;line-height:1.75;background:#fffdf9;border:1px solid var(--line);border-radius:12px;padding:12px 16px;overflow-x:auto;margin:14px 0}
+  .code .ln{display:flex;gap:12px;align-items:baseline;padding:2px 6px;border-radius:6px;white-space:pre}
+  .code .st{flex:none;width:1.6em;text-align:center;font-family:var(--sans);font-size:13px}
+  .code .ln.ok{background:var(--green-soft)} .code .ln.ok .st{color:var(--green)}
+  .code .ln.bad{background:var(--accent-soft)} .code .ln.bad .st{color:var(--accent)}
+  .code .ln.skip{opacity:.45}
+  .code .kw{color:#6e3f8f} .code .cm{color:var(--muted)}
+  .errbox{font-family:var(--mono);font-size:13px;line-height:1.7;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 14px;margin-top:10px;white-space:pre-wrap;color:#7a2a12}
+  .errbox[hidden]{display:none}
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="./">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="./#timeline">← 数学难题时间线</a><a href="millennium/">千禧年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">名词解释 · 本站所有「Lean 已验证」标签的含义</div>
+    <h1>什么是 Lean：<br>让计算机逐行核验证明</h1>
+    <p class="subtitle">一门「证明编程语言」。写不出来就编译不过，编译通过就零漏洞——这是 2026 年 AI 数学突破背后的裁判</p>
+    <div class="facts">
+      <div class="fact">全名<b>Lean 定理证明器（当前为 Lean 4）</b></div>
+      <div class="fact">出身<b>Leonardo de Moura，微软研究院，2013 年起；现由 Lean 焦点组织维护</b></div>
+      <div class="fact">数学库<b>Mathlib：全球志愿者维护，收录数十万条已形式化的定理</b></div>
+      <div class="fact">本站用法<b>标注「Lean 已验证」= 证明已被 Lean 逐行核过，不依赖人工审稿</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">它 是 什 么</div>
+    <h2>把证明写成程序，让编译器当审稿人</h2>
+    <p class="lead">普通的数学证明是写给人读的。作者可以说「显然」「同理可得」，读者靠专业判断补上细节。审稿人漏看一个洞，错误就可能流传很多年。</p>
+    <p>Lean 里没有「显然」。你把定理写成一行声明，把证明写成一段代码，每一步推理都必须能从公理或已经证明的定理严格推出。哪一步推不出来，编译器就在那一行报错；<em class="hl">编译通过，就意味着整份证明没有任何漏洞</em>，不需要再靠人逐行核对。</p>
+    <p>数学家管这叫「形式化」：把一段数学从自然语言翻译成机器能检查的形式。本站时间线上从 2026 年 1 月 <a href="problems/erdos-first.html">Erdős 第 728 号问题</a>起，几乎每一个「AI 解决」都附带这样一份 Lean 证明。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">看 一 看</div>
+    <h2>一份被逐行核验的证明</h2>
+    <p>下面是一段真实的 Lean 4 代码：证明「对任意自然数 a、b，a + b = b + a」。点「核验」看编译器一行一行检查；再点「改坏一行」，看它怎么报错。</p>
+  </div>
+  <div class="wide">
+    <div class="figure" style="max-width:640px">
+      <div class="tl-meta"><span class="tag solved">动手玩</span><span>Lean 核验演示</span></div>
+      <div class="code" id="leanCode">
+        <div class="ln" data-i="0"><span class="st"></span><span><span class="kw">theorem</span> add_comm' (a b : ℕ) : a + b = b + a := <span class="kw">by</span></span></div>
+        <div class="ln" data-i="1"><span class="st"></span><span>  <span class="kw">induction</span> b <span class="kw">with</span></span></div>
+        <div class="ln" data-i="2"><span class="st"></span><span>  | zero =&gt; simp          <span class="cm">-- a + 0 = 0 + a</span></span></div>
+        <div class="ln" data-i="3"><span class="st"></span><span>  | succ n ih =&gt;          <span class="cm">-- 假设对 n 成立，证对 n+1 成立</span></span></div>
+        <div class="ln" data-i="4"><span class="st"></span><span>      rw [Nat.add_succ, ih, Nat.succ_add]</span></div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="leanRun">▶ 核验</button>
+        <button class="btn" id="leanBreak" aria-pressed="false">改坏一行</button>
+        <span class="readout" id="leanOut">尚未核验</span>
+      </div>
+      <div class="errbox" id="leanErr" hidden></div>
+      <div class="cap">「改坏一行」把第 5 行的 <code>ih</code>（归纳假设）删掉，证明就少了关键一步：编译器不会放过，会精确指出哪一行、缺什么。真实的 Lean 报错就是这个样子。</div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">怎 么 工 作</div>
+    <h2>三个关键部件</h2>
+    <div class="defbox">
+      <div class="def-row"><span class="def-k">命题即类型</span><div>在 Lean 里，一个数学命题被写成一个「类型」，一份证明就是构造出这个类型的一个「值」。于是<b>检查证明 = 类型检查一段程序</b>——这正是编译器最擅长的事。这套对应关系叫 Curry–Howard 对应，是整个方法的理论根基。</div></div>
+      <div class="def-row"><span class="def-k">小内核</span><div>真正做最终裁决的检查器只有几千行代码，小到可以被人逐行审计。前面的自动化工具（各种「策略」）可以很复杂、可以出错，但它们只是帮你<b>生成</b>证明；最后一定要过那个小内核这一关。信任它，就等于信任整份证明。</div></div>
+      <div class="def-row"><span class="def-k">Mathlib</span><div>一个由全球志愿者维护的数学库，从基础代数、数论到调和分析、代数几何，收录了数十万条已形式化的定理。新的证明可以直接引用它们，不必从公理重来。它的规模在 2020 年代呈爆发式增长。</div></div>
+      <div class="def-row key"><span class="def-k">AI 的裁判</span><div>大模型写证明时会一本正经地胡说：看起来完整，实际有洞。Lean 是<b>不可欺骗的裁判</b>——模型可以随便试，只有 Lean 接受的才算数。<a href="problems/imo.html">AlphaProof</a> 直接在 Lean 的世界里搜索证明；Harmonic 的 Aristotle 专门把非正式的思路翻译成 Lean；<a href="problems/alphaproof-nexus.html">AlphaProof Nexus</a> 把两者接成全自动流水线。</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">为 什 么 重 要</div>
+    <h2>2023 年的三周，改变了它的地位</h2>
+    <div class="mini-tl">
+      <div class="row"><span class="d">2013</span>Leonardo de Moura 在微软研究院启动 Lean 项目；2017 年 Mathlib 社区成立。</div>
+      <div class="row"><span class="d">2021</span>Peter Scholze 发起「液体张量实验」：请社区形式化他自己一篇最艰深的论文，半年完成。他说这是「第一次有人真正读懂了我的证明」。</div>
+      <div class="row major"><span class="d">2023 年 11 月</span>Gowers、Green、Manners 与陶哲轩证明多项式 Freiman–Ruzsa 猜想。陶哲轩发起众包，把 30 多页的证明在<b>三周内</b>完整翻译成 Lean——形式化第一次跟上了研究前沿的速度。</div>
+      <div class="row"><span class="d">2024 年 7 月</span>AlphaProof 用 Lean 拿到<a href="problems/imo.html">奥赛银牌</a>。</div>
+      <div class="row major"><span class="d">2026</span>Erdős 问题、单位距离猜想的核验、AlphaProof Nexus 的 53 份证明、Astra 的十份证书、<a href="problems/navier-stokes.html">纳维–斯托克斯方程</a>的 166 页论文——全部附带 Lean。「有没有 Lean」成了判断 AI 数学新闻可信度的第一道门槛。</div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">它 不 能 做 什 么</div>
+    <h2>正确，不等于有意义；正确，也不等于能看懂</h2>
+    <div class="grid2">
+      <div class="card"><div class="ic">🔁</div><h4>翻译这一步靠人</h4><p>Lean 只检查「证明是否正确」，不检查「陈述是否有意义」。如果题目本身翻译错了，Lean 会严格地证明一个错误的东西。把自然语言题目变成 Lean 陈述这一步仍然要靠人——也是 AI 系统最容易出错的环节。</p></div>
+      <div class="card"><div class="ic">📚</div><h4>没人读得完</h4><p>一份被 Lean 接受的百页证明，人类依然可能读不懂。Erdős 数据库维护者 Bloom 抱怨过：「没人读过，也没人会去读。」正确与可理解是两回事，而数学的价值一半在理解。</p></div>
+      <div class="card"><div class="ic">🧱</div><h4>库里没有的要先补</h4><p>Mathlib 已经很大，但离覆盖全部现代数学还很远。一个前沿结果要形式化，常常得先把它依赖的几十条定理也形式化，这是 AI 系统目前最耗时的部分。</p></div>
+      <div class="card"><div class="ic">⚖️</div><h4>裁不了功劳</h4><p>Lean 能证明「这份证明是对的」，不能证明「这条路线是谁想出来的」。2026 年 9 月的<a href="problems/navier-stokes.html">署名风波</a>里，双方的证明都通过了 Lean，争的正是它管不了的那部分。</p></div>
+    </div>
+    <div class="takeaway"><span class="tk">一句话</span>Lean 让「证明对不对」从一件需要信任专家的事，变成一件可以交给机器的事。它解决了可信度，没有解决理解与归属——那两件事，仍然是人的。</div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>官方：<a href="https://lean-lang.org/" target="_blank" rel="noopener">Lean 语言主页</a> · <a href="https://leanprover-community.github.io/" target="_blank" rel="noopener">Lean 社区与 Mathlib</a></li>
+      <li>入门：<a href="https://adam.math.hhu.de/" target="_blank" rel="noopener">Natural Number Game</a>（在浏览器里用 Lean 从零证明自然数的性质，无需安装）</li>
+      <li>《量子杂志》：<a href="https://www.quantamagazine.org/lean-computer-program-confirms-peter-scholze-proof-20210728/" target="_blank" rel="noopener">Proof Assistant Makes Jump to Big-League Math</a>（液体张量实验）</li>
+      <li>陶哲轩博客：<a href="https://terrytao.wordpress.com/2023/12/05/a-slightly-longer-lean-4-proof-tour/" target="_blank" rel="noopener">A slightly longer Lean 4 proof tour</a>（PFR 猜想形式化的亲历记录）</li>
+    </ul>
+    <p class="disclaim">本页为通俗科普，技术细节均经简化。演示代码为真实可编译的 Lean 4 语法，但页面上的「核验」是模拟动画，不是真正运行了 Lean。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => { const h = document.documentElement; bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%"; };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  const lines = [...document.querySelectorAll("#leanCode .ln")];
+  const run = document.getElementById("leanRun"), brk = document.getElementById("leanBreak"), out = document.getElementById("leanOut"), err = document.getElementById("leanErr");
+  const goodLast = "      rw [Nat.add_succ, ih, Nat.succ_add]", badLast = "      rw [Nat.add_succ, Nat.succ_add]";
+  let broken = false, timer = null;
+  const setLast = () => { lines[4].lastElementChild.textContent = broken ? badLast : goodLast; };
+  const clear = () => { lines.forEach(l => { l.className = "ln"; l.querySelector(".st").textContent = ""; }); err.hidden = true; out.textContent = "尚未核验"; if (timer) { clearTimeout(timer); timer = null; } };
+  const check = (i) => {
+    if (i >= lines.length) { out.innerHTML = "<b style='color:var(--green)'>✓ 编译通过</b>：零漏洞"; return; }
+    const l = lines[i];
+    if (broken && i === 4) {
+      l.className = "ln bad"; l.querySelector(".st").textContent = "✗";
+      err.textContent = "lean.html:5:6: error: unsolved goals\ncase succ\na n : ℕ\nih : a + n = n + a\n⊢ (a + n).succ = (n + a).succ\n\n提示：还差一步——需要用归纳假设 ih 把 a + n 换成 n + a。";
+      err.hidden = false; out.innerHTML = "<b style='color:var(--accent)'>✗ 第 5 行出错</b>：证明不完整，编译不过"; return;
+    }
+    l.className = "ln ok"; l.querySelector(".st").textContent = "✓"; out.textContent = `第 ${i + 1} 行 ✓`;
+    timer = setTimeout(() => check(i + 1), 420);
+  };
+  run.addEventListener("click", () => { clear(); setLast(); check(0); });
+  brk.addEventListener("click", () => { broken = !broken; brk.setAttribute("aria-pressed", broken); brk.textContent = broken ? "恢复这一行" : "改坏一行"; clear(); setLast(); });
+  setLast();
+})();
+</script>
+</body>
+</html>
