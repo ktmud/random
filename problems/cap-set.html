@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>帽子集问题与 FunSearch · 数学难题时间线</title>
+<meta name="description" content="FunSearch 如何在帽子集问题上找到比人类更大的构造:问题来龙去脉、进化式程序搜索的原理,以及它为什么是 LLM 数学发现的起点。">
+<meta property="og:title" content="帽子集问题与 FunSearch">
+<meta property="og:description" content="FunSearch 如何在帽子集问题上找到比人类更大的构造:问题来龙去脉、进化式程序搜索的原理,以及它为什么是 LLM 数学发现的起点。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎴</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../#timeline">← 数学难题时间线</a><a href="../kakeya/">一根针的百年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">2023 年 12 月 · Google DeepMind</div>
+    <h1>帽子集问题:<br>大语言模型第一次「发现」新数学</h1>
+    <p class="subtitle">一个源自纸牌游戏的组合问题,和一台只会写小程序的机器</p>
+    <div class="facts">
+      <div class="fact">问题<b>帽子集问题(cap set)</b></div>
+      <div class="fact">提出<b>20 世纪 70 年代 · 组合数论</b></div>
+      <div class="fact">系统<b>FunSearch(PaLM 2 + 评分器 + 进化搜索)</b></div>
+      <div class="fact">结果<b>8 维:512 个元素(原纪录 496);渐近下界 2.2180ⁿ → 2.2202ⁿ</b></div>
+      <div class="fact">验证<b>构造可直接由程序检验</b></div>
+      <div class="fact">发表<b>《自然》,2023 年 12 月 14 日</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">问 题</div>
+    <h2>一副纸牌里的数学</h2>
+    <p class="lead">桌游 <b>SET</b> 的每张牌有四个属性(数量、颜色、形状、填充),每个属性三种取值。三张牌若在每一个属性上「要么全同、要么全异」,就凑成一组「SET」。玩家的问题是:桌上最多能摆多少张牌,而<em class="hl">凑不出任何一组</em>?</p>
+    <p>把「四个属性、每个三种取值」抽象成「n 维空间、每一维取 0、1、2」,一组 SET 恰好对应这个空间里的一条「直线」(三个点,每一维要么全同要么恰好 0、1、2 各一个)。于是问题变成:</p>
+    <div class="takeaway"><span class="tk">帽子集问题</span>在 n 维的三值空间里,最多能挑出多少个点,使得<b>任意三点不共线</b>?这样的点集叫「帽子集」(cap set)。</div>
+    <p>先在最小的棋盘上试试手。下面是 2 维的情形(3×3 共 9 个格子),规则和井字棋略有不同:「线」不仅包括横、竖、斜,还包括在模 3 意义下「绕回来」的线——比如左上、中中、右下是一条线,左上、右中、中下也是一条线。</p>
+  </div>
+  <div class="wide">
+    <div class="figure" style="max-width:560px">
+      <div class="tl-meta"><span class="tag solved">动手玩</span><span>3×3 帽子集</span></div>
+      <style>
+        #capgrid{display:grid;grid-template-columns:repeat(3,64px);gap:8px;justify-content:center;margin:14px 0}
+        #capgrid button{width:64px;height:64px;border-radius:12px;border:1px solid var(--line);background:#fff;font-size:26px;cursor:pointer}
+        #capgrid button[aria-pressed="true"]{background:var(--blue);border-color:var(--blue)}
+        #capgrid button[aria-pressed="true"]::after{content:"●";color:#fff}
+        #capgrid button.bad{background:var(--accent);border-color:var(--accent)}
+      </style>
+      <div id="capgrid" aria-label="3×3 网格,点击放置点">
+        <button aria-pressed="false" aria-label="第 1 格"></button><button aria-pressed="false" aria-label="第 2 格"></button><button aria-pressed="false" aria-label="第 3 格"></button>
+        <button aria-pressed="false" aria-label="第 4 格"></button><button aria-pressed="false" aria-label="第 5 格"></button><button aria-pressed="false" aria-label="第 6 格"></button>
+        <button aria-pressed="false" aria-label="第 7 格"></button><button aria-pressed="false" aria-label="第 8 格"></button><button aria-pressed="false" aria-label="第 9 格"></button>
+      </div>
+      <div class="controls"><span class="readout" id="capOut"></span><button class="btn" id="capReset">清空</button></div>
+      <div class="cap">3×3 共有 12 条「线」(横 3、竖 3、斜 6,斜线含绕回)。最多能放 4 个点。维度一高,答案就没人知道了:4 维是 20,5 维是 45,6 维是 112——再往上,只有上下界。</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p>随着维度 n 增大,帽子集最多能有多少个点?这是<b>极值组合学</b>里的核心问题之一。上界方面,2016 年 Ellenberg 与 Gijswijt 用「多项式方法」证明它最多约 2.756ⁿ;下界方面,人类靠精巧的手工构造,做到约 2.2180ⁿ。这两个数之间的鸿沟,几十年没人填上。陶哲轩称它为「我最喜欢的公开问题」。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">AI 做了什么</div>
+    <h2>不让模型解题,让模型写「解题程序」</h2>
+    <p class="lead">2023 年的大语言模型直接回答数学问题时经常一本正经地胡说。DeepMind 的想法是绕开这个弱点:<em class="hl">不要答案,要程序</em>。</p>
+    <div class="steps">
+      <div class="step"><b>给模型一个骨架。</b>研究者写好一个程序框架,里面有一个空函数:「给每个候选点打分,分高的优先放进集合」。模型的任务只是填这一个函数。</div>
+      <div class="step"><b>让评分器说了算。</b>每个生成的程序都被真正跑一遍,得到一个帽子集;集合的大小就是分数。程序合不合法、有没有胡说,机器一跑便知——这是整个方法的关键:<b>评估必须自动且不可欺骗</b>。</div>
+      <div class="step"><b>优胜劣汰,反复迭代。</b>把得分高的程序当作「父母」喂回给模型,请它写出更好的「后代」;分数低的淘汰。上百万次迭代后,程序库里演化出了人类从未想到的打分策略。</div>
+    </div>
+    <p>几天之后,FunSearch 在 8 维空间里找到了一个 <b>512 个点</b>的帽子集,超过人类此前的纪录 496;更重要的是,它找到的是一段<b>几十行的、人能读懂的程序</b>,数学家由此看出了一种新的对称结构,并把渐近下界从 2.2180ⁿ 推到 <b>2.2202ⁿ</b>。同一套方法还改进了「在线装箱问题」的启发式算法——那是数据中心调度里的真实问题。</p>
+    <div class="aside"><b>为什么是「程序」而不是「点集」?</b> 一个 512 个点的集合本身没有解释力,而一段程序是可以阅读、可以推广的:它告诉人类「为什么」这种构造行得通。DeepMind 把这叫作「可解释的发现」。两年后的 AlphaEvolve 正是这条路线的延续。</div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">意 义</div>
+    <h2>一个小纪录,一个大信号</h2>
+    <p>老实说,512 比 496 大一点,不改变任何人的世界观;上界与下界之间的鸿沟依旧。但 FunSearch 是第一次有人证明:<b>大语言模型即便不「懂」数学,也能在严格的自动评估约束下,产出人类专家不知道的新构造。</b></p>
+    <p>它也给出了一个此后反复出现的模板——<em class="hl">生成 + 验证 + 进化</em>。生成可以不靠谱,只要验证靠得住。这个思想在两年后被推向 Lean 形式化证明:证明可以由机器写,但必须由另一台机器逐行核对。</p>
+    <div class="takeaway"><span class="tk">一句话</span>FunSearch 解决的不是帽子集问题本身,而是「怎样让一台会胡说的机器做出可信的发现」。</div>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <div class="pager">
+    <a class="prev" href="../#timeline"><small>← 返回</small>时间线首页</a>
+    <a class="next" href="imo.html"><small>下一篇 · 2024 年 7 月 → 2025 年 7 月 · Google DeepMind · OpenAI →</small>国际数学奥林匹克:AI 从银牌到金牌</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>DeepMind 博客:<a href="https://deepmind.google/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/" target="_blank" rel="noopener">FunSearch: Making new discoveries in mathematical sciences using Large Language Models</a></li>
+      <li>《自然》论文:<a href="https://www.nature.com/articles/s41586-023-06924-6" target="_blank" rel="noopener">Mathematical discoveries from program search with large language models</a></li>
+      <li>源码:<a href="https://github.com/google-deepmind/funsearch" target="_blank" rel="noopener">google-deepmind/funsearch</a></li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+<script>
+(() => {
+  const cells=[...document.querySelectorAll('#capgrid button')];
+  const out=document.getElementById('capOut');
+  const lines=[];
+  for(let a=0;a<9;a++)for(let b=a+1;b<9;b++){const ax=a%3,ay=(a/3|0),bx=b%3,by=(b/3|0);const cx=((2*ax-bx)%3+3)%3,cy=((2*ay-by)%3+3)%3;const c=cy*3+cx;if(c>b)lines.push([a,b,c]);}
+  const on=new Set();
+  const render=()=>{cells.forEach((el,i)=>el.setAttribute('aria-pressed',on.has(i)?'true':'false'));
+    const bad=lines.filter(l=>l.every(i=>on.has(i)));
+    cells.forEach(el=>el.classList.remove('bad'));
+    bad.forEach(l=>l.forEach(i=>cells[i].classList.add('bad')));
+    out.innerHTML=bad.length?`放了 <b>${on.size}</b> 个点,但有 ${bad.length} 条「线」被凑齐了(标红)——不合法`:(on.size>=4?`放了 <b>${on.size}</b> 个点,没有三点成线。4 个已经是 3×3 的极限了!`:`放了 <b>${on.size}</b> 个点,没有三点成线。还能再放吗?`);};
+  cells.forEach((el,i)=>el.addEventListener('click',()=>{on.has(i)?on.delete(i):on.add(i);render();}));
+  document.getElementById('capReset').addEventListener('click',()=>{on.clear();render();});
+  render();
+})();
+</script>
+</body>
+</html>

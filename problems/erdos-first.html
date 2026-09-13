@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Erdős 第 728 号:第一个被 AI 独立解决的 Erdős 问题 · 数学难题时间线</title>
+<meta name="description" content="2026 年 1 月 Erdős 第 728 号(阶乘整除)、第 397 号(中心二项式系数)相继被 GPT-5.2 与 Aristotle 解决的来龙去脉:问题本身、证明的核心想法、Lean 验证流程,以及陶哲轩对「长尾问题」的判断。">
+<meta property="og:title" content="Erdős 第 728 号:第一个被 AI 独立解决的 Erdős 问题">
+<meta property="og:description" content="2026 年 1 月 Erdős 第 728 号(阶乘整除)、第 397 号(中心二项式系数)相继被 GPT-5.2 与 Aristotle 解决的来龙去脉:问题本身、证明的核心想法、Lean 验证流程,以及陶哲轩对「长尾问题」的判断。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../#timeline">← 数学难题时间线</a><a href="../kakeya/">一根针的百年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">2026 年 1 月 · GPT-5.2 Pro + Aristotle · 业余爱好者与陶哲轩</div>
+    <h1>Erdős 第 728 号:<br>第一个被 AI 独立解决的 Erdős 问题</h1>
+    <p class="subtitle">一位本科生、一段 15 分钟的思考、一台把证明翻译成 Lean 的机器,和一位替所有人把关的菲尔兹奖得主</p>
+    <div class="facts">
+      <div class="fact">第 728 号<b>阶乘整除的「对数间隙」现象 · 2026 年 1 月 4 日</b></div>
+      <div class="fact">第 397 号<b>中心二项式系数乘积 · 被反例推翻 · 约 15 分钟</b></div>
+      <div class="fact">模型<b>GPT-5.2 Pro / GPT-5.2 Thinking</b></div>
+      <div class="fact">形式化<b>Aristotle(Harmonic 公司)→ Lean 证明</b></div>
+      <div class="fact">把关<b>陶哲轩逐一确认;写作稿 arXiv:2601.07421</b></div>
+      <div class="fact">提问者<b>Kevin Barreto(剑桥本科生)、Neel Somani(工程师)</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">问 题</div>
+    <h2>阶乘什么时候能整除阶乘?</h2>
+    <p class="lead">n 的阶乘 n! 是 1 × 2 × … × n。Erdős 问的是这样一件事:什么时候两个阶乘的乘积 a!·b! 能整除另一对阶乘的乘积 n!·(a+b−n)!?</p>
+    <p>这个问题有很多平凡的解——比如 a 或 b 接近 n 的时候。Erdős 想知道的是「有意思」的解:a 和 b 都在 n 的中间地带(不太小也不太大),而多出来的那一截 a+b−n <em class="hl">恰好落在 log n 的量级</em>。第 728 号问题问:这样的三元组 (a, b, n) 是否有<b>无穷多</b>个?</p>
+    <p>它属于典型的 Erdős 风格:陈述只需要初等数论,答案却藏在素数的分布细节里。它在数据库里标为「公开」,但也没人认为它是什么核心难题——用陶哲轩的话说,这类问题是 Erdős 问题的「长尾」:用已知技术、花上几天,专家大概能做出来;只是没人腾得出这几天。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">AI 做了什么</div>
+    <h2>三个角色:出题的人、写思路的模型、核对的机器</h2>
+    <div class="mini-tl">
+      <div class="row"><span class="d">2025 年 12 月</span>剑桥本科生 <b>Kevin Barreto</b> 和前数学系学生 <b>Liam Price</b> 开始把 Erdős 问题逐个喂给 GPT-5.2 Pro。第一次「成功」很尴尬:第 333 号问题,后来发现 Erdős 本人 1977 年就解决了。</div>
+      <div class="row major"><span class="d">2026 年 1 月 4 日</span>Barreto 宣布拿到第 728 号的证明:GPT-5.2 Pro 给出思路,Harmonic 公司的 <b>Aristotle</b> 系统把它翻译成 Lean 并补全细节,Lean 编译通过。Nat Sothanaphan 把形式化证明重新写成人能读的论文。陶哲轩确认。</div>
+      <div class="row major"><span class="d">同一周</span>工程师 <b>Neel Somani</b> 把第 397 号问题(中心二项式系数的乘积能否以多种方式相等)输给 GPT-5.2。模型思考约 15 分钟,给出一个<b>无穷反例族</b>——猜想是错的。Aristotle 形式化,陶哲轩确认。第 205 号紧随其后。</div>
+      <div class="row"><span class="d">2026 年 4 – 5 月</span>Price 用 GPT-5.4 Pro 攻下第 1196 号(本原集问题),模型推理约 80 分钟;后来他与 Barreto、陶哲轩、斯坦福的 Jared Duker Lichtman 合写论文——业余爱好者与菲尔兹奖得主同列作者。</div>
+    </div>
+
+    <h3>第 728 号的证明想法(听得懂的版本)</h3>
+    <div class="defbox">
+      <div class="def-row"><span class="def-k">换问法</span><div>先把「阶乘整除阶乘」改写成「一个二项式系数整除另一个二项式系数」。这是老技巧,Erdős 自己也会这么做。</div></div>
+      <div class="def-row"><span class="def-k">找工具</span><div>19 世纪的 <b>Kummer 定理</b>说:一个素数 p 能整除二项式系数多少次,等于把两个数在 p 进制下相加时<b>进位的次数</b>。于是整除问题变成了「进位计数」问题。</div></div>
+      <div class="def-row"><span class="def-k">造数字</span><div>证明的核心是构造出一类特殊的整数:它们在<b>每一个</b>小素数的进制下,加法都「进位丰富、却没有尖峰」。这样对每个素数,整除条件都同时满足。这一步是模型给出的、此前没人写下来的想法。</div></div>
+      <div class="def-row key"><span class="def-k">收尾</span><div>证明这样的整数有无穷多个,并且多出来的那一截确实落在 log n 量级。Lean 逐行核验,无漏洞。</div></div>
+    </div>
+    <div class="aside"><b>Aristotle 是什么?</b> Harmonic 公司的一个系统,专门把非正式的证明思路翻译成 Lean,并在翻译不通时自行修补漏洞。在这次事件里,它扮演了「数学审稿人」的角色:GPT-5.2 的原始思路并不完整,是 Aristotle 把缺口补齐并让 Lean 接受的。</div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">意 义</div>
+    <h2>陶哲轩的判断:AI 在收割「长尾」</h2>
+    <p>三个月前 OpenAI 还在为<a href="erdos-literature.html">「文献检索算不算解决」</a>挨骂,三个月后,第一批真正的解来了——不是来自公司,而是来自几个用消费级订阅的爱好者。他们的方法后来被称为「Price 循环」:让模型给出解答,再开一个全新的模型实例来挑错,反复多轮,最后交给 Aristotle 与 Lean。</p>
+    <p>陶哲轩在验证这些结果后写道,当前模型最适合的是 Erdős 问题的<em class="hl">长尾</em>:需要把标准技术以新的方式组合、专家不愿花时间的、或者本来就不算难只是没人写下来的问题。他把这些叫作「最低处的果子」,并提醒:这不代表 AI 已经能做真正深刻的数学。</p>
+    <p>但果子的数量惊人。到 2026 年 8 月,Erdős 数据库里已解决与公开问题的比例从一年前的悬殊变为 565 比 652;自 2025 年 10 月以来,约有 <b>100 个</b>问题在 AI 参与下被清空。普林斯顿的 Noga Alon 说他不再碰 Erdős 问题了:「AI 开始解它们之后,就没有意义了。」陶哲轩本人也从 Erdős 社区退出,转向别的工作。</p>
+    <div class="takeaway"><span class="tk">一句话</span>第 728 号本身平平无奇。它的意义在于确立了一条流程——模型写思路、Aristotle 译 Lean、人类确认——此后一年里的每一个「AI 解决」,几乎都沿用这条流程。</div>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <div class="pager">
+    <a class="prev" href="aletheia.html"><small>← 上一篇 · 2025 年 12 月 · Google DeepMind</small>Aletheia 一周扫过 700 个 Erdős 公开问题</a>
+    <a class="next" href="first-proof.html"><small>下一篇 · 2026 年 2 月 → 7 月 · 11 位数学家 →</small>First Proof:用「从未发表」的题目给 AI 出考卷</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>写作稿:<a href="https://arxiv.org/abs/2601.07421" target="_blank" rel="noopener">Resolution of Erdős Problem #728: a writeup of Aristotle&#x27;s Lean proof</a></li>
+      <li>数据库讨论:<a href="https://www.erdosproblems.com/forum/thread/397" target="_blank" rel="noopener">Erdős Problem #397 讨论帖</a></li>
+      <li>《量子杂志》:<a href="https://www.quantamagazine.org/why-the-legendary-erdos-problems-are-falling-to-ai-20260803/" target="_blank" rel="noopener">Why the Legendary Erdős Problems Are Falling to AI</a></li>
+      <li>社区记录:<a href="https://github.com/teorth/erdosproblems/wiki/AI-contributions-to-Erd%C5%91s-problems" target="_blank" rel="noopener">AI contributions to Erdős problems</a></li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+
+</body>
+</html>

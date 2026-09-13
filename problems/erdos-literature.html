@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「解决了十个 Erdős 问题」乌龙 · 数学难题时间线</title>
+<meta name="description" content="2025 年 8 月 GPT-5 Pro 凸优化「新结果」与 10 月「解决十个 Erdős 问题」两次乌龙的来龙去脉:文献检索与真正解决的区别,以及它们如何塑造了此后的验证规范。">
+<meta property="og:title" content="「解决了十个 Erdős 问题」乌龙">
+<meta property="og:description" content="2025 年 8 月 GPT-5 Pro 凸优化「新结果」与 10 月「解决十个 Erdős 问题」两次乌龙的来龙去脉:文献检索与真正解决的区别,以及它们如何塑造了此后的验证规范。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🙈</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../#timeline">← 数学难题时间线</a><a href="../kakeya/">一根针的百年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">2025 年 8 – 10 月 · OpenAI</div>
+    <h1>「GPT-5 解决了十个 Erdős 问题」<br>——其实是查到了文献</h1>
+    <p class="subtitle">两次抢跑,两次翻车。此后所有人看 AI 数学新闻,都多了一道审查程序</p>
+    <div class="facts">
+      <div class="fact">事件一<b>2025 年 8 月:GPT-5 Pro 把一个凸优化的界从 1/L 推到 1.5/L</b></div>
+      <div class="fact">真相一<b>更强的 1.75/L 几个月前已由人类发表</b></div>
+      <div class="fact">事件二<b>2025 年 10 月:OpenAI 高管称 GPT-5 「解决」10 个、推进 11 个 Erdős 问题</b></div>
+      <div class="fact">真相二<b>模型找到的是已发表论文;数据库维护者:「严重失实」</b></div>
+      <div class="fact">后果<b>帖子删除;社区建立「解决 / 文献检索」分级记录</b></div>
+      <div class="fact">正面价值<b>文献检索本身有用:至今已找回 80 余个被遗忘的旧解</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">背 景</div>
+    <h2>Erdős 问题:一千多道悬赏题</h2>
+    <p class="lead">匈牙利数学家 <b>Paul Erdős</b>(1913–1996)一生发表约 1500 篇论文,更留下上千个公开问题,散落在各种文章与信件里,常常附带 25 到 10000 美元不等的悬赏。</p>
+    <p>2023 年,曼彻斯特大学的 <b>Thomas Bloom</b> 建了网站 erdosproblems.com,把它们逐条整理、标注「已解决 / 公开」。到 2025 年底,数据库里有近 1000 个问题,并开放了评论区,一个由职业数学家、学生和业余爱好者组成的社区在上面协作。它也顺理成章地成了 AI 公司眼中的「靶场」:题目清晰、数量大、有权威的记分员。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">乌 龙 一</div>
+    <h2>8 月:「新数学」,其实是旧结果的弱化版</h2>
+    <p>2025 年 8 月,OpenAI 研究员 <b>Sébastien Bubeck</b> 发帖:他把一篇凸优化论文里的公开问题交给 GPT-5 Pro,模型思考 17 分钟后,给出了一个比论文更好的界——把某个梯度下降步长的保证从 1/L 推到 1.5/L——并且他核对过,证明是对的。帖子的标题是:「GPT-5 Pro 可以证明新的、有趣的数学。」</p>
+    <p>证明确实是对的。问题在于「新」:同一篇论文的作者早在几个月前就已发表了<b>最优的 1.75/L</b>。模型的结果不但不新,还比已知结果弱。</p>
+    <div class="aside"><b>教训:</b>模型会不会证明,和模型知不知道文献,是两回事。一个正确但过时的证明,在数学里不算贡献。</div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">乌 龙 二</div>
+    <h2>10 月:「解决十个 Erdős 问题」</h2>
+    <p class="lead">10 月 17 日,OpenAI 时任科学副总裁 <b>Kevin Weil</b> 发帖:「GPT-5 找到了 10 个此前未解决的 Erdős 问题的解,并在另外 11 个上取得进展。」帖子被广泛转发,成了当天科技圈的头条。</p>
+    <p>第二天,Thomas Bloom 回应:「<b>严重失实</b>」(a dramatic misrepresentation)。他解释道:这些问题在他的数据库里标为「公开」,只是因为<em class="hl">他本人不知道</em>它们已被解决;GPT-5 做的,是在文献里找到了那些他没读过的论文。换句话说,模型完成了一次出色的<b>文献检索</b>,而不是解决了任何问题。</p>
+    <p>DeepMind 首席执行官 Demis Hassabis 在评论里只写了一句:「这很尴尬。」Yann LeCun 也加入嘲讽。Weil 删掉了帖子。</p>
+    <div class="quote">「这不是 AI 解决了问题,这是 AI 发现了我的无知。」<small>—— Thomas Bloom 后来的一次访谈中如此总结(大意)</small></div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">后 果</div>
+    <h2>两次乌龙,换来一套规矩</h2>
+    <p>这两件事没有让社区放弃 AI,反而催生了此后一年所有人遵守的三条默契:</p>
+    <div class="steps">
+      <div class="step"><b>先查文献,再谈解决。</b>陶哲轩牵头在 GitHub 上建立了「AI 对 Erdős 问题的贡献」记录页,把每一条贡献分级:独立解决、与文献同时、基于文献、人机合作——以及单独一类<b>「文献检索」</b>。截至 2026 年 8 月,后者已有 80 余条。Bloom 也承认:这些「找回来的旧解」对数据库本身非常有价值。</div>
+      <div class="step"><b>证明要能被机器核对。</b>三个月后第一个真正被 AI 解决的 Erdős 问题(<a href="erdos-first.html">第 728 号</a>),从一开始就附带 Lean 形式化证明——因为没人愿意再为「是不是真的」吵一次。</div>
+      <div class="step"><b>宣布之前先找外部专家。</b>2026 年 5 月 OpenAI 再次宣布 Erdős 问题的结果(<a href="unit-distance.html">单位距离猜想</a>)时,同一天就有九位数学家——包括曾经最严厉的批评者 Bloom——联名发表核验论文。这一次没有人说「尴尬」。</div>
+    </div>
+    <div class="takeaway"><span class="tk">一句话</span>AI 数学新闻的可信度,是从这两次翻车之后才开始建立的。看到「解决了 N 个问题」的标题,先问:谁核的?有没有 Lean?文献查过了吗?</div>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <div class="pager">
+    <a class="prev" href="alphaevolve.html"><small>← 上一篇 · 2025 年 5 月 · Google DeepMind</small>AlphaEvolve:4×4 矩阵乘法 48 次、亲吻数 593</a>
+    <a class="next" href="aletheia.html"><small>下一篇 · 2025 年 12 月 · Google DeepMind →</small>Aletheia 一周扫过 700 个 Erdős 公开问题</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>《量子杂志》:<a href="https://www.quantamagazine.org/why-the-legendary-erdos-problems-are-falling-to-ai-20260803/" target="_blank" rel="noopener">Why the Legendary Erdős Problems Are Falling to AI(含 10 月事件回顾)</a></li>
+      <li>社区记录:<a href="https://github.com/teorth/erdosproblems/wiki/AI-contributions-to-Erd%C5%91s-problems" target="_blank" rel="noopener">AI contributions to Erdős problems(区分「解决」与「文献检索」)</a></li>
+      <li>Bubeck 原帖:<a href="https://x.com/SebastienBubeck/status/1958198661139009862" target="_blank" rel="noopener">Claim: gpt-5-pro can prove new interesting mathematics</a></li>
+      <li>复盘:<a href="https://whataifound.org/finding/2025-08-gpt5-convex-bound" target="_blank" rel="noopener">Improved step-size bound in smooth convex optimization: graded &quot;Already known&quot;</a></li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+
+</body>
+</html>

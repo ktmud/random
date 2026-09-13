@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aletheia 与 700 个 Erdős 公开问题 · 数学难题时间线</title>
+<meta name="description" content="DeepMind 的研究智能体 Aletheia 在 2025 年 12 月扫描 700 个 Erdős 公开问题的流水线:自然语言验证器、人工筛选、被解决的问题编号,以及这次尝试为后来的自动化定下的规范。">
+<meta property="og:title" content="Aletheia 与 700 个 Erdős 公开问题">
+<meta property="og:description" content="DeepMind 的研究智能体 Aletheia 在 2025 年 12 月扫描 700 个 Erdős 公开问题的流水线:自然语言验证器、人工筛选、被解决的问题编号,以及这次尝试为后来的自动化定下的规范。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<nav class="sitenav" aria-label="站点导航">
+  <div class="sitenav-in">
+    <a class="brand" href="../">random<span class="brand-sub">· 数学小实验</span></a>
+    <div class="links"><a href="../#timeline">← 数学难题时间线</a><a href="../kakeya/">一根针的百年难题</a></div>
+  </div>
+</nav>
+
+<header class="article">
+  <div class="wrap">
+    <div class="kicker">2025 年 12 月 · Google DeepMind</div>
+    <h1>Aletheia:<br>一周扫过 700 个 Erdős 公开问题</h1>
+    <p class="subtitle">第一次有人系统地、批量地用 AI 攻研究级问题——并且认真区分了「新证明」与「旧答案」</p>
+    <div class="facts">
+      <div class="fact">系统<b>Aletheia(基于 Gemini Deep Think 的研究智能体)</b></div>
+      <div class="fact">时间<b>2025 年 12 月 2 – 9 日</b></div>
+      <div class="fact">输入<b>当时数据库中全部 700 个「公开」问题</b></div>
+      <div class="fact">筛选<b>212 份候选 → 63 份正确 → 5 个新解 + 8 个文献旧解</b></div>
+      <div class="fact">解决的问题<b>第 652、654、1040 号(全自动);第 1051 号(并推广成论文)</b></div>
+      <div class="fact">论文<b>arXiv:2601.22401,2026 年 1 月,24 位作者</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <div class="chapnum">背 景</div>
+    <h2>从「一次一题」到「一次七百题」</h2>
+    <p class="lead">2025 年秋天之前,AI 解数学题的方式还是手工的:有人挑一道题,喂给模型,看看结果。10 月的<a href="erdos-literature.html">「十个 Erdős 问题」乌龙</a>之后,DeepMind 决定换一种做法——<em class="hl">把整个数据库都扫一遍</em>,但每一步都留下可审计的记录。</p>
+    <p>他们的工具叫 <b>Aletheia</b>(希腊语「真理 / 不遮蔽」),一个建在 Gemini Deep Think 之上的研究智能体:它会反复推理、自我检查、查阅文献,而不是一次性吐出答案。</p>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">AI 做了什么</div>
+    <h2>一条带「漏斗」的流水线</h2>
+    <p>12 月 2 日至 9 日,Aletheia 被投放到当时数据库里全部 <b>700 个</b>标为「公开」的问题上。关键不在模型多强,而在<b>怎么把海量输出筛成可信的少数</b>:</p>
+    <div class="steps">
+      <div class="step"><b>生成。</b>每道题,Aletheia 尝试给出完整的自然语言证明或反例。</div>
+      <div class="step"><b>机器初筛。</b>一个独立的「自然语言验证器」(另一个 Gemini 实例,专门挑错)逐份审阅。700 份里,<b>212 份</b>被判为「可能正确」。</div>
+      <div class="step"><b>人工复核。</b>24 位研究者分头细读这 212 份——目标是先快速把候选池缩到专家能承受的规模,再交给对应领域的专家逐行检查。最终 <b>63 份</b>被确认为技术上正确。</div>
+      <div class="step"><b>文献比对。</b>63 份正确证明里,大多数是重新证明了人类早已知道的结果。真正的「新」只有 <b>5 个</b>;另有 <b>8 个</b>问题被发现其实早已在文献中解决,数据库据此更新。</div>
+    </div>
+    <p>被全自动解决的是第 652、654、1040 号问题;第 1051 号的解法被进一步推广,写成了一篇独立论文。同一批实验里还有一个副产品:一篇由 AI <b>无人干预</b>写成的研究论文,计算算术几何中一类叫「本征权」(eigenweights)的结构常数——DeepMind 称之为「可靠的自主研究」的第一个样本。</p>
+    <div class="aside"><b>为什么「63 → 5」这个漏斗很重要?</b> 它说明当时的 AI 最擅长的是<b>重做已知的事</b>:五分之四的正确证明都是「重新发明轮子」。如果没有认真的文献比对,这次实验的标题本来可以是「AI 解决了 63 个 Erdős 问题」。</div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section>
+  <div class="wrap">
+    <div class="chapnum">意 义</div>
+    <h2>一套此后被沿用的评级标准</h2>
+    <p>论文提出了一个从 0 到 4 的「贡献等级」:0 级是全自动解决一个公开问题;1 级是解决并推广;2 级是达到期刊可发表质量的人机合作结果;3、4 级留给真正改变领域的突破。这次实验的成果大多在 0 到 2 级,论文明确写道:<b>没有 3 级或 4 级的结果</b>。</p>
+    <p>这种克制在当时很少见。它为半年后的 <a href="alphaproof-nexus.html">AlphaProof Nexus</a> 和 OpenAI 的 <a href="non-sofic.html">Astra</a> 定下了汇报格式:说清楚试了多少题、多少通过机器初筛、多少通过人工核验、多少是真新的。</p>
+    <div class="takeaway"><span class="tk">一句话</span>Aletheia 的贡献不只是四五个 Erdős 问题,而是证明了「批量攻研究级问题」可以做得诚实。</div>
+  </div>
+</section>
+</main>
+
+<div class="wrap">
+  <div class="pager">
+    <a class="prev" href="erdos-literature.html"><small>← 上一篇 · 2025 年 8 – 10 月 · OpenAI</small>「解决十个 Erdős 问题」——其实是查到了文献</a>
+    <a class="next" href="erdos-first.html"><small>下一篇 · 2026 年 1 月 · GPT-5.2 Pro + Aristotle · 业余爱好者与陶哲轩 →</small>Erdős 第 728 号:第一个被 AI 独立解决的 Erdős 问题</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h4>延伸阅读</h4>
+    <ul>
+      <li>论文:<a href="https://arxiv.org/abs/2601.22401" target="_blank" rel="noopener">Semi-Autonomous Mathematics Discovery with Gemini: A Case Study on the Erdős Problems</a></li>
+      <li>DeepMind 博客:<a href="https://deepmind.google/blog/accelerating-mathematical-and-scientific-discovery-with-gemini-deep-think/" target="_blank" rel="noopener">Gemini Deep Think: Redefining the Future of Scientific Research</a></li>
+      <li>Erdős 问题数据库:<a href="https://www.erdosproblems.com/" target="_blank" rel="noopener">erdosproblems.com</a></li>
+    </ul>
+    <p class="disclaim">本页为通俗科普,数学陈述均经简化;涉及署名与数据使用的争议,仅转述各方公开说法。信息截至 2026 年 9 月中旬。<br>页面由 Claude 生成 · <a href="https://github.com/ktmud/random" target="_blank" rel="noopener">源码在这里</a> · 内容可自由转载。</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(2) + "%";
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+})();
+</script>
+
+</body>
+</html>
